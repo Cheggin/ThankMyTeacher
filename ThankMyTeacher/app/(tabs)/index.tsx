@@ -1,75 +1,69 @@
 import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { Platform, ScrollView, Pressable, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
-import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { styles } from '../styles/styles';
 
 export default function HomeScreen() {
+  const router = useRouter();
+
+  const handleSendThankYou = () => {
+    router.push('/(tabs)/explore');
+  };
+
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
+      headerBackgroundColor={{ light: '#FFF5F5', dark: '#FFF5F5' }}
       headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
+        <LinearGradient
+          colors={['#FFE5E5', '#FFF0E6', '#E6F4F1']}
+          style={styles.headerGradient}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+        >
+          <ThemedView style={styles.headerContent}>
+            <View style={styles.headerIconGroup}>
+              <Ionicons name="heart" size={60} color="#FF6B6B" style={styles.headerIconMain} />
+              <View style={styles.sparkleContainer}>
+                <Ionicons name="sparkles" size={24} color="#FFB800" style={styles.sparkle1} />
+                <Ionicons name="sparkles" size={20} color="#4ECDC4" style={styles.sparkle2} />
+                <Ionicons name="sparkles" size={16} color="#FF8E53" style={styles.sparkle3} />
+              </View>
+            </View>
+            <ThemedText type="title" style={styles.headerTitle}>
+              ThankMyTeacher
+            </ThemedText>
+          </ThemedView>
+        </LinearGradient>
       }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
+      
+      {/* Hero Section */}
+      <ThemedView style={styles.heroSection}>
+        <ThemedText type="title" style={styles.heroTitle}>
+          Teachers change lives. {'\n'}Let's tell them.
         </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
+        <ThemedText style={styles.heroDescription}>
+          Remember that teacher who believed in you? Who stayed after class to help? 
+          Who made learning fun? Take a moment to say thank you. ✨
         </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
+        
+        <Pressable style={styles.ctaButton} onPress={handleSendThankYou}>
+          <LinearGradient
+            colors={['#FF8A80', '#FF6B6B']}
+            style={styles.ctaGradient}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+          >
+            <Ionicons name="heart-outline" size={20} color="white" />
+            <ThemedText style={styles.ctaText}>Write a Thank You Note</ThemedText>
+          </LinearGradient>
+        </Pressable>
       </ThemedView>
     </ParallaxScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
