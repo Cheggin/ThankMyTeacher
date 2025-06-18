@@ -1,5 +1,5 @@
 import { Image } from 'expo-image';
-import { Platform, ScrollView, Pressable, View } from 'react-native';
+import { Platform, ScrollView, Pressable, View, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -11,6 +11,20 @@ import { styles } from '../styles/styles';
 
 export default function WhyIMadeIt() {
   const router = useRouter();
+
+  const localStyles = StyleSheet.create({
+    profileImageContainer: {
+      alignItems: 'center',
+      marginBottom: 20,
+    },
+    profileImage: {
+      width: 500,
+      height: 500,
+      borderRadius: 400,
+      borderWidth: 3,
+      borderColor: '#4ECDC4',
+    },
+  });
 
   return (
     <ParallaxScrollView
@@ -41,6 +55,13 @@ export default function WhyIMadeIt() {
         <ThemedText type="title" style={styles.heroTitle}>
           Who Am I? 
         </ThemedText>
+        <View style={localStyles.profileImageContainer}>
+          <Image 
+            source={require('../../assets/images/pfp.png')} // Replace with your image path
+            style={localStyles.profileImage}
+            contentFit="cover"
+          />
+        </View>
         <ThemedText style={styles.heroDescription}>
           As of June 2025, I am a Computer Science student at the University of California, San Diego. 
         </ThemedText>
@@ -64,7 +85,7 @@ export default function WhyIMadeIt() {
         </ThemedText>
         <ThemedText style={styles.heroDescription}>
             At some point, I would like to have access to a database of teacher emails that allows students to send emails to teachers while hiding the teacher's email for privacy reasons. I currently cannot do that for many reasons (including the fact that somehow, these datasets are ~ $1000). In relation to that, expanding this website past just the United States would be kind of cool. <br></br><br></br>
-            I would like for this website to be shared with others so that kind messages can be sent to teachers and this website can be a showcase of teacherly appreciation. Appreciation and gratefulness is infectious, and if this site could be a conduit for that, that would be incredible. 
+            I would like for this website to be shared with others so that kind messages can be sent to teachers and this website can be a showcase of teacherly appreciation. Appreciation and gratefulness are infectious, and if this site could be a conduit for that, that would be incredible. 
         </ThemedText>
       </ThemedView>
 

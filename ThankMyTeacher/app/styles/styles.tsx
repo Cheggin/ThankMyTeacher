@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
   },
   headerTitle: {
     color: '#2D3436',
-    fontSize: 40,
+    fontSize: 60,
     fontWeight: '700',
     marginBottom: 8,
   },
