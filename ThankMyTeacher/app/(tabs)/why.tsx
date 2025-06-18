@@ -30,7 +30,7 @@ export default function WhyIMadeIt() {
               Why I Made This
             </ThemedText>
             <ThemedText style={styles.headerSubtitle}>
-              TODO: Subtitle tagline
+                To this day, everyone I know recalls their favorite teachers. But no matter how grateful all of us are for our teachers, many of us don't have a great way to give thanks. I thought that a website that (1) aimed to streamline the process, (2) allowed people to do this in a fun way, and (3) allowed people to do this anonymously, would be something that my computer science expertise would be great for. 
             </ThemedText>
           </ThemedView>
         </LinearGradient>
@@ -42,7 +42,7 @@ export default function WhyIMadeIt() {
           Who Am I? 
         </ThemedText>
         <ThemedText style={styles.heroDescription}>
-          TODO: Brief personal introduction paragraph
+          As of June 2025, I am a Computer Science student at the University of California, San Diego. 
         </ThemedText>
       </ThemedView>
 
@@ -52,7 +52,7 @@ export default function WhyIMadeIt() {
           My Story
         </ThemedText>
         <ThemedText style={styles.heroDescription}>
-          TODO: Personal story about your experience with teachers
+        Throughout my life, teachers have been a major source of inspiration. Not only did they foster my love for learning, but many of them helped me through periods where my mental health was at a low. From afterschool yap sessions to teary goodbyes, I would not be the person I am today without them.
         </ThemedText>
       </ThemedView>
 
@@ -60,32 +60,18 @@ export default function WhyIMadeIt() {
       {/* Vision Section */}
       <ThemedView style={styles.storiesSection}>
         <ThemedText type="title" style={styles.sectionTitle}>
-          TODO: Vision Section Title
+            Website Vision
         </ThemedText>
         <ThemedText style={styles.heroDescription}>
-          TODO: Vision for the future paragraph
+            At some point, I would like to have access to a database of teacher emails that allows students to send emails to teachers while hiding the teacher's email for privacy reasons. I currently cannot do that for many reasons (including the fact that somehow, these datasets are ~ $1000). In relation to that, expanding this website past just the United States would be kind of cool. <br></br><br></br>
+            I would like for this website to be shared with others so that kind messages can be sent to teachers and this website can be a showcase of teacherly appreciation. Appreciation and gratefulness is infectious, and if this site could be a conduit for that, that would be incredible. 
         </ThemedText>
-      </ThemedView>
-
-      {/* Personal Message Section */}
-      <ThemedView style={[styles.quoteSection, { marginBottom: 20 }]}>
-        <ThemedView style={styles.storyCard}>
-          <ThemedText style={styles.quoteText}>
-            "TODO: Inspirational quote or personal message"
-          </ThemedText>
-          <ThemedText style={styles.quoteAuthor}>
-            - TODO: Your name
-          </ThemedText>
-        </ThemedView>
       </ThemedView>
 
       {/* Connect Section */}
       <ThemedView style={styles.finalCtaSection}>
         <ThemedText type="title" style={styles.finalCtaTitle}>
           Contact Me!
-        </ThemedText>
-        <ThemedText style={styles.finalCtaDescription}>
-          TODO: Invitation to connect or share feedback
         </ThemedText>
         
         <View style={{ flexDirection: 'row', gap: 20, marginTop: 20 }}>
@@ -94,7 +80,7 @@ export default function WhyIMadeIt() {
           </Pressable>
           
           <Pressable style={[styles.finalCtaButton, { backgroundColor: '#FF6B6B' }]}>
-            <ThemedText style={styles.finalCtaButtonText}>TODO: CTA 2</ThemedText>
+            <ThemedText style={styles.finalCtaButtonText}>Email</ThemedText>
           </Pressable>
         </View>
       </ThemedView>
