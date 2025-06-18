@@ -32,7 +32,7 @@ export default function TabTwoScreen() {
       } else {
         setFoundSchools([]);
       }
-    }, 200); // 100ms delay
+    }, 300); // 300ms delay
 
     return () => clearTimeout(delayDebounceFn);
   }, [schoolSearch, selectedSchool]);
@@ -180,7 +180,7 @@ export default function TabTwoScreen() {
             </ThemedText>
             <TextInput
               style={[styles.exploreTextInput, styles.exploreMessageInput]}
-              placeholder="Write your heartfelt message here..."
+              placeholder="Write your message here!"
               placeholderTextColor="#999"
               value={message}
               onChangeText={setMessage}

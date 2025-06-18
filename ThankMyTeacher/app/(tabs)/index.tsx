@@ -48,7 +48,7 @@ export default function HomeScreen() {
           Teachers change lives. {'\n'}Let's tell them.
         </ThemedText>
         <ThemedText style={styles.heroDescription}>
-          All of us remember the teachers who helped us the most. But now we've graduated, moved schools, and left the state-or even the country. This website aims to help you thank them, no  matter how far away you are. 
+          All of us remember the teachers who helped us the most. But now, we've graduated, moved schools, and left the state-or even the country. This website aims to help you thank them, no  matter how far away you are. 
         </ThemedText>
         
         <Pressable style={styles.ctaButton} onPress={handleSendThankYou}>

@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   // Header Styles
@@ -41,9 +41,10 @@ export const styles = StyleSheet.create({
   },
   headerTitle: {
     color: '#2D3436',
-    fontSize: 60,
+    fontSize: 32,
     fontWeight: '700',
     marginBottom: 8,
+    fontFamily: Platform.OS === 'ios' ? 'System' : 'sans-serif',
   },
   headerSubtitle: {
     color: '#636E72',
@@ -59,6 +60,9 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 24,
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
+    maxWidth: 800,
+    width: '100%',
+    alignSelf: 'center',
   },
   heroTitle: {
     fontSize: 26,
@@ -104,6 +108,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 30,
     alignItems: 'center',
     backgroundColor: '#FFEBEB',
+    width: '100%',
   },
   quoteText: {
     fontSize: 20,
@@ -123,6 +128,7 @@ export const styles = StyleSheet.create({
     paddingTop: 40,
     paddingBottom: 20,
     backgroundColor: '#FFFFFF',
+    width: '100%',
   },
   sectionTitle: {
     fontSize: 24,
@@ -167,6 +173,9 @@ export const styles = StyleSheet.create({
     paddingVertical: 40,
     paddingHorizontal: 20,
     backgroundColor: '#E6F9F5',
+    maxWidth: 800,
+    width: '100%',
+    alignSelf: 'center',
   },
   reasonCard: {
     flexDirection: 'row',
@@ -207,6 +216,9 @@ export const styles = StyleSheet.create({
     paddingVertical: 40,
     paddingHorizontal: 20,
     backgroundColor: '#FFFFFF',
+    maxWidth: 800,
+    width: '100%',
+    alignSelf: 'center',
   },
   stepCard: {
     flexDirection: 'row',
@@ -240,6 +252,8 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 30,
     alignItems: 'center',
     backgroundColor: '#FFF0E6',
+    width: '100%',
+    alignSelf: 'center',
   },
   finalCtaEmoji: {
     fontSize: 48,
@@ -301,6 +315,9 @@ export const styles = StyleSheet.create({
   },
   exploreFormContainer: {
     padding: 20,
+    maxWidth: 600,
+    width: '100%',
+    alignSelf: 'center',
   },
   exploreInputGroup: {
     marginBottom: 24,
