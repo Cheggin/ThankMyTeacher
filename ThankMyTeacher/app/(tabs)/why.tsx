@@ -75,7 +75,7 @@ export default function WhyIMadeIt() {
             />
           </View>
           <ThemedText style={styles.heroDescription}>
-            As of June 2025, I am a Computer Science student at the University of California, San Diego. 
+            Hi! I'm Reagan. As of June 2025, I am a Computer Science student at the University of California, San Diego. 
           </ThemedText>
         </View>
       </ThemedView>

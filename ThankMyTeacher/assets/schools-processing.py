@@ -90,7 +90,7 @@ def process_school_data():
         }
         
         # Write searchable file
-        with open('schools_searchable.json', 'w', encoding='utf-8') as f:
+        with open('/Users/reagan/Documents/GitHub/ThankMyTeacher/ThankMyTeacher/assets/schools_searchable.json', 'w', encoding='utf-8') as f:
             json.dump(output, f, indent=2)
         
         print(f"✅ Successfully processed {len(searchable_schools)} schools")
@@ -111,7 +111,7 @@ def process_school_data():
             for school in searchable_schools
         ]
         
-        with open('schools_names.json', 'w', encoding='utf-8') as f:
+        with open('/Users/reagan/Documents/GitHub/ThankMyTeacher/ThankMyTeacher/assets/schools_names.json', 'w', encoding='utf-8') as f:
             json.dump(names_only, f, indent=2)
         
         print(f"\n📁 Names-only file saved to: schools_names.json")

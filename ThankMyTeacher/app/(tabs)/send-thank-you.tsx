@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { ScrollView, TextInput, Pressable, KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
+import { useState, useEffect, useRef } from 'react';
+import { ScrollView, TextInput, Pressable, KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -21,6 +21,13 @@ export default function TabTwoScreen() {
   const [selectedSchool, setSelectedSchool] = useState<School | null>(null);
   const [foundSchools, setFoundSchools] = useState<School[]>([]);
   const [showSchoolSuggestions, setShowSchoolSuggestions] = useState(false);
+  
+  // State for keyboard navigation
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const [isNavigatingWithKeyboard, setIsNavigatingWithKeyboard] = useState(false);
+  const searchInputRef = useRef<TextInput>(null);
+  const scrollViewRef = useRef<ScrollView>(null);
+  const itemRefs = useRef<{ [key: number]: View | null }>({});
 
   // Debounce the search to avoid excessive calls
   useEffect(() => {
@@ -29,18 +36,89 @@ export default function TabTwoScreen() {
       if (schoolSearch.length > 2 && schoolSearch !== selectedSchool?.name) {
         const results = searchSchools(schoolSearch);
         setFoundSchools(results);
+        setHighlightedIndex(-1); // Reset highlight when new results
       } else {
         setFoundSchools([]);
+        setHighlightedIndex(-1);
       }
     }, 300); // 300ms delay
 
     return () => clearTimeout(delayDebounceFn);
   }, [schoolSearch, selectedSchool]);
 
+  // Auto-scroll to highlighted item
+  useEffect(() => {
+    if (highlightedIndex >= 0 && isNavigatingWithKeyboard && scrollViewRef.current) {
+      const itemHeight = 70; // Actual height of each school item (padding + text + border)
+      const visibleItems = 3; // Exactly 3 items visible
+      const dropdownHeight = itemHeight * visibleItems; // 210px for 3 items
+      
+      // Calculate scroll position to show exactly 3 items
+      let scrollY = 0;
+      
+      if (highlightedIndex >= visibleItems) {
+        // If we're past the first 3 items, scroll to show the current item and 2 above it
+        scrollY = (highlightedIndex - visibleItems + 1) * itemHeight;
+      }
+      
+      // Ensure we don't scroll past the end
+      const maxScroll = Math.max(0, (foundSchools.length - visibleItems) * itemHeight);
+      scrollY = Math.min(scrollY, maxScroll);
+      
+      scrollViewRef.current?.scrollTo({
+        y: scrollY,
+        animated: true,
+      });
+    }
+  }, [highlightedIndex, isNavigatingWithKeyboard, foundSchools.length]);
+
   const handleSchoolSelect = (school: School) => {
     setSelectedSchool(school);
     setSchoolSearch(school.name); // Display the selected school name in the input
     setShowSchoolSuggestions(false);
+    setHighlightedIndex(-1);
+    setIsNavigatingWithKeyboard(false);
+  };
+
+  const handleKeyPress = (e: any) => {
+    if (!showSchoolSuggestions || foundSchools.length === 0) return;
+
+    const key = e.nativeEvent?.key || e.key;
+    
+    switch (key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        setIsNavigatingWithKeyboard(true);
+        // Add a small delay to prevent too rapid selection changes
+        setTimeout(() => {
+          setHighlightedIndex(prev => 
+            prev < foundSchools.length - 1 ? prev + 1 : 0
+          );
+        }, 10);
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        setIsNavigatingWithKeyboard(true);
+        // Add a small delay to prevent too rapid selection changes
+        setTimeout(() => {
+          setHighlightedIndex(prev => 
+            prev > 0 ? prev - 1 : foundSchools.length - 1
+          );
+        }, 10);
+        break;
+      case 'Enter':
+        e.preventDefault();
+        if (highlightedIndex >= 0 && highlightedIndex < foundSchools.length) {
+          handleSchoolSelect(foundSchools[highlightedIndex]);
+        }
+        break;
+      case 'Escape':
+        e.preventDefault();
+        setShowSchoolSuggestions(false);
+        setHighlightedIndex(-1);
+        setIsNavigatingWithKeyboard(false);
+        break;
+    }
   };
 
   const handleSendThankYou = () => {
@@ -63,11 +141,39 @@ export default function TabTwoScreen() {
       position: 'absolute',
       top: '100%',
       width: '100%',
-      maxHeight: 250,
+      maxHeight: 210, // Exactly 3 items (70px each)
       zIndex: 20,
+      marginTop: 4, // Small even margin instead of padding
     },
     searchGroupElevated: {
       zIndex: 10,
+    },
+    highlightedSuggestionItem: {
+      padding: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: '#F0F0F0',
+      backgroundColor: '#F8F9FA',
+      borderLeftWidth: 3,
+      borderLeftColor: '#FF6B6B',
+      height: 70, // Fixed height
+    },
+    suggestionItem: {
+      padding: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: '#F0F0F0',
+      backgroundColor: '#FFFFFF',
+      height: 70, // Fixed height
+    },
+    highlightedSuggestionText: {
+      color: '#000000',
+      fontSize: 16,
+      fontWeight: '600',
+    },
+    highlightedSuggestionAddress: {
+      color: '#666666',
+      fontSize: 12,
+      marginTop: 2,
+      fontWeight: '500',
     }
   });
 
@@ -104,6 +210,7 @@ export default function TabTwoScreen() {
             <ThemedView style={styles.exploreSearchWrapper}>
               <ThemedView style={styles.exploreSearchContainer}>
                 <TextInput
+                  ref={searchInputRef}
                   style={styles.exploreTextInput}
                   placeholder="Search for your school..."
                   placeholderTextColor="#999"
@@ -117,26 +224,52 @@ export default function TabTwoScreen() {
                   onBlur={() => {
                     setTimeout(() => setShowSchoolSuggestions(false), 200);
                   }}
+                  onKeyPress={handleKeyPress}
                 />
                 <Ionicons name="search" size={20} color="#999" style={styles.exploreSearchIcon} />
               </ThemedView>
 
               {showSchoolSuggestions && foundSchools.length > 0 && (
                 <ScrollView
+                  ref={scrollViewRef}
                   style={[styles.exploreSuggestionsContainer, styles.suggestionsOverlay]}
                   keyboardShouldPersistTaps="handled"
                   nestedScrollEnabled={true}
+                  showsVerticalScrollIndicator={true}
                 >
-                  {foundSchools.map((school) => (
-                    <Pressable
+                  {foundSchools.map((school, index) => (
+                    <View
                       key={school.id}
-                      style={styles.exploreSuggestionItem}
-                      onPress={() => handleSchoolSelect(school)}
+                      ref={(ref) => {
+                        itemRefs.current[index] = ref;
+                      }}
                     >
-                      <ThemedText style={styles.exploreSuggestionText}>{school.name}</ThemedText>
-                      {/* Make sure your styles file has exploreSuggestionAddress */}
-                      <ThemedText style={styles.exploreSuggestionAddress}>{school.location}</ThemedText>
-                    </Pressable>
+                      <Pressable
+                        style={index === highlightedIndex ? styles.highlightedSuggestionItem : styles.suggestionItem}
+                        onPress={() => handleSchoolSelect(school)}
+                        onHoverIn={() => {
+                          if (!isNavigatingWithKeyboard) {
+                            setHighlightedIndex(index);
+                          }
+                        }}
+                        onHoverOut={() => {
+                          if (!isNavigatingWithKeyboard) {
+                            setHighlightedIndex(-1);
+                          }
+                        }}
+                      >
+                        <ThemedText 
+                          style={index === highlightedIndex ? styles.highlightedSuggestionText : styles.exploreSuggestionText}
+                        >
+                          {school.name}
+                        </ThemedText>
+                        <ThemedText 
+                          style={index === highlightedIndex ? styles.highlightedSuggestionAddress : styles.exploreSuggestionAddress}
+                        >
+                          {school.location}
+                        </ThemedText>
+                      </Pressable>
+                    </View>
                   ))}
                 </ScrollView>
               )}

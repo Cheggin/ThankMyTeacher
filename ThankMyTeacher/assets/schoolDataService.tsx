@@ -1,5 +1,5 @@
 // school.service.ts
-import schoolsData from './schools_names.json';
+import schoolsData from './schools_names_merged.json';
 
 /**
  * Defines the simplified structure for a single school object
