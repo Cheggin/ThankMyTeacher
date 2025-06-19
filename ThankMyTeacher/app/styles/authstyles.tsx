@@ -1,6 +1,13 @@
 import { StyleSheet, Platform } from 'react-native';
 
 export const styles = StyleSheet.create({
+  errorMessage: {
+    color: '#D8000C', 
+    textAlign: 'center',
+    marginBottom: 15,
+    fontSize: 14,
+    fontWeight: '500',
+    },
   container: {
     flex: 1,
     justifyContent: 'center',

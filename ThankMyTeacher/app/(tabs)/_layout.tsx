@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useAuth } from '../../contexts/AuthContext';
 import { navStyles as styles } from '../styles/navbarstyles';
 
 export default function RootLayout() {
@@ -16,16 +17,22 @@ export default function RootLayout() {
   const pathname = usePathname();
   const insets = useSafeAreaInsets();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { user } = useAuth();
 
-  const navItems = [
+  const navItems = user ? [
     { label: 'Home', route: '/' as const, icon: 'home' },
     { label: 'Send Thanks', route: '/send-thank-you' as const, icon: 'heart' },
-    { label: 'Why', route: '/why' as const, icon: 'information-circle' },
+    { label: 'Why I Made This', route: '/why' as const, icon: 'information-circle' },
+  ] : [
+    { label: 'Home', route: '/' as const, icon: 'home' },
+    { label: 'Send Thanks', route: '/send-thank-you' as const, icon: 'heart' },
+    { label: 'Why I Made This', route: '/why' as const, icon: 'information-circle' },
   ];
 
   const isActive = (route: string) => {
     if (route === '/') return pathname === '/';
     if (route === '/send-thank-you') return pathname.includes('send-thank-you');
+    if (route === '/dashboard') return pathname.includes('dashboard');
     return pathname.startsWith(route);
   };
 
@@ -72,28 +79,76 @@ export default function RootLayout() {
                   </Pressable>
                 ))}
                 
-                {/* Login Button */}
-                <Pressable
-                  onPress={() => router.push('/auth')}
-                  style={[
-                    styles.desktopNavItem,
-                    pathname === '/auth' && styles.desktopNavItemActive
-                  ]}
-                >
-                  <Ionicons 
-                    name="person-outline" 
-                    size={20} 
-                    color={pathname === '/auth' ? '#FF6B6B' : '#636E72'} 
-                  />
-                  <ThemedText 
+                {/* Login/Profile Button */}
+                {user ? (
+                  <View style={{ flexDirection: 'row', gap: 8 }}>
+                    <Pressable
+                      onPress={() => router.push('/dashboard')}
+                      style={[
+                        styles.desktopNavItem,
+                        pathname === '/dashboard' && styles.desktopNavItemActive
+                      ]}
+                    >
+                      <Ionicons 
+                        name="analytics" 
+                        size={20} 
+                        color={pathname === '/dashboard' ? '#FF6B6B' : '#636E72'} 
+                      />
+                      <ThemedText 
+                        style={[
+                          styles.desktopNavItemText,
+                          pathname === '/dashboard' && styles.desktopNavItemTextActive
+                        ]}
+                      >
+                        Dashboard
+                      </ThemedText>
+                    </Pressable>
+                    
+                    <Pressable
+                      onPress={() => router.push('/profile')}
+                      style={[
+                        styles.desktopNavItem,
+                        pathname === '/profile' && styles.desktopNavItemActive
+                      ]}
+                    >
+                      <Ionicons 
+                        name="person-circle" 
+                        size={20} 
+                        color={pathname === '/profile' ? '#FF6B6B' : '#636E72'} 
+                      />
+                      <ThemedText 
+                        style={[
+                          styles.desktopNavItemText,
+                          pathname === '/profile' && styles.desktopNavItemTextActive
+                        ]}
+                      >
+                        Profile
+                      </ThemedText>
+                    </Pressable>
+                  </View>
+                ) : (
+                  <Pressable
+                    onPress={() => router.push('/auth')}
                     style={[
-                      styles.desktopNavItemText,
-                      pathname === '/auth' && styles.desktopNavItemTextActive
+                      styles.desktopNavItem,
+                      pathname === '/auth' && styles.desktopNavItemActive
                     ]}
                   >
-                    Login
-                  </ThemedText>
-                </Pressable>
+                    <Ionicons 
+                      name="person-outline" 
+                      size={20} 
+                      color={pathname === '/auth' ? '#FF6B6B' : '#636E72'} 
+                    />
+                    <ThemedText 
+                      style={[
+                        styles.desktopNavItemText,
+                        pathname === '/auth' && styles.desktopNavItemTextActive
+                      ]}
+                    >
+                      Login
+                    </ThemedText>
+                  </Pressable>
+                )}
               </View>
             </View>
           </LinearGradient>
@@ -110,9 +165,12 @@ export default function RootLayout() {
           },
         }}
       >
-        <Stack.Screen name="auth" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="dashboard" />
+        <Stack.Screen name="profile" />
+        <Stack.Screen name="account-settings" />
         <Stack.Screen name="why" />
-        <Stack.Screen name="+not-found" />
+        <Stack.Screen name="send-thank-you" />
+        <Stack.Screen name="index" />
       </Stack>
 
       {/* Mobile Bottom Navigation */}
@@ -180,37 +238,63 @@ export default function RootLayout() {
                 </View>
 
                 <View style={styles.menuItems}>
-                  <Pressable 
-                    style={styles.menuItem}
-                    onPress={() => {
-                      router.push('/auth');
-                      setMenuOpen(false);
-                    }}
-                  >
-                    <Ionicons name="person-outline" size={24} color="#636E72" />
-                    <ThemedText style={styles.menuItemText}>Login / Sign Up</ThemedText>
-                  </Pressable>
+                  {user ? (
+                    <>
+                      <Pressable 
+                        style={styles.menuItem}
+                        onPress={() => {
+                          router.push('/dashboard');
+                          setMenuOpen(false);
+                        }}
+                      >
+                        <Ionicons name="analytics" size={24} color="#636E72" />
+                        <ThemedText style={styles.menuItemText}>Dashboard</ThemedText>
+                      </Pressable>
+                      
+                      <Pressable 
+                        style={styles.menuItem}
+                        onPress={() => {
+                          router.push('/profile');
+                          setMenuOpen(false);
+                        }}
+                      >
+                        <Ionicons name="person-circle" size={24} color="#636E72" />
+                        <ThemedText style={styles.menuItemText}>Profile</ThemedText>
+                      </Pressable>
+                      
+                      <Pressable 
+                        style={styles.menuItem}
+                        onPress={() => {
+                          // TODO: Add sign out functionality
+                          setMenuOpen(false);
+                        }}
+                      >
+                        <Ionicons name="log-out-outline" size={24} color="#FF6B6B" />
+                        <ThemedText style={[styles.menuItemText, { color: '#FF6B6B' }]}>Sign Out</ThemedText>
+                      </Pressable>
+                    </>
+                  ) : (
+                    <Pressable 
+                      style={styles.menuItem}
+                      onPress={() => {
+                        router.push('/auth');
+                        setMenuOpen(false);
+                      }}
+                    >
+                      <Ionicons name="person-outline" size={24} color="#636E72" />
+                      <ThemedText style={styles.menuItemText}>Login / Sign Up</ThemedText>
+                    </Pressable>
+                  )}
 
                   <Pressable 
                     style={styles.menuItem}
                     onPress={() => {
-                      // TODO: Add settings route
+                      router.push('/account-settings');
                       setMenuOpen(false);
                     }}
                   >
                     <Ionicons name="settings-outline" size={24} color="#636E72" />
                     <ThemedText style={styles.menuItemText}>Settings</ThemedText>
-                  </Pressable>
-
-                  <Pressable 
-                    style={styles.menuItem}
-                    onPress={() => {
-                      // TODO: Add contact route
-                      setMenuOpen(false);
-                    }}
-                  >
-                    <Ionicons name="mail-outline" size={24} color="#636E72" />
-                    <ThemedText style={styles.menuItemText}>Contact</ThemedText>
                   </Pressable>
                 </View>
               </ThemedView>

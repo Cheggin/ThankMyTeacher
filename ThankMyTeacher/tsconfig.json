@@ -13,5 +13,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "assets/data-processing.js", "assets/backend.js"  ]
+, "assets/data-processing.js", "assets/server.js"  ]
 }

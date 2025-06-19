@@ -9,6 +9,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { styles } from '../styles/styles';
 
+
 export default function WhyIMadeIt() {
   const router = useRouter();
 
@@ -53,7 +54,7 @@ export default function WhyIMadeIt() {
             </ThemedText>
             <View style={localStyles.headerSubtitleWrapper}>
               <ThemedText style={styles.headerSubtitle}>
-                  To this day, everyone I know recalls their favorite teachers. But no matter how grateful all of us are for them, many of us don't have a great way to give thanks. I thought that a website that (1) aimed to streamline the process, (2) allowed people to do this in a fun way, and (3) allowed people to do this anonymously, would be something that my computer science expertise would be great for. 
+                  Everyone I know recalls their favorite teachers. But no matter how grateful all of us are for them, many of us don't have a great way to give thanks. I thought that a website that (1) aimed to streamline the process, (2) allowed people to do this in a fun way, and (3) allowed people to do this anonymously, would be something that my computer science expertise would be great for. 
               </ThemedText>
             </View>
           </ThemedView>
@@ -64,11 +65,11 @@ export default function WhyIMadeIt() {
       <ThemedView style={styles.heroSection}>
         <View style={localStyles.contentWrapper}>
           <ThemedText type="title" style={styles.heroTitle}>
-            Who Am I? 
+            Meet the Creator
           </ThemedText>
           <View style={localStyles.profileImageContainer}>
             <Image 
-              source={require('../../assets/images/pfp.png')} // Replace with your image path
+              source={require('../../assets/images/pfp.png')}
               style={localStyles.profileImage}
               contentFit="cover"
             />

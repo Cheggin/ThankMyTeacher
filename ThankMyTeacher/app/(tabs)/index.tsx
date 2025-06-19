@@ -7,13 +7,23 @@ import { useRouter } from 'expo-router';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useAuth } from '../../contexts/AuthContext';
 import { styles } from '../styles/styles';
 
 export default function HomeScreen() {
   const router = useRouter();
+  const { user } = useAuth();
 
   const handleSendThankYou = () => {
     router.push('/(tabs)/send-thank-you');
+  };
+
+  const handleLogin = () => {
+    router.push('/auth');
+  };
+
+  const handleDashboard = () => {
+    router.push('/(tabs)/dashboard');
   };
 
   return (
@@ -44,24 +54,83 @@ export default function HomeScreen() {
       
       {/* Hero Section */}
       <ThemedView style={styles.heroSection}>
-        <ThemedText type="title" style={styles.heroTitle}>
-          Teachers change lives. {'\n'}Let's tell them.
-        </ThemedText>
         <ThemedText style={styles.heroDescription}>
-          All of us remember the teachers who helped us the most. But now, we've graduated, moved schools, and left the state-or even the country. This website aims to help you thank them, no  matter how far away you are. 
+          All of us remember the teachers who helped us the most. But now, we've graduated, moved schools, and left the state-or even the country. This website aims to help you thank them, no matter how far away you are. 
         </ThemedText>
         
-        <Pressable style={styles.ctaButton} onPress={handleSendThankYou}>
-          <LinearGradient
-            colors={['#FF8A80', '#FF6B6B']}
-            style={styles.ctaGradient}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-          >
-            <Ionicons name="heart-outline" size={20} color="white" />
-            <ThemedText style={styles.ctaText}>Write a Thank You Note</ThemedText>
-          </LinearGradient>
-        </Pressable>
+        {user ? (
+          <View style={{ gap: 12 }}>
+            <Pressable style={styles.ctaButton} onPress={handleSendThankYou}>
+              <LinearGradient
+                colors={['#FF8A80', '#FF6B6B']}
+                style={styles.ctaGradient}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+              >
+                <Ionicons name="heart-outline" size={20} color="white" />
+                <ThemedText style={styles.ctaText}>Write a Thank You Note</ThemedText>
+              </LinearGradient>
+            </Pressable>
+            
+            <Pressable 
+              style={{
+                backgroundColor: 'white',
+                padding: 16,
+                borderRadius: 12,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.1,
+                shadowRadius: 4,
+                elevation: 3,
+              }}
+              onPress={handleDashboard}
+            >
+              <Ionicons name="person-outline" size={20} color="#636E72" />
+              <ThemedText style={{ marginLeft: 8, fontSize: 16, color: '#636E72' }}>
+                View My Dashboard
+              </ThemedText>
+            </Pressable>
+          </View>
+        ) : (
+          <View style={{ gap: 12 }}>
+            <Pressable style={styles.ctaButton} onPress={handleSendThankYou}>
+              <LinearGradient
+                colors={['#FF8A80', '#FF6B6B']}
+                style={styles.ctaGradient}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+              >
+                <Ionicons name="heart-outline" size={20} color="white" />
+                <ThemedText style={styles.ctaText}>Write a Thank You Note</ThemedText>
+              </LinearGradient>
+            </Pressable>
+            
+            <Pressable 
+              style={{
+                backgroundColor: 'white',
+                padding: 16,
+                borderRadius: 12,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.1,
+                shadowRadius: 4,
+                elevation: 3,
+              }}
+              onPress={handleLogin}
+            >
+              <Ionicons name="person-outline" size={20} color="#636E72" />
+              <ThemedText style={{ marginLeft: 8, fontSize: 16, color: '#636E72' }}>
+                Sign Up / Log In to Save and Track Your Messages! 
+              </ThemedText>
+            </Pressable>
+          </View>
+        )}
       </ThemedView>
     </ParallaxScrollView>
   );

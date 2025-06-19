@@ -41,10 +41,11 @@ export const styles = StyleSheet.create({
   },
   headerTitle: {
     color: '#2D3436',
-    fontSize: 32,
+    fontSize: 60,
     fontWeight: '700',
     marginBottom: 8,
     fontFamily: Platform.OS === 'ios' ? 'System' : 'sans-serif',
+    padding: 12,
   },
   headerSubtitle: {
     color: '#636E72',
