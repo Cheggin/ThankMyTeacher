@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { ScrollView, TextInput, Pressable, KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
+import { ScrollView, TextInput, Pressable, KeyboardAvoidingView, Platform, StyleSheet, View, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -8,8 +8,12 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { styles as externalStyles } from '../styles/styles';
 import { searchSchools, School } from '../../assets/schoolDataService';
+import { supabase } from '../../assets/supabase';
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function TabTwoScreen() {
+  const { user } = useAuth();
+  
   // State for user inputs
   const [schoolSearch, setSchoolSearch] = useState('');
   const [teacherName, setTeacherName] = useState('');
@@ -28,6 +32,9 @@ export default function TabTwoScreen() {
   const searchInputRef = useRef<TextInput>(null);
   const scrollViewRef = useRef<ScrollView>(null);
   const itemRefs = useRef<{ [key: number]: View | null }>({});
+
+  // State for sending
+  const [isSending, setIsSending] = useState(false);
 
   // Debounce the search to avoid excessive calls
   useEffect(() => {
@@ -121,17 +128,104 @@ export default function TabTwoScreen() {
     }
   };
 
-  const handleSendThankYou = () => {
-    if (!selectedSchool) return;
-    // Handle sending the thank you message
-    console.log({
-      schoolId: selectedSchool.id,
-      schoolName: selectedSchool.name,
-      teacherName,
-      teacherEmail,
-      message,
-      senderName,
-    });
+  const handleSendThankYou = async () => {
+    if (!selectedSchool || !teacherName || !teacherEmail || !message) {
+      Alert.alert('Missing Information', 'Please fill in all required fields.');
+      return;
+    }
+
+    setIsSending(true);
+
+    try {
+      // Create email content
+      const emailSubject = `A Thank You Message from ${senderName || 'a student'}`;
+      const emailContent = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+          <h2 style="color: #FF6B6B;">A Thank You Message</h2>
+          
+          <p><strong>Dear ${teacherName},</strong></p>
+          
+          <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <p style="font-style: italic; font-size: 16px; line-height: 1.6; margin: 0;">
+              "${message}"
+            </p>
+          </div>
+          
+          <p><strong>From:</strong> ${senderName || 'A grateful student'}</p>
+          <p><strong>School:</strong> ${selectedSchool.name} (${selectedSchool.location})</p>
+          
+          <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
+          
+          <p style="color: #666; font-size: 12px;">
+            This message was sent through ThankMyTeacher - a platform for expressing gratitude to educators.
+          </p>
+        </div>
+      `;
+
+      // Call the Edge Function to send email
+      const { data, error } = await supabase.functions.invoke('send-thank-you', {
+        body: {
+          to: teacherEmail,
+          subject: emailSubject,
+          message: emailContent,
+        },
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      if (data?.success) {
+        // Save to database
+        const { error: dbError } = await supabase
+          .from('thank_yous')
+          .insert({
+            user_id: user?.id,
+            school_id: selectedSchool.id,
+            school_name: selectedSchool.name,
+            teacher_name: teacherName,
+            teacher_email: teacherEmail,
+            message: message,
+            sender_name: senderName || null,
+          });
+
+        if (dbError) {
+          console.error('Database error:', dbError);
+        }
+
+        // Show success message
+        Alert.alert(
+          'Thank You Sent!',
+          'Your message has been sent successfully. Thank you for expressing your gratitude!',
+          [
+            {
+              text: 'Send Another',
+              onPress: () => {
+                // Reset form
+                setTeacherName('');
+                setTeacherEmail('');
+                setMessage('');
+                setSenderName('');
+                setSelectedSchool(null);
+                setSchoolSearch('');
+              },
+            },
+            { text: 'OK' },
+          ]
+        );
+      } else {
+        throw new Error('Failed to send email');
+      }
+    } catch (error) {
+      console.error('Error sending thank you:', error);
+      Alert.alert(
+        'Error',
+        'Failed to send your thank you message. Please try again later.',
+        [{ text: 'OK' }]
+      );
+    } finally {
+      setIsSending(false);
+    }
   };
 
   // Combining original styles with fixes
@@ -357,7 +451,7 @@ export default function TabTwoScreen() {
           <Pressable
             style={styles.exploreSendButton}
             onPress={handleSendThankYou}
-            disabled={!selectedSchool || !teacherName || !teacherEmail || !message}
+            disabled={!selectedSchool || !teacherName || !teacherEmail || !message || isSending}
           >
             <LinearGradient
               colors={['#FF6B6B', '#FF8E53']}
@@ -365,8 +459,14 @@ export default function TabTwoScreen() {
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
             >
-              <ThemedText style={styles.exploreSendText}>Send Thank You</ThemedText>
-              <Ionicons name="send" size={20} color="white" />
+              <ThemedText style={styles.exploreSendText}>
+                {isSending ? 'Sending...' : 'Send Thank You'}
+              </ThemedText>
+              <Ionicons 
+                name={isSending ? "hourglass" : "send"} 
+                size={20} 
+                color="white" 
+              />
             </LinearGradient>
           </Pressable>
         </ThemedView>
