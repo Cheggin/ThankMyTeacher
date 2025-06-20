@@ -152,7 +152,6 @@ export default function TabTwoScreen() {
           </div>
           
           <p><strong>From:</strong> ${senderName || 'A grateful student'}</p>
-          <p><strong>School:</strong> ${selectedSchool.name} (${selectedSchool.location})</p>
           
           <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
           

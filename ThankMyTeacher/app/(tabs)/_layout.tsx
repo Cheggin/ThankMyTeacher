@@ -22,16 +22,19 @@ export default function RootLayout() {
   const navItems = user ? [
     { label: 'Home', route: '/' as const, icon: 'home' },
     { label: 'Send Thanks', route: '/send-thank-you' as const, icon: 'heart' },
+    { label: 'Map', route: '/map' as const, icon: 'map' },
     { label: 'Why I Made This', route: '/why' as const, icon: 'information-circle' },
   ] : [
     { label: 'Home', route: '/' as const, icon: 'home' },
     { label: 'Send Thanks', route: '/send-thank-you' as const, icon: 'heart' },
+    { label: 'Map', route: '/map' as const, icon: 'map' },
     { label: 'Why I Made This', route: '/why' as const, icon: 'information-circle' },
   ];
 
   const isActive = (route: string) => {
     if (route === '/') return pathname === '/';
     if (route === '/send-thank-you') return pathname.includes('send-thank-you');
+    if (route === '/map') return pathname.includes('map');
     if (route === '/dashboard') return pathname.includes('dashboard');
     return pathname.startsWith(route);
   };
@@ -170,6 +173,7 @@ export default function RootLayout() {
         <Stack.Screen name="account-settings" />
         <Stack.Screen name="why" />
         <Stack.Screen name="send-thank-you" />
+        <Stack.Screen name="map" />
         <Stack.Screen name="index" />
       </Stack>
 

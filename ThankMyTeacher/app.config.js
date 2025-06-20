@@ -43,6 +43,7 @@ export default {
     extra: {
       supabaseUrl: process.env.EXPO_PUBLIC_SUPABASE_URL,
       supabaseKey: process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY,
+      googleMapsApiKey: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
     },
   },
 }; 

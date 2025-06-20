@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Dimensions, ActivityIndicator } from 'react-native';
-import { WebView } from 'react-native-webview';
+import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { ThemedText } from './ThemedText';
 import { ThemedView } from './ThemedView';
 
@@ -33,17 +32,29 @@ export default function ThankYouMap({ schoolData, onSchoolPress }: ThankYouMapPr
         <html>
         <head>
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY"></script>
           <style>
-            body { margin: 0; padding: 0; }
-            #map { width: 100%; height: 100vh; }
+            body { 
+              margin: 0; 
+              padding: 0; 
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 100vh;
+              background-color: #FFF5F5;
+            }
             .no-data { 
-              display: flex; 
-              justify-content: center; 
-              align-items: center; 
-              height: 100vh; 
-              font-family: Arial, sans-serif;
-              color: #666;
+              text-align: center;
+              color: #636E72;
+            }
+            .no-data h2 {
+              margin-bottom: 8px;
+              font-size: 20px;
+              font-weight: bold;
+            }
+            .no-data p {
+              font-size: 16px;
+              color: #B2BEC3;
             }
           </style>
         </head>
@@ -81,66 +92,50 @@ export default function ThankYouMap({ schoolData, onSchoolPress }: ThankYouMapPr
       })
     `).join(',');
 
-    const bounds = schoolData.reduce((acc, school) => {
-      return {
-        north: Math.max(acc.north, school.latitude),
-        south: Math.min(acc.south, school.latitude),
-        east: Math.max(acc.east, school.longitude),
-        west: Math.min(acc.west, school.longitude)
-      };
-    }, { north: -90, south: 90, east: -180, west: 180 });
-
     const html = `
       <!DOCTYPE html>
       <html>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=${process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY || 'YOUR_API_KEY'}"></script>
         <style>
           body { margin: 0; padding: 0; }
           #map { width: 100%; height: 100vh; }
-          .legend {
-            position: absolute;
-            top: 10px;
-            right: 10px;
+          .info-window {
             background: white;
-            padding: 10px;
+            padding: 15px;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            font-family: Arial, sans-serif;
-            font-size: 12px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 250px;
           }
-          .legend-item {
-            display: flex;
-            align-items: center;
-            margin: 5px 0;
+          .info-window h3 {
+            margin: 0 0 8px 0;
+            color: #2D3436;
+            font-size: 16px;
+            font-weight: bold;
           }
-          .legend-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #FF6B6B;
-            margin-right: 8px;
-            border: 2px solid white;
+          .info-window p {
+            margin: 4px 0;
+            color: #636E72;
+            font-size: 14px;
+          }
+          .info-window .count {
+            color: #FF6B6B;
+            font-weight: bold;
           }
         </style>
       </head>
       <body>
         <div id="map"></div>
-        <div class="legend">
-          <h4 style="margin: 0 0 10px 0;">Thank You Map</h4>
-          <div class="legend-item">
-            <div class="legend-dot"></div>
-            <span>Schools with thank yous</span>
-          </div>
-          <div style="font-size: 10px; color: #666; margin-top: 10px;">
-            Numbers show thank you count
-          </div>
-        </div>
         <script>
           const map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 10,
-            center: { lat: ${(bounds.north + bounds.south) / 2}, lng: ${(bounds.east + bounds.west) / 2} },
+            zoom: 4,
+            center: { lat: 39.8283, lng: -98.5795 }, // Center of the United States
+            scrollwheel: true, // Enable mouse wheel zooming
+            gestureHandling: 'cooperative', // Allow zooming with mouse wheel
+            mapTypeControl: false,
+            streetViewControl: false,
             styles: [
               {
                 featureType: 'poi',
@@ -150,24 +145,27 @@ export default function ThankYouMap({ schoolData, onSchoolPress }: ThankYouMapPr
             ]
           });
 
-          const bounds = new google.maps.LatLngBounds();
-          
           const markers = [${markers}];
-          
-          markers.forEach(marker => {
-            bounds.extend(marker.getPosition());
-          });
-          
-          map.fitBounds(bounds);
           
           // Add click listeners to markers
           markers.forEach((marker, index) => {
+            const school = ${JSON.stringify(schoolData)}[index];
+            const schoolName = school.name;
+            const count = school.thankYouCount;
+            // Add click listener to marker
             marker.addListener('click', () => {
-              const school = ${JSON.stringify(schoolData)}[index];
-              window.ReactNativeWebView.postMessage(JSON.stringify({
-                type: 'schoolClick',
-                school: school
-              }));
+              const infoWindow = new google.maps.InfoWindow({
+                content: \`
+                  <div class="info-window">
+                    <h3>\${schoolName}</h3>
+                    <p><span class="count">\${count}</span> thank you message\${count > 1 ? 's' : ''} sent</p>
+                    <p style="font-size: 12px; color: #B2BEC3; margin-top: 8px;">
+                      Click to see details
+                    </p>
+                  </div>
+                \`
+              });
+              infoWindow.open(map, marker);
             });
           });
         </script>
@@ -179,17 +177,6 @@ export default function ThankYouMap({ schoolData, onSchoolPress }: ThankYouMapPr
     setIsLoading(false);
   };
 
-  const handleMessage = (event: any) => {
-    try {
-      const data = JSON.parse(event.nativeEvent.data);
-      if (data.type === 'schoolClick' && onSchoolPress) {
-        onSchoolPress(data.school);
-      }
-    } catch (error) {
-      console.error('Error parsing map message:', error);
-    }
-  };
-
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
@@ -199,20 +186,22 @@ export default function ThankYouMap({ schoolData, onSchoolPress }: ThankYouMapPr
     );
   }
 
+  if (schoolData.length === 0) {
+    return (
+      <View style={styles.noDataContainer}>
+        <ThemedText style={styles.noDataTitle}>No thank you data available yet</ThemedText>
+        <ThemedText style={styles.noDataSubtitle}>Be the first to send a thank you!</ThemedText>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <WebView
-        source={{ html: mapHtml }}
-        style={styles.map}
-        onMessage={handleMessage}
-        javaScriptEnabled={true}
-        domStorageEnabled={true}
-        startInLoadingState={true}
-        renderLoading={() => (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#FF6B6B" />
-          </View>
-        )}
+      <iframe
+        srcDoc={mapHtml}
+        style={{ width: '100%', height: '100%', border: 'none' }}
+        sandbox="allow-scripts allow-same-origin allow-forms allow-modals"
+        title="Thank You Map"
       />
     </View>
   );
@@ -236,5 +225,88 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: '#636E72',
     fontSize: 16,
+  },
+  noDataContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFF5F5',
+    padding: 20,
+  },
+  noDataTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#636E72',
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  noDataSubtitle: {
+    fontSize: 16,
+    color: '#B2BEC3',
+    textAlign: 'center',
+  },
+  legend: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+    backgroundColor: 'white',
+    padding: 15,
+    borderRadius: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    maxWidth: 200,
+  },
+  legendTitle: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#2D3436',
+    marginBottom: 10,
+  },
+  legendItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  legendDot: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: '#FF6B6B',
+    marginRight: 8,
+    borderWidth: 2,
+    borderColor: 'white',
+  },
+  legendText: {
+    fontSize: 12,
+    color: '#636E72',
+    flex: 1,
+  },
+  legendSubtext: {
+    fontSize: 10,
+    color: '#B2BEC3',
+    fontStyle: 'italic',
+  },
+  calloutContainer: {
+    padding: 10,
+    minWidth: 150,
+  },
+  calloutTitle: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#2D3436',
+    marginBottom: 4,
+  },
+  calloutLocation: {
+    fontSize: 12,
+    color: '#636E72',
+    marginBottom: 4,
+  },
+  calloutCount: {
+    fontSize: 12,
+    color: '#FF6B6B',
+    fontWeight: '500',
   },
 }); 
