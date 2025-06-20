@@ -11,6 +11,7 @@ interface ThankYou {
   teacher_name: string;
   message: string;
   created_at: string;
+  school_name: string;
 }
 
 export default function ThankYousScreen() {
@@ -75,7 +76,7 @@ export default function ThankYousScreen() {
               }}
             >
               <ThemedText style={{ fontWeight: 'bold', fontSize: 16, marginBottom: 4 }}>
-                {ty.teacher_name}
+                {"To: " + ty.teacher_name + " at " + ty.school_name}
               </ThemedText>
               <ThemedText style={{ color: '#636E72', marginBottom: 8 }}>
                 {ty.message}
