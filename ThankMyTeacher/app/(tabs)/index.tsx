@@ -38,11 +38,11 @@ export default function HomeScreen() {
         >
           <ThemedView style={styles.headerContent}>
             <View style={styles.headerIconGroup}>
-              <Ionicons name="heart" size={60} color="#FF6B6B" style={styles.headerIconMain} />
+              <Ionicons name="heart" size={80} color="#FF6B6B" style={styles.headerIconMain} />
               <View style={styles.sparkleContainer}>
-                <Ionicons name="sparkles" size={24} color="#FFB800" style={styles.sparkle1} />
-                <Ionicons name="sparkles" size={20} color="#4ECDC4" style={styles.sparkle2} />
-                <Ionicons name="sparkles" size={16} color="#FF8E53" style={styles.sparkle3} />
+                <Ionicons name="sparkles" size={32} color="#FFB800" style={styles.sparkle1} />
+                <Ionicons name="sparkles" size={28} color="#4ECDC4" style={styles.sparkle2} />
+                <Ionicons name="sparkles" size={22} color="#FF8E53" style={styles.sparkle3} />
               </View>
             </View>
             <ThemedText type="title" style={styles.headerTitle}>
