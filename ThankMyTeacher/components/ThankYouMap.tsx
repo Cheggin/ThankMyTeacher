@@ -97,7 +97,7 @@ export default function ThankYouMap({ schoolData, onSchoolPress }: ThankYouMapPr
       <html>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://maps.googleapis.com/maps/api/js?key=${process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY || 'YOUR_API_KEY'}"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=${process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY}"></script>
         <style>
           body { margin: 0; padding: 0; }
           #map { width: 100%; height: 100vh; }

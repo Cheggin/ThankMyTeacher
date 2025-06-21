@@ -1,5 +1,5 @@
 // app/_layout.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Stack, useRouter, usePathname } from 'expo-router';
 import { View, useWindowDimensions, Pressable, Modal, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -17,7 +17,16 @@ export default function RootLayout() {
   const pathname = usePathname();
   const insets = useSafeAreaInsets();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isLayoutReady, setIsLayoutReady] = useState(false);
   const { user } = useAuth();
+
+  // Prevent layout flash by ensuring dimensions are stable
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLayoutReady(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   const navItems = user ? [
     { label: 'Home', route: '/' as const, icon: 'home' },
@@ -41,8 +50,8 @@ export default function RootLayout() {
 
   return (
     <View style={{ flex: 1 }}>
-      {/* Desktop Navigation Bar */}
-      {!isMobile && (
+      {/* Desktop Navigation Bar - Only render when layout is ready and not mobile */}
+      {isLayoutReady && !isMobile && (
         <View style={[styles.desktopNav, { paddingTop: insets.top }]}>
           <LinearGradient
             colors={['#FFFFFF', '#FFF5F5']}
@@ -163,8 +172,8 @@ export default function RootLayout() {
         screenOptions={{
           headerShown: false,
           contentStyle: {
-            paddingTop: !isMobile ? 80 : 0,
-            paddingBottom: isMobile ? 80 : 0,
+            paddingTop: isLayoutReady && !isMobile ? 80 : 0,
+            paddingBottom: isLayoutReady && isMobile ? 80 : 0,
           },
         }}
       >
@@ -177,8 +186,8 @@ export default function RootLayout() {
         <Stack.Screen name="index" />
       </Stack>
 
-      {/* Mobile Bottom Navigation */}
-      {isMobile && (
+      {/* Mobile Bottom Navigation - Only render when layout is ready and mobile */}
+      {isLayoutReady && isMobile && (
         <>
           <View style={[styles.mobileBottomBar, { paddingBottom: insets.bottom }]}>
             <LinearGradient
