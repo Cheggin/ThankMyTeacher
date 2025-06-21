@@ -23,6 +23,14 @@ export default function RootLayout() {
       <ThemeProvider value={colorScheme === 'light' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="auth" options={{ headerShown: false }} />
+          <Stack.Screen name="send-thank-you" options={{ headerShown: false }} />
+          <Stack.Screen name="map" options={{ headerShown: false }} />
+          <Stack.Screen name="why" options={{ headerShown: false }} />
+          <Stack.Screen name="dashboard" options={{ headerShown: false }} />
+          <Stack.Screen name="profile" options={{ headerShown: false }} />
+          <Stack.Screen name="account-settings" options={{ headerShown: false }} />
+          <Stack.Screen name="thank-yous" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
         </Stack>
         <StatusBar style="auto" />
