@@ -55,7 +55,7 @@ export default function HomeScreen() {
       {/* Hero Section */}
       <ThemedView style={styles.heroSection}>
         <ThemedText style={styles.heroDescription}>
-          All of us remember the teachers who helped us the most. But now, we've graduated, moved schools, and left the state-or even the country. This website aims to help you thank them, no matter how far away you are. 
+          Everyone remembers the teachers who changed their life. But as we grow up and move away, it gets harder to show our gratitude. This website makes it easy to send your appreciation to them, no matter how far away you are. 
         </ThemedText>
         
         {user ? (
@@ -68,7 +68,7 @@ export default function HomeScreen() {
                 end={{ x: 1, y: 0 }}
               >
                 <Ionicons name="heart-outline" size={20} color="white" />
-                <ThemedText style={styles.ctaText}>Write a Thank You Note</ThemedText>
+                <ThemedText style={styles.ctaText}>Send a Thank You Note</ThemedText>
               </LinearGradient>
             </Pressable>
             

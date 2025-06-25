@@ -288,7 +288,7 @@ export default function TabTwoScreen() {
         style={styles.exploreKeyboardView}
       >
         <ThemedView style={styles.exploreTitleContainer}>
-          <ThemedText type="title">Send a Thank You</ThemedText>
+          <ThemedText type="title">Thank a Teacher</ThemedText>
           <ThemedText style={styles.exploreSubtitle}>
             Express your gratitude to a teacher who made a difference
           </ThemedText>
