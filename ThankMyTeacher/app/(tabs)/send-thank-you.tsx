@@ -140,24 +140,35 @@ export default function TabTwoScreen() {
       // Create email content
       const emailSubject = `A Thank You Message from ${senderName || 'a student'}`;
       const emailContent = `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <h2 style="color: #FF6B6B;">A Thank You Message</h2>
+        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background-color: #ffffff;">
+          <div style="text-align: center; margin-bottom: 30px;">
+            <h1 style="color: #2c3e50; font-size: 28px; font-weight: 300; margin: 0 0 10px 0;">Thank You</h1>
+            <div style="width: 60px; height: 3px; background: linear-gradient(90deg, #FF6B6B, #4ECDC4); margin: 0 auto;"></div>
+          </div>
           
-          <p><strong>Dear ${teacherName},</strong></p>
-          
-          <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <p style="font-style: italic; font-size: 16px; line-height: 1.6; margin: 0;">
-              "${message}"
+          <div style="background-color: #ffffff; border: 1px solid #e9ecef; border-radius: 12px; padding: 30px; margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+            <p style="color: #495057; font-size: 16px; margin: 0 0 20px 0; font-weight: 500;">
+              Dear ${teacherName},
+            </p>
+            
+            <div style="background-color: #f8f9fa; padding: 25px; border-radius: 8px; border-left: 4px solid #FF6B6B; margin: 20px 0;">
+              <p style="font-style: italic; font-size: 16px; line-height: 1.7; margin: 0; color: #495057;">
+                "${message}"
+              </p>
+            </div>
+            
+            <p style="color: #6c757d; font-size: 14px; margin: 20px 0 0 0;">
+              With gratitude,<br>
+              <strong style="color: #495057;">${senderName || 'A grateful student'}</strong>
             </p>
           </div>
           
-          <p><strong>From:</strong> ${senderName || 'A grateful student'}</p>
-          
-          <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
-          
-          <p style="color: #666; font-size: 12px;">
-            This message was sent through ThankMyTeacher - a platform for expressing gratitude to educators.
-          </p>
+          <div style="text-align: center; padding: 20px; background-color: #f8f9fa; border-radius: 8px;">
+            <p style="color: #6c757d; font-size: 12px; margin: 0; line-height: 1.5;">
+              This message was sent through <strong>ThankMyTeacher.net</strong><br>
+              A platform dedicated to expressing gratitude to educators
+            </p>
+          </div>
         </div>
       `;
 
