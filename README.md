@@ -15,7 +15,7 @@ ThankMyTeacher streamlines the process of sending thank you messages to educator
 - **Anonymous Sending**: Option to send messages anonymously for privacy
 - **Real-time Updates**: Live statistics and map updates
 
-## 🚀 Technology Stack
+## 🚀 Tech Stack
 
 - **Frontend**: React Native with Expo
 - **Backend**: Supabase (PostgreSQL, Auth, Edge Functions)
