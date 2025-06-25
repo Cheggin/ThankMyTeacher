@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
     fontSize: 60,
     fontWeight: '700',
     marginBottom: 8,
-    fontFamily: Platform.OS === 'ios' ? 'System' : 'sans-serif',
+    fontFamily: 'Inter',
     padding: 12,
   },
   headerSubtitle: {
@@ -53,6 +53,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     paddingHorizontal: 20,
     fontStyle: 'italic',
+    fontFamily: 'Inter',
   },
 
   // Hero Section
@@ -72,6 +73,7 @@ export const styles = StyleSheet.create({
     marginBottom: 16,
     color: '#2D3436',
     lineHeight: 36,
+    fontFamily: 'Inter',
   },
   heroDescription: {
     fontSize: 16,
@@ -80,6 +82,7 @@ export const styles = StyleSheet.create({
     lineHeight: 24,
     color: '#636E72',
     paddingHorizontal: 10,
+    fontFamily: 'Inter',
   },
   ctaButton: {
     borderRadius: 25,
@@ -101,6 +104,7 @@ export const styles = StyleSheet.create({
     color: 'white',
     fontSize: 17,
     fontWeight: '600',
+    fontFamily: 'Inter',
   },
 
   // Quote Section
@@ -118,10 +122,12 @@ export const styles = StyleSheet.create({
     color: '#2D3436',
     marginBottom: 12,
     lineHeight: 28,
+    fontFamily: 'Inter',
   },
   quoteAuthor: {
     fontSize: 14,
     color: '#636E72',
+    fontFamily: 'Inter',
   },
 
   // Stories Section
@@ -138,6 +144,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#2D3436',
     paddingHorizontal: 20,
+    fontFamily: 'Inter',
   },
   storiesScroll: {
     paddingLeft: 20,
@@ -162,11 +169,13 @@ export const styles = StyleSheet.create({
     color: '#2D3436',
     marginBottom: 12,
     fontStyle: 'italic',
+    fontFamily: 'Inter',
   },
   storyAuthor: {
     fontSize: 13,
     color: '#FF6B6B',
     fontWeight: '500',
+    fontFamily: 'Inter',
   },
 
   // Why Section
@@ -205,11 +214,13 @@ export const styles = StyleSheet.create({
     marginBottom: 6,
     color: '#2D3436',
     fontWeight: '500',
+    fontFamily: 'Inter',
   },
   reasonDescription: {
     fontSize: 14,
     lineHeight: 20,
     color: '#636E72',
+    fontFamily: 'Inter',
   },
 
   // Simple Steps Section
@@ -240,11 +251,13 @@ export const styles = StyleSheet.create({
     color: '#FF6B6B',
     fontSize: 18,
     fontWeight: '600',
+    fontFamily: 'Inter',
   },
   stepText: {
     fontSize: 16,
     color: '#2D3436',
     flex: 1,
+    fontFamily: 'Inter',
   },
 
   // Final CTA Section

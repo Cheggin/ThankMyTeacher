@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
     marginBottom: 15,
     fontSize: 14,
     fontWeight: '500',
+    fontFamily: 'Inter',
     },
   container: {
     flex: 1,
@@ -36,11 +37,13 @@ export const styles = StyleSheet.create({
     color: '#2D3436',
     marginTop: 16,
     marginBottom: 8,
+    fontFamily: 'Inter',
   },
   subtitle: {
     fontSize: 14,
     color: '#636E72',
     textAlign: 'center',
+    fontFamily: 'Inter',
   },
   form: {
     width: '100%',
@@ -53,6 +56,7 @@ export const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#2D3436',
     marginBottom: 8,
+    fontFamily: 'Inter',
   },
   input: {
     borderWidth: 1,
@@ -62,6 +66,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     backgroundColor: '#F8F8F8',
     color: '#000000',
+    fontFamily: 'Inter',
   },
   passwordContainer: {
     position: 'relative',
@@ -87,6 +92,7 @@ export const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: '600',
+    fontFamily: 'Inter',
   },
   toggleContainer: {
     flexDirection: 'row',
@@ -98,11 +104,13 @@ export const styles = StyleSheet.create({
   toggleText: {
     fontSize: 14,
     color: '#636E72',
+    fontFamily: 'Inter',
   },
   toggleLink: {
     fontSize: 14,
     color: '#FF6B6B',
     fontWeight: '600',
+    fontFamily: 'Inter',
   },
   divider: {
     flexDirection: 'row',
@@ -118,6 +126,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: 16,
     fontSize: 12,
     color: '#636E72',
+    fontFamily: 'Inter',
   },
   socialButton: {
     flexDirection: 'row',
@@ -134,6 +143,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     color: '#2D3436',
     fontWeight: '500',
+    fontFamily: 'Inter',
   },
   backButton: {
     flexDirection: 'row',
@@ -145,5 +155,6 @@ export const styles = StyleSheet.create({
   backText: {
     fontSize: 14,
     color: '#636E72',
+    fontFamily: 'Inter',
   },
 });

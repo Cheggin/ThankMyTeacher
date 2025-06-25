@@ -1,5 +1,5 @@
 import { Image } from 'expo-image';
-import { Platform, ScrollView, Pressable, View, StyleSheet } from 'react-native';
+import { Platform, ScrollView, Pressable, View, StyleSheet, Linking } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -9,6 +9,15 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { styles } from '../styles/styles';
 
+// Web-compatible alert function
+const showAlert = (title: string, message: string) => {
+  if (Platform.OS === 'web') {
+    window.alert(`${title}\n\n${message}`);
+  } else {
+    const { Alert } = require('react-native');
+    Alert.alert(title, message);
+  }
+};
 
 export default function WhyIMadeIt() {
   const router = useRouter();
@@ -113,11 +122,36 @@ export default function WhyIMadeIt() {
           </ThemedText>
           
           <View style={{ flexDirection: 'row', gap: 20, marginTop: 20,justifyContent: 'center' }}>
-            <Pressable style={[styles.finalCtaButton, { backgroundColor: '#4ECDC4' }]}>
+            <Pressable 
+              style={[styles.finalCtaButton, { backgroundColor: '#4ECDC4' }]} 
+              onPress={() => {
+                const url = 'https://docs.google.com/forms/d/e/1FAIpQLSe7omeIGOl6ERL_jdKPuqHwfUEwahWKx2zp4Sd3nScWiiOgmA/viewform?usp=sharing&ouid=106869933586522440256';
+                if (Platform.OS === 'web') {
+                  window.open(url, '_blank');
+                } else {
+                  Linking.openURL(url);
+                }
+              }}
+            >
               <ThemedText style={styles.finalCtaButtonText}>Website Suggestions</ThemedText>
             </Pressable>
             
-            <Pressable style={[styles.finalCtaButton, { backgroundColor: '#FF6B6B' }]}>
+            <Pressable 
+              style={[styles.finalCtaButton, { backgroundColor: '#FF6B6B' }]} 
+              onPress={() => {
+                const email = 'reaganhsu@thankmyteacher.net';
+                const subject = 'ThankMyTeacher.net - Feedback';
+                const body = 'Hi Reagan,\n\n';
+                
+                const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                
+                if (Platform.OS === 'web') {
+                  window.open(gmailUrl, '_blank');
+                } else {
+                  Linking.openURL(gmailUrl);
+                }
+              }}
+            >
               <ThemedText style={styles.finalCtaButtonText}>Email</ThemedText>
             </Pressable>
           </View>

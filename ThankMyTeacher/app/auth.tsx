@@ -144,8 +144,8 @@ const AuthScreen: React.FC = () => {
               </ThemedText>
               <ThemedText style={styles.subtitle}>
                 {isLogin 
-                  ? 'Sign in to continue spreading gratitude' 
-                  : 'Create an account to start thanking teachers'
+                  ? 'Sign in to continue' 
+                  : 'Create an account to start'
                 }
               </ThemedText>
             </View>

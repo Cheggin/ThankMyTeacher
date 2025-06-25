@@ -39,6 +39,7 @@ export const navStyles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     color: '#2D3436',
+    fontFamily: 'Inter',
   },
   desktopNavItems: {
     flexDirection: 'row',
@@ -60,6 +61,7 @@ export const navStyles = StyleSheet.create({
     fontSize: 14,
     color: '#636E72',
     fontWeight: '500',
+    fontFamily: 'Inter',
   },
   desktopNavItemTextActive: {
     color: '#FF6B6B',
@@ -100,6 +102,7 @@ export const navStyles = StyleSheet.create({
     fontSize: 11,
     marginTop: 4,
     color: '#636E72',
+    fontFamily: 'Inter',
   },
   mobileTabLabelActive: {
     color: '#FF6B6B',
@@ -133,6 +136,7 @@ export const navStyles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '600',
     color: '#2D3436',
+    fontFamily: 'Inter',
   },
   menuItems: {
     gap: 5,
@@ -148,5 +152,6 @@ export const navStyles = StyleSheet.create({
   menuItemText: {
     fontSize: 16,
     color: '#2D3436',
+    fontFamily: 'Inter',
   },
 });

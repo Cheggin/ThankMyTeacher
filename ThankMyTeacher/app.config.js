@@ -45,5 +45,30 @@ export default {
       supabaseKey: process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY,
       googleMapsApiKey: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
     },
+    fonts: [
+      {
+        asset: "./assets/fonts/Inter-Regular.ttf",
+        family: "Inter"
+      },
+      {
+        asset: "./assets/fonts/Inter-Medium.ttf",
+        family: "Inter",
+        weight: "500"
+      },
+      {
+        asset: "./assets/fonts/Inter-SemiBold.ttf",
+        family: "Inter",
+        weight: "600"
+      },
+      {
+        asset: "./assets/fonts/Inter-Bold.ttf",
+        family: "Inter",
+        weight: "700"
+      },
+      {
+        asset: "./assets/fonts/SpaceMono-Regular.ttf",
+        family: "SpaceMono"
+      }
+    ],
   },
 }; 

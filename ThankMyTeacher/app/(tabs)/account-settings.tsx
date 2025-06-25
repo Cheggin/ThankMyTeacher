@@ -105,51 +105,6 @@ export default function AccountSettingsScreen() {
           </ThemedText>
         </View>
 
-        {/* Account Information */}
-        <View style={{ marginBottom: 30 }}>
-          <ThemedText type="title" style={{ fontSize: 20, marginBottom: 16 }}>
-            Account Information
-          </ThemedText>
-          
-          <View style={{
-            backgroundColor: 'white',
-            borderRadius: 12,
-            padding: 20,
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.1,
-            shadowRadius: 4,
-            elevation: 3,
-          }}>
-            <View style={{ marginBottom: 16 }}>
-              <ThemedText style={{ fontSize: 14, color: '#636E72', marginBottom: 4 }}>
-                Email
-              </ThemedText>
-              <ThemedText style={{ fontSize: 16, fontWeight: '500' }}>
-                {user?.email}
-              </ThemedText>
-            </View>
-            
-            <View style={{ marginBottom: 16 }}>
-              <ThemedText style={{ fontSize: 14, color: '#636E72', marginBottom: 4 }}>
-                User ID
-              </ThemedText>
-              <ThemedText style={{ fontSize: 12, color: '#636E72', fontFamily: 'SpaceMono' }}>
-                {user?.id}
-              </ThemedText>
-            </View>
-            
-            <View>
-              <ThemedText style={{ fontSize: 14, color: '#636E72', marginBottom: 4 }}>
-                Member Since
-              </ThemedText>
-              <ThemedText style={{ fontSize: 16, fontWeight: '500' }}>
-                {user?.created_at ? new Date(user.created_at).toLocaleDateString() : 'Unknown'}
-              </ThemedText>
-            </View>
-          </View>
-        </View>
-
         {/* Account Management */}
         <View style={{ marginBottom: 30 }}>
           <ThemedText type="title" style={{ fontSize: 20, marginBottom: 16 }}>
@@ -434,28 +389,6 @@ export default function AccountSettingsScreen() {
               value={pushNotificationsEnabled}
               onValueChange={(value) => togglePushNotifications(value)}
             />
-          </Pressable>
-
-          <Pressable 
-            style={{
-              backgroundColor: 'white',
-              padding: 16,
-              borderRadius: 12,
-              flexDirection: 'row',
-              alignItems: 'center',
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.1,
-              shadowRadius: 4,
-              elevation: 3,
-            }}
-            onPress={handleDisableAllNotifications}
-          >
-            <Ionicons name="notifications-off-outline" size={24} color="#636E72" />
-            <ThemedText style={{ marginLeft: 12, fontSize: 16, flex: 1 }}>
-              Disable All Notifications
-            </ThemedText>
-            <Ionicons name="chevron-forward" size={20} color="#636E72" />
           </Pressable>
         </View>
       </ThemedView>
