@@ -75,7 +75,7 @@ export default function RootLayout() {
                   <Ionicons 
                     name={`${item.icon}-outline` as any} 
                     size={20} 
-                    color={isActive(item.route) ? AppColors.interactive : AppColors.primary} 
+                    color={isActive(item.route) ? AppColors.error : AppColors.primary} 
                   />
                   <ThemedText 
                     style={[
@@ -101,7 +101,7 @@ export default function RootLayout() {
                     <Ionicons 
                       name="analytics" 
                       size={20} 
-                      color={pathname === '/dashboard' ? AppColors.interactive : AppColors.primary} 
+                      color={pathname === '/dashboard' ? AppColors.error : AppColors.primary} 
                     />
                     <ThemedText 
                       style={[
@@ -123,7 +123,7 @@ export default function RootLayout() {
                     <Ionicons 
                       name="person-circle" 
                       size={20} 
-                      color={pathname === '/profile' ? AppColors.interactive : AppColors.primary} 
+                      color={pathname === '/profile' ? AppColors.error : AppColors.primary} 
                     />
                     <ThemedText 
                       style={[
@@ -146,7 +146,7 @@ export default function RootLayout() {
                   <Ionicons 
                     name="person-outline" 
                     size={20} 
-                    color={pathname === '/auth' ? AppColors.interactive : AppColors.primary} 
+                    color={pathname === '/auth' ? AppColors.error : AppColors.primary} 
                   />
                   <ThemedText 
                     style={[
@@ -196,7 +196,7 @@ export default function RootLayout() {
                   <Ionicons
                     name={`${item.icon}-outline` as any}
                     size={22}
-                    color={isActive(item.route) ? AppColors.interactive : AppColors.primary}
+                    color={isActive(item.route) ? AppColors.error : AppColors.primary}
                   />
                   <ThemedText
                     style={[

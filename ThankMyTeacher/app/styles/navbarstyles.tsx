@@ -68,7 +68,7 @@ export const navStyles = StyleSheet.create({
     fontFamily: Typography.fontFamily.primary,
   },
   desktopNavItemTextActive: {
-    color: AppColors.primary,
+    color: AppColors.error,
   },
 
   // Mobile Navigation Styles
@@ -112,7 +112,7 @@ export const navStyles = StyleSheet.create({
     fontWeight: '400',
   },
   mobileTabLabelActive: {
-    color: AppColors.primary,
+    color: AppColors.error,
     fontWeight: '600',
   },
 
