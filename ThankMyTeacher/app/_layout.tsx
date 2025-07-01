@@ -13,6 +13,14 @@ import { AppColors } from '../constants/Colors';
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
+    // Open Sans (variable font)
+    OpenSans: require('../assets/fonts/OpenSans-VariableFont_wdth,wght.ttf'),
+    // Inter font family
+    Inter: require('../assets/fonts/Inter-Regular.ttf'),
+    'Inter-Medium': require('../assets/fonts/Inter-Medium.ttf'),
+    'Inter-SemiBold': require('../assets/fonts/Inter-SemiBold.ttf'),
+    'Inter-Bold': require('../assets/fonts/Inter-Bold.ttf'),
+    // Space Mono (for mono text)
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
 

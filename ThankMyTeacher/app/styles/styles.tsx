@@ -1,5 +1,6 @@
 import { Platform, StyleSheet } from 'react-native';
 import { AppColors } from '../../constants/Colors';
+import { Typography, TextStyles } from '../../constants/Typography';
 
 export const styles = StyleSheet.create({
   // Header Styles
@@ -43,18 +44,22 @@ export const styles = StyleSheet.create({
   headerTitle: {
     color: AppColors.textPrimary,
     fontSize: 60,
-    fontWeight: '700',
+    fontWeight: '600',
     marginBottom: 8,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.heading,
     padding: 12,
+    letterSpacing: 0.5,
+    lineHeight: Typography.lineHeight['6xl'],
   },
   headerSubtitle: {
     color: AppColors.textSecondary,
-    fontSize: 16,
+    fontSize: Typography.fontSize.base,
     textAlign: 'center',
     paddingHorizontal: 20,
     fontStyle: 'italic',
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    fontWeight: '400',
+    lineHeight: Typography.lineHeight.base,
   },
 
   // Hero Section
@@ -69,21 +74,23 @@ export const styles = StyleSheet.create({
   },
   heroTitle: {
     fontSize: 36,
-    fontWeight: '700',
+    fontWeight: '600',
     textAlign: 'center',
     marginBottom: 24,
     color: AppColors.textPrimary,
-    lineHeight: 44,
-    fontFamily: 'Inter',
+    lineHeight: Typography.lineHeight['4xl'],
+    fontFamily: Typography.fontFamily.heading,
+    letterSpacing: 0.5,
   },
   heroDescription: {
     fontSize: 18,
     textAlign: 'center',
     marginBottom: 40,
-    lineHeight: 28,
+    lineHeight: Typography.lineHeight.lg,
     color: AppColors.textSecondary,
     paddingHorizontal: 10,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    fontWeight: '400',
   },
   ctaButton: {
     borderRadius: 25,
@@ -105,7 +112,8 @@ export const styles = StyleSheet.create({
     color: AppColors.primary,
     fontSize: 17,
     fontWeight: '600',
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    letterSpacing: Typography.letterSpacing.wide,
   },
 
   // Quote Section
@@ -122,13 +130,16 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: AppColors.textPrimary,
     marginBottom: 12,
-    lineHeight: 28,
-    fontFamily: 'Inter',
+    lineHeight: Typography.lineHeight.xl,
+    fontFamily: Typography.fontFamily.primary,
+    fontWeight: '400',
   },
   quoteAuthor: {
     fontSize: 14,
     color: AppColors.textSecondary,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    fontWeight: '400',
+    lineHeight: Typography.lineHeight.sm,
   },
 
   // Stories Section
@@ -140,13 +151,14 @@ export const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 32,
-    fontWeight: '700',
+    fontWeight: '600',
     marginBottom: 32,
     textAlign: 'center',
     color: AppColors.textPrimary,
     paddingHorizontal: 20,
-    fontFamily: 'Inter',
-    lineHeight: 40,
+    fontFamily: Typography.fontFamily.heading,
+    lineHeight: Typography.lineHeight['3xl'],
+    letterSpacing: 0.5,
   },
   storiesScroll: {
     paddingLeft: 20,
@@ -167,17 +179,19 @@ export const styles = StyleSheet.create({
   },
   storyQuote: {
     fontSize: 15,
-    lineHeight: 22,
+    lineHeight: Typography.lineHeight.sm,
     color: AppColors.textPrimary,
     marginBottom: 12,
     fontStyle: 'italic',
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    fontWeight: '400',
   },
   storyAuthor: {
     fontSize: 13,
     color: AppColors.primary,
     fontWeight: '500',
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    lineHeight: Typography.lineHeight.xs,
   },
 
   // Why Section
@@ -495,16 +509,19 @@ export const styles = StyleSheet.create({
   },
   sectionTitleLarge: {
     fontSize: 28,
-    fontWeight: '700',
+    fontWeight: '600',
     color: AppColors.textPrimary,
     marginBottom: 16,
-    fontFamily: 'Inter',
-    lineHeight: 36,
+    fontFamily: Typography.fontFamily.heading,
+    lineHeight: Typography.lineHeight['2xl'],
+    letterSpacing: 0.5,
   },
   sectionSubtitle: {
     fontSize: 16,
     color: AppColors.textSecondary,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    fontWeight: '400',
+    lineHeight: Typography.lineHeight.base,
   },
 
   // Card Styles
@@ -535,12 +552,15 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     color: AppColors.textPrimary,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    lineHeight: Typography.lineHeight.base,
   },
   cardSubtitle: {
     fontSize: 14,
     color: AppColors.textSecondary,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    fontWeight: '400',
+    lineHeight: Typography.lineHeight.sm,
   },
   cardHover: {
     shadowOpacity: 0.16,
@@ -570,7 +590,9 @@ export const styles = StyleSheet.create({
     color: AppColors.textLight,
     fontSize: 16,
     fontWeight: '600',
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    letterSpacing: Typography.letterSpacing.wide,
+    lineHeight: Typography.lineHeight.base,
   },
   buttonSecondary: {
     backgroundColor: AppColors.primary,
@@ -606,27 +628,33 @@ export const styles = StyleSheet.create({
   // Text Styles
   textPrimary: {
     color: AppColors.textPrimary,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    fontWeight: '400',
   },
   textSecondary: {
     color: AppColors.textSecondary,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    fontWeight: '400',
   },
   textMuted: {
     color: AppColors.textMuted,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    fontWeight: '400',
   },
   textLight: {
     color: AppColors.textLight,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    fontWeight: '400',
   },
   textError: {
     color: AppColors.primary,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    fontWeight: '400',
   },
   textSuccess: {
     color: AppColors.success,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    fontWeight: '400',
   },
 
   // Navigation Styles
@@ -640,7 +668,9 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     color: AppColors.textPrimary,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    letterSpacing: Typography.letterSpacing.wide,
+    lineHeight: Typography.lineHeight.lg,
   },
 
   // Loading and Empty States
@@ -653,7 +683,9 @@ export const styles = StyleSheet.create({
   loadingText: {
     color: AppColors.textSecondary,
     fontSize: 14,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    fontWeight: '400',
+    lineHeight: Typography.lineHeight.sm,
   },
   emptyContainer: {
     flex: 1,
@@ -666,13 +698,16 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
     color: AppColors.textPrimary,
     marginBottom: 8,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    lineHeight: Typography.lineHeight.lg,
   },
   emptySubtitle: {
     fontSize: 14,
     color: AppColors.textSecondary,
     textAlign: 'center',
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    fontWeight: '400',
+    lineHeight: Typography.lineHeight.sm,
   },
 
   // Utility Styles
@@ -784,11 +819,13 @@ export const styles = StyleSheet.create({
     color: AppColors.textPrimary,
     fontSize: 16,
     fontWeight: '600',
+    fontFamily: Typography.fontFamily.primary,
   },
   highlightedSuggestionAddress: {
     color: AppColors.textSecondary,
     fontSize: 12,
     marginTop: 2,
     fontWeight: '500',
+    fontFamily: Typography.fontFamily.primary,
   },
 });

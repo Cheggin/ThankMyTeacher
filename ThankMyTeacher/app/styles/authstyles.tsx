@@ -1,5 +1,6 @@
 import { StyleSheet, Platform } from 'react-native';
 import { AppColors } from '../../constants/Colors';
+import { Typography } from '../../constants/Typography';
 
 export const styles = StyleSheet.create({
   errorMessage: {
@@ -8,7 +9,7 @@ export const styles = StyleSheet.create({
     marginBottom: 15,
     fontSize: 14,
     fontWeight: '500',
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
     },
   container: {
     flex: 1,
@@ -41,13 +42,14 @@ export const styles = StyleSheet.create({
     color: AppColors.textPrimary,
     marginTop: 16,
     marginBottom: 8,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.display,
   },
   subtitle: {
     fontSize: 14,
     color: AppColors.textSecondary,
     textAlign: 'center',
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    fontWeight: '400',
   },
   form: {
     width: '100%',
@@ -60,7 +62,7 @@ export const styles = StyleSheet.create({
     fontWeight: '500',
     color: AppColors.textPrimary,
     marginBottom: 8,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
   },
   input: {
     borderWidth: 1,
@@ -70,7 +72,8 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     backgroundColor: AppColors.background,
     color: AppColors.textPrimary,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    fontWeight: '400',
   },
   passwordContainer: {
     position: 'relative',
@@ -96,7 +99,8 @@ export const styles = StyleSheet.create({
     color: AppColors.textLight,
     fontSize: 16,
     fontWeight: '600',
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    letterSpacing: Typography.letterSpacing.wide,
   },
   toggleContainer: {
     flexDirection: 'row',
@@ -108,13 +112,14 @@ export const styles = StyleSheet.create({
   toggleText: {
     fontSize: 14,
     color: AppColors.textSecondary,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    fontWeight: '400',
   },
   toggleLink: {
     fontSize: 14,
     color: AppColors.primary,
     fontWeight: '600',
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
   },
   divider: {
     flexDirection: 'row',
@@ -130,7 +135,8 @@ export const styles = StyleSheet.create({
     marginHorizontal: 16,
     fontSize: 12,
     color: AppColors.textSecondary,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    fontWeight: '400',
   },
   socialButton: {
     flexDirection: 'row',
@@ -147,7 +153,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     color: AppColors.textPrimary,
     fontWeight: '500',
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
   },
   backButton: {
     flexDirection: 'row',
@@ -159,6 +165,7 @@ export const styles = StyleSheet.create({
   backText: {
     fontSize: 14,
     color: AppColors.textSecondary,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    fontWeight: '400',
   },
 });

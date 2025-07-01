@@ -1,5 +1,6 @@
 import { StyleSheet, Platform } from 'react-native';
 import { AppColors } from '../../constants/Colors';
+import { Typography } from '../../constants/Typography';
 
 export const navStyles = StyleSheet.create({
   // Desktop Navigation Styles
@@ -41,7 +42,8 @@ export const navStyles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     color: AppColors.textPrimary,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.display,
+    letterSpacing: Typography.letterSpacing.wide,
   },
   desktopNavItems: {
     flexDirection: 'row',
@@ -63,7 +65,7 @@ export const navStyles = StyleSheet.create({
     fontSize: 14,
     color: AppColors.textPrimary,
     fontWeight: '500',
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
   },
   desktopNavItemTextActive: {
     color: AppColors.primary,
@@ -106,7 +108,8 @@ export const navStyles = StyleSheet.create({
     fontSize: 11,
     marginTop: 4,
     color: AppColors.textPrimary,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    fontWeight: '400',
   },
   mobileTabLabelActive: {
     color: AppColors.primary,
@@ -142,7 +145,7 @@ export const navStyles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '600',
     color: AppColors.textPrimary,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.display,
   },
   menuItems: {
     gap: 5,
@@ -158,6 +161,7 @@ export const navStyles = StyleSheet.create({
   menuItemText: {
     fontSize: 16,
     color: AppColors.textPrimary,
-    fontFamily: 'Inter',
+    fontFamily: Typography.fontFamily.primary,
+    fontWeight: '400',
   },
 });
