@@ -218,101 +218,100 @@ export default function ProfileScreen() {
 
           {/* Detailed Profile Data */}
           {userData && (
-            <Animated.View style={[styles.section, profileCardAnimatedStyle]}>
+            <View style={styles.section}>
               <ThemedText type="title" style={styles.sectionTitleLarge}>
                 My Profile Data
               </ThemedText>
-              
-              <Pressable 
-                style={[
-                  styles.card,
-                  hovered === 'profile' && styles.cardHover,
-                ]}
-                onHoverIn={() => {
-                  setHovered('profile');
-                  profileCardHoverScale.value = withSpring(1.02, { damping: 15, stiffness: 300 });
-                }}
-                onHoverOut={() => {
-                  setHovered(null);
-                  profileCardHoverScale.value = withSpring(1, { damping: 15, stiffness: 300 });
-                }}
-              >
-                <View style={styles.marginBottom16}>
-                  <ThemedText style={[styles.cardSubtitle, styles.marginBottom4]}>
-                    User ID
-                  </ThemedText>
-                  <ThemedText style={[styles.cardSubtitle, { fontFamily: 'SpaceMono' }]}>
-                    {userData.id}
-                  </ThemedText>
-                </View>
-                
-                <View style={styles.marginBottom16}>
-                  <ThemedText style={[styles.cardSubtitle, styles.marginBottom4]}>
-                    Email
-                  </ThemedText>
-                  <ThemedText style={[styles.cardTitle, { fontSize: 16 }]}>
-                    {userData.email}
-                  </ThemedText>
-                </View>
-                
-                {userData.full_name && (
+              <Animated.View style={profileCardAnimatedStyle}>
+                <Pressable 
+                  style={[
+                    styles.card,
+                    hovered === 'profile' && styles.cardHover,
+                  ]}
+                  onHoverIn={() => {
+                    setHovered('profile');
+                    profileCardHoverScale.value = withSpring(1.02, { damping: 15, stiffness: 300 });
+                  }}
+                  onHoverOut={() => {
+                    setHovered(null);
+                    profileCardHoverScale.value = withSpring(1, { damping: 15, stiffness: 300 });
+                  }}
+                >
                   <View style={styles.marginBottom16}>
                     <ThemedText style={[styles.cardSubtitle, styles.marginBottom4]}>
-                      Name
+                      User ID
                     </ThemedText>
-                    <ThemedText style={[styles.cardTitle, { fontSize: 16 }]}>
-                      {userData.full_name}
+                    <ThemedText style={[styles.cardSubtitle, { fontFamily: 'SpaceMono' }]}> 
+                      {userData.id}
                     </ThemedText>
                   </View>
-                )}
-                
-                {userData.created_at && (
                   <View style={styles.marginBottom16}>
                     <ThemedText style={[styles.cardSubtitle, styles.marginBottom4]}>
-                      Created On
+                      Email
                     </ThemedText>
-                    <ThemedText style={[styles.cardTitle, { fontSize: 16 }]}>
-                      {formatDate(userData.created_at)}
+                    <ThemedText style={[styles.cardTitle, { fontSize: 16 }]}> 
+                      {userData.email}
                     </ThemedText>
                   </View>
-                )}
-              </Pressable>
-            </Animated.View>
+                  {userData.full_name && (
+                    <View style={styles.marginBottom16}>
+                      <ThemedText style={[styles.cardSubtitle, styles.marginBottom4]}>
+                        Name
+                      </ThemedText>
+                      <ThemedText style={[styles.cardTitle, { fontSize: 16 }]}> 
+                        {userData.full_name}
+                      </ThemedText>
+                    </View>
+                  )}
+                  {userData.created_at && (
+                    <View style={styles.marginBottom16}>
+                      <ThemedText style={[styles.cardSubtitle, styles.marginBottom4]}>
+                        Created On
+                      </ThemedText>
+                      <ThemedText style={[styles.cardTitle, { fontSize: 16 }]}> 
+                        {formatDate(userData.created_at)}
+                      </ThemedText>
+                    </View>
+                  )}
+                </Pressable>
+              </Animated.View>
+            </View>
           )}
 
           {/* Settings */}
-          <Animated.View style={[styles.section, settingsCardAnimatedStyle]}>
+          <View style={styles.section}>
             <ThemedText type="title" style={styles.sectionTitleLarge}>
               Settings
             </ThemedText>
-            
-            <Pressable 
-              style={[
-                styles.card,
-                hovered === 'account' && styles.cardHover,
-              ]}
-              onPress={() => {
-                console.log('Account Settings pressed');
-                router.push('/(tabs)/account-settings');
-              }}
-              onHoverIn={() => {
-                setHovered('account');
-                accountButtonScale.value = withSpring(1.02, { damping: 15, stiffness: 300 });
-              }}
-              onHoverOut={() => {
-                setHovered(null);
-                accountButtonScale.value = withSpring(1, { damping: 15, stiffness: 300 });
-              }}
-            >
-              <View style={styles.cardRow}>
-                <Ionicons name="settings-outline" size={24} color={AppColors.textSecondary} />
-                <ThemedText style={styles.cardTitle}>
-                  Account Settings
-                </ThemedText>
-                <Ionicons name="chevron-forward" size={20} color={AppColors.textSecondary} />
-              </View>
-            </Pressable>
-          </Animated.View>
+            <Animated.View style={settingsCardAnimatedStyle}>
+              <Pressable 
+                style={[
+                  styles.card,
+                  hovered === 'account' && styles.cardHover,
+                ]}
+                onPress={() => {
+                  console.log('Account Settings pressed');
+                  router.push('/(tabs)/account-settings');
+                }}
+                onHoverIn={() => {
+                  setHovered('account');
+                  accountButtonScale.value = withSpring(1.02, { damping: 15, stiffness: 300 });
+                }}
+                onHoverOut={() => {
+                  setHovered(null);
+                  accountButtonScale.value = withSpring(1, { damping: 15, stiffness: 300 });
+                }}
+              >
+                <View style={styles.cardRow}>
+                  <Ionicons name="settings-outline" size={24} color={AppColors.textSecondary} />
+                  <ThemedText style={styles.cardTitle}>
+                    Account Settings
+                  </ThemedText>
+                  <Ionicons name="chevron-forward" size={20} color={AppColors.textSecondary} />
+                </View>
+              </Pressable>
+            </Animated.View>
+          </View>
 
           {/* Sign Out */}
           <Animated.View style={[styles.section, signOutCardAnimatedStyle]}>

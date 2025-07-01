@@ -285,35 +285,36 @@ export default function AccountSettingsScreen() {
         {/* Account Management */}
           <Animated.View style={[styles.section, accountSectionAnimatedStyle]}>
             <ThemedText type="title" style={styles.sectionTitle}>
-            Account Management
-          </ThemedText>
-          
-          <Pressable 
-              style={[
-                styles.card,
-                hovered === 'email' && styles.cardHover,
-              ]}
-              onPress={() => {
-                console.log('Change Email pressed');
-                handleChangeEmail();
-              }}
-              onHoverIn={() => {
-                setHovered('email');
-                emailButtonScale.value = withSpring(1.02, { damping: 15, stiffness: 300 });
-              }}
-              onHoverOut={() => {
-                setHovered(null);
-                emailButtonScale.value = withSpring(1, { damping: 15, stiffness: 300 });
-              }}
-            >
-              <View style={styles.cardRow}>
-                <Ionicons name="mail-outline" size={24} color={AppColors.textSecondary} />
-                <ThemedText style={styles.cardTitle}>
-              Change Email
+              Account Management
             </ThemedText>
-                <Ionicons name="chevron-forward" size={20} color={AppColors.textSecondary} />
-              </View>
-          </Pressable>
+            <Animated.View style={{}}>
+              <Pressable 
+                style={[
+                  styles.card,
+                  hovered === 'email' && styles.cardHover,
+                ]}
+                onPress={() => {
+                  console.log('Change Email pressed');
+                  handleChangeEmail();
+                }}
+                onHoverIn={() => {
+                  setHovered('email');
+                  emailButtonScale.value = withSpring(1.02, { damping: 15, stiffness: 300 });
+                }}
+                onHoverOut={() => {
+                  setHovered(null);
+                  emailButtonScale.value = withSpring(1, { damping: 15, stiffness: 300 });
+                }}
+              >
+                <View style={styles.cardRow}>
+                  <Ionicons name="mail-outline" size={24} color={AppColors.textSecondary} />
+                  <ThemedText style={styles.cardTitle}>
+                    Change Email
+                  </ThemedText>
+                  <Ionicons name="chevron-forward" size={20} color={AppColors.textSecondary} />
+                </View>
+              </Pressable>
+            </Animated.View>
 
           <Pressable 
               style={[
