@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { ScrollView, TextInput, Pressable, KeyboardAvoidingView, Platform, StyleSheet, View, Alert, Animated } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
@@ -14,6 +15,7 @@ import { useAuth } from '../../contexts/AuthContext';
 
 export default function TabTwoScreen() {
   const { user } = useAuth();
+  const router = useRouter();
   
   // State for user inputs
   const [schoolSearch, setSchoolSearch] = useState('');
@@ -228,32 +230,21 @@ export default function TabTwoScreen() {
       // Create email content
       const emailSubject = `A Thank You Message from ${senderName || 'a student'}`;
       const emailContent = `
-        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background-color: #ffffff;">
-          <div style="text-align: center; margin-bottom: 30px;">
-            <h1 style="color: #2c3e50; font-size: 28px; font-weight: 300; margin: 0 0 10px 0;">Thank You</h1>
-            <div style="width: 60px; height: 3px; background: linear-gradient(90deg, #FF6B6B, #4ECDC4); margin: 0 auto;"></div>
+        <div style="font-family: 'Montserrat', 'Inter', 'Open Sans', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 32px 0; background: ${AppColors.background};">
+          <div style="text-align: center; margin-bottom: 32px;">
+            <div style="font-size: 32px; font-weight: 700; color: ${AppColors.primary}; letter-spacing: 1px; font-family: 'Montserrat', 'Inter', 'Open Sans', Arial, sans-serif;">ThankMyTeacher</div>
+            <div style="width: 64px; height: 4px; background: linear-gradient(90deg, ${AppColors.primary}, ${AppColors.secondary}); border-radius: 2px; margin: 16px auto 0 auto;"></div>
           </div>
-          
-          <div style="background-color: #ffffff; border: 1px solid #e9ecef; border-radius: 12px; padding: 30px; margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-            <p style="color: #495057; font-size: 16px; margin: 0 0 20px 0; font-weight: 500;">
-              Dear ${teacherName},
-            </p>
-            
-            <div style="background-color: #f8f9fa; padding: 25px; border-radius: 8px; border-left: 4px solid #FF6B6B; margin: 20px 0;">
-              <p style="font-style: italic; font-size: 16px; line-height: 1.7; margin: 0; color: #495057;">
-                "${message}"
-              </p>
+          <div style="background: ${AppColors.backgroundLight}; border: 1px solid ${AppColors.border}; border-radius: 18px; padding: 32px 28px; margin-bottom: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.04);">
+            <p style="color: ${AppColors.textPrimary}; font-size: 18px; margin: 0 0 24px 0; font-weight: 600;">Dear ${teacherName},</p>
+            <div style="background: ${AppColors.card}; padding: 22px; border-radius: 10px; border-left: 5px solid ${AppColors.primary}; margin: 18px 0;">
+              <p style="font-style: italic; font-size: 17px; line-height: 1.7; margin: 0; color: ${AppColors.textSecondary};">${message}</p>
             </div>
-            
-            <p style="color: #6c757d; font-size: 14px; margin: 20px 0 0 0;">
-              With gratitude,<br>
-              <strong style="color: #495057;">${senderName || 'A grateful student'}</strong>
-            </p>
+            <p style="color: ${AppColors.textSecondary}; font-size: 15px; margin: 24px 0 0 0;">Best,<br><span style="color: ${AppColors.textPrimary}; font-weight: 700;">${senderName || 'a grateful student'}</span></p>
           </div>
-          
-          <div style="text-align: center; padding: 20px; background-color: #f8f9fa; border-radius: 8px;">
-            <p style="color: #6c757d; font-size: 12px; margin: 0; line-height: 1.5;">
-              This message was sent through <strong>ThankMyTeacher.net</strong><br>
+          <div style="text-align: center; padding: 18px; background: ${AppColors.backgroundLight}; border-radius: 10px;">
+            <p style="color: ${AppColors.textSecondary}; font-size: 13px; margin: 0; line-height: 1.5;">
+              This message was sent through <span style="color: ${AppColors.primary}; font-weight: 600;">ThankMyTeacher.net</span><br>
               A platform dedicated to expressing gratitude to educators
             </p>
           </div>
@@ -291,26 +282,14 @@ export default function TabTwoScreen() {
           console.error('Database error:', dbError);
         }
 
-        // Show success message
-        Alert.alert(
-          'Thank You Sent!',
-          'Your message has been sent successfully. Thank you for expressing your gratitude!',
-          [
-            {
-              text: 'Send Another',
-              onPress: () => {
-                // Reset form
-                setTeacherName('');
-                setTeacherEmail('');
-                setMessage('');
-                setSenderName('');
-                setSelectedSchool(null);
-                setSchoolSearch('');
-              },
-            },
-            { text: 'OK' },
-          ]
-        );
+        // Navigate to Sent page and reset form
+        router.replace('/(tabs)/sent');
+        setTeacherName('');
+        setTeacherEmail('');
+        setMessage('');
+        setSenderName('');
+        setSelectedSchool(null);
+        setSchoolSearch('');
       } else {
         throw new Error('Failed to send email');
       }
