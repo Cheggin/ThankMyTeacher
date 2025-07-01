@@ -22,6 +22,24 @@ export default function HomeScreen() {
   const scaleAnim = useRef(new Animated.Value(0.95)).current;
   const buttonScaleAnim = useRef(new Animated.Value(1)).current;
   const headerScaleAnim = useRef(new Animated.Value(1)).current;
+  
+  // Title animation values
+  const titleOpacityAnim = useRef(new Animated.Value(0)).current;
+  const titleScaleAnim = useRef(new Animated.Value(0.8)).current;
+  const titleColorAnim = useRef(new Animated.Value(0)).current;
+  const [displayedTitle, setDisplayedTitle] = useState('');
+  const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
+  const [showCursor, setShowCursor] = useState(true);
+  const titleText = 'ThankMyTeacher';
+  
+  // Interpolated title color
+  const titleColor = titleColorAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [AppColors.primary, AppColors.textPrimary],
+  });
+  
+  // Cursor blink animation
+  const cursorOpacityAnim = useRef(new Animated.Value(1)).current;
 
   // Hover state for each button
   const [hoveredBtn, setHoveredBtn] = useState<string | null>(null);
@@ -31,21 +49,93 @@ export default function HomeScreen() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoaded(true);
-      // Staggered entrance animations
+      
+      // Title entrance animation with easing
+      Animated.parallel([
+        Animated.timing(titleOpacityAnim, {
+          toValue: 1,
+          duration: 800,
+          useNativeDriver: true,
+        }),
+        Animated.timing(titleScaleAnim, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+      ]).start();
+
+      // Start typewriter effect after title appears
+      setTimeout(() => {
+        // Start cursor blink animation immediately with smoother timing
+        const blinkAnimation = () => {
+          Animated.sequence([
+            Animated.timing(cursorOpacityAnim, {
+              toValue: 0,
+              duration: 400,
+              useNativeDriver: true,
+            }),
+            Animated.timing(cursorOpacityAnim, {
+              toValue: 1,
+              duration: 400,
+              useNativeDriver: true,
+            }),
+          ]).start(blinkAnimation);
+        };
+        blinkAnimation();
+        
+        const typewriterInterval = setInterval(() => {
+          setCurrentLetterIndex((prevIndex) => {
+            if (prevIndex < titleText.length) {
+              setDisplayedTitle(titleText.slice(0, prevIndex + 1));
+              return prevIndex + 1;
+            } else {
+              clearInterval(typewriterInterval);
+              // Start color animation and bounce effect after typewriter completes
+              Animated.parallel([
+                Animated.timing(titleColorAnim, {
+                  toValue: 1,
+                  duration: 1200,
+                  useNativeDriver: false,
+                }),
+                Animated.sequence([
+                  Animated.timing(titleScaleAnim, {
+                    toValue: 1.03,
+                    duration: 300,
+                    useNativeDriver: true,
+                  }),
+                  Animated.timing(titleScaleAnim, {
+                    toValue: 1,
+                    duration: 300,
+                    useNativeDriver: true,
+                  }),
+                ]),
+              ]).start(() => {
+                // Hide cursor after 3 seconds when animation completes
+                setTimeout(() => {
+                  setShowCursor(false);
+                }, 3000);
+              });
+              return prevIndex;
+            }
+          });
+        }, 100); // Faster, smoother typewriter effect
+      }, 800);
+
+      // Staggered entrance animations for other elements
       Animated.parallel([
         Animated.timing(fadeAnim, {
           toValue: 1,
-          duration: 800,
+          duration: 1000,
           useNativeDriver: true,
         }),
         Animated.timing(slideAnim, {
           toValue: 0,
-          duration: 800,
+          duration: 1000,
           useNativeDriver: true,
         }),
         Animated.timing(scaleAnim, {
           toValue: 1,
-          duration: 600,
+          duration: 800,
           useNativeDriver: true,
         }),
       ]).start();
@@ -53,7 +143,7 @@ export default function HomeScreen() {
       // Header subtle entrance animation
       Animated.timing(headerScaleAnim, {
         toValue: 1,
-        duration: 1000,
+        duration: 1200,
         useNativeDriver: true,
       }).start();
     }, 300);
@@ -150,9 +240,35 @@ export default function HomeScreen() {
             >
               <Ionicons name="heart" size={80} color="#FF6B6B" style={styles.headerIconMain} />
             </Animated.View>
-            <ThemedText type="title" style={styles.headerTitle}>
-              ThankMyTeacher
-            </ThemedText>
+            <Animated.View 
+              style={[
+                {
+                  opacity: titleOpacityAnim,
+                  transform: [{ scale: titleScaleAnim }],
+                }
+              ]}
+            >
+              <Animated.Text 
+                style={[
+                  styles.headerTitle,
+                  { color: titleColor }
+                ]}
+              >
+                {displayedTitle}
+                {showCursor && (
+                  <Animated.Text 
+                    style={[
+                      { 
+                        color: titleColor,
+                        opacity: cursorOpacityAnim,
+                      }
+                    ]}
+                  >
+                    |
+                  </Animated.Text>
+                )}
+              </Animated.Text>
+            </Animated.View>
           </ThemedView>
         </Animated.View>
       }>
