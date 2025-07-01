@@ -90,26 +90,12 @@ export default function HomeScreen() {
               return prevIndex + 1;
             } else {
               clearInterval(typewriterInterval);
-              // Start color animation and bounce effect after typewriter completes
-              Animated.parallel([
-                Animated.timing(titleColorAnim, {
-                  toValue: 1,
-                  duration: 1200,
-                  useNativeDriver: false,
-                }),
-                Animated.sequence([
-                  Animated.timing(titleScaleAnim, {
-                    toValue: 1.03,
-                    duration: 300,
-                    useNativeDriver: true,
-                  }),
-                  Animated.timing(titleScaleAnim, {
-                    toValue: 1,
-                    duration: 300,
-                    useNativeDriver: true,
-                  }),
-                ]),
-              ]).start(() => {
+              // Start color animation after typewriter completes (no bounce)
+              Animated.timing(titleColorAnim, {
+                toValue: 1,
+                duration: 1200,
+                useNativeDriver: false,
+              }).start(() => {
                 // Hide cursor after 3 seconds when animation completes
                 setTimeout(() => {
                   setShowCursor(false);

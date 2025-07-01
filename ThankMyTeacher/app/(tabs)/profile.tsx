@@ -81,8 +81,8 @@ export default function ProfileScreen() {
   const loadUserData = async () => {
     try {
       if (user?.id) {
-        const data = await fetchUserData(user.id);
-        setUserData(data);
+      const data = await fetchUserData(user.id);
+      setUserData(data);
       }
     } catch (error) {
       console.error('Error loading user data:', error);
@@ -204,7 +204,7 @@ export default function ProfileScreen() {
   return (
     <ScrollView style={styles.scrollContainer}>
       <View style={styles.maxWidthContainer}>
-        {/* Profile Content */}
+      {/* Profile Content */}
         <View style={styles.contentContainer}>
           {/* Header */}
           <Animated.View style={[styles.section, headerAnimatedStyle]}>
@@ -216,12 +216,12 @@ export default function ProfileScreen() {
             </ThemedText>
           </Animated.View>
 
-          {/* Detailed Profile Data */}
-          {userData && (
+        {/* Detailed Profile Data */}
+        {userData && (
             <View style={styles.section}>
               <ThemedText type="title" style={styles.sectionTitleLarge}>
-                My Profile Data
-              </ThemedText>
+              My Profile Data
+            </ThemedText>
               <Animated.View style={profileCardAnimatedStyle}>
                 <Pressable 
                   style={[
@@ -239,60 +239,60 @@ export default function ProfileScreen() {
                 >
                   <View style={styles.marginBottom16}>
                     <ThemedText style={[styles.cardSubtitle, styles.marginBottom4]}>
-                      User ID
-                    </ThemedText>
+                  User ID
+                </ThemedText>
                     <ThemedText style={[styles.cardSubtitle, { fontFamily: 'SpaceMono' }]}> 
-                      {userData.id}
-                    </ThemedText>
-                  </View>
+                  {userData.id}
+                </ThemedText>
+              </View>
                   <View style={styles.marginBottom16}>
                     <ThemedText style={[styles.cardSubtitle, styles.marginBottom4]}>
-                      Email
-                    </ThemedText>
+                  Email
+                </ThemedText>
                     <ThemedText style={[styles.cardTitle, { fontSize: 16 }]}> 
-                      {userData.email}
-                    </ThemedText>
-                  </View>
-                  {userData.full_name && (
+                  {userData.email}
+                </ThemedText>
+              </View>
+              {userData.full_name && (
                     <View style={styles.marginBottom16}>
                       <ThemedText style={[styles.cardSubtitle, styles.marginBottom4]}>
-                        Name
-                      </ThemedText>
+                    Name
+                  </ThemedText>
                       <ThemedText style={[styles.cardTitle, { fontSize: 16 }]}> 
-                        {userData.full_name}
-                      </ThemedText>
-                    </View>
-                  )}
-                  {userData.created_at && (
+                    {userData.full_name}
+                  </ThemedText>
+                </View>
+              )}
+              {userData.created_at && (
                     <View style={styles.marginBottom16}>
                       <ThemedText style={[styles.cardSubtitle, styles.marginBottom4]}>
-                        Created On
-                      </ThemedText>
+                    Created On
+                  </ThemedText>
                       <ThemedText style={[styles.cardTitle, { fontSize: 16 }]}> 
-                        {formatDate(userData.created_at)}
-                      </ThemedText>
-                    </View>
-                  )}
+                    {formatDate(userData.created_at)}
+                  </ThemedText>
+                </View>
+              )}
                 </Pressable>
               </Animated.View>
-            </View>
-          )}
+          </View>
+        )}
 
-          {/* Settings */}
+        {/* Settings */}
           <View style={styles.section}>
             <ThemedText type="title" style={styles.sectionTitleLarge}>
-              Settings
-            </ThemedText>
+            Settings
+          </ThemedText>
             <Animated.View style={settingsCardAnimatedStyle}>
-              <Pressable 
+          <Pressable 
                 style={[
                   styles.card,
                   hovered === 'account' && styles.cardHover,
                 ]}
-                onPress={() => {
-                  console.log('Account Settings pressed');
-                  router.push('/(tabs)/account-settings');
-                }}
+            onPress={() => {
+              console.log('Account Settings pressed');
+              router.push('/(tabs)/account-settings');
+            }}
                 onHoverIn={() => {
                   setHovered('account');
                   accountButtonScale.value = withSpring(1.02, { damping: 15, stiffness: 300 });
@@ -305,26 +305,26 @@ export default function ProfileScreen() {
                 <View style={styles.cardRow}>
                   <Ionicons name="settings-outline" size={24} color={AppColors.textSecondary} />
                   <ThemedText style={styles.cardTitle}>
-                    Account Settings
-                  </ThemedText>
+              Account Settings
+            </ThemedText>
                   <Ionicons name="chevron-forward" size={20} color={AppColors.textSecondary} />
                 </View>
-              </Pressable>
+          </Pressable>
             </Animated.View>
-          </View>
+        </View>
 
-          {/* Sign Out */}
+        {/* Sign Out */}
           <Animated.View style={[styles.section, signOutCardAnimatedStyle]}>
-            <Pressable 
+          <Pressable 
               style={[
                 styles.card, 
                 { backgroundColor: '#FF6B6B' },
                 hovered === 'signout' && styles.buttonHover,
               ]}
-              onPress={() => {
-                console.log('Sign Out pressed');
-                handleSignOut();
-              }}
+            onPress={() => {
+              console.log('Sign Out pressed');
+              handleSignOut();
+            }}
               onHoverIn={() => {
                 setHovered('signout');
                 signOutButtonScale.value = withSpring(1.02, { damping: 15, stiffness: 300 });
@@ -337,10 +337,10 @@ export default function ProfileScreen() {
               <View style={styles.cardRow}>
                 <Ionicons name="log-out-outline" size={24} color={AppColors.textPrimary} />
                 <ThemedText style={[styles.cardTitle, { color: AppColors.textPrimary }]}>
-                  Sign Out
-                </ThemedText>
+              Sign Out
+            </ThemedText>
               </View>
-            </Pressable>
+          </Pressable>
           </Animated.View>
         </View>
         

@@ -54,112 +54,112 @@ export default function RootLayout() {
       {/* Desktop Navigation Bar - Only render when layout is ready and not mobile */}
       {isLayoutReady && !isMobile && (
         <View style={[styles.desktopNav, { paddingTop: insets.top, backgroundColor: AppColors.accent }]}>
-          <View style={styles.desktopNavContent}>
-            {/* Logo/Brand */}
-            <Pressable onPress={() => router.push('/')} style={styles.logoContainer}>
-              <Ionicons name="heart" size={24} color="#FF6B6B" />
-              <ThemedText style={styles.logoText}>ThankMyTeacher</ThemedText>
-            </Pressable>
+            <View style={styles.desktopNavContent}>
+              {/* Logo/Brand */}
+              <Pressable onPress={() => router.push('/')} style={styles.logoContainer}>
+                <Ionicons name="heart" size={24} color="#FF6B6B" />
+                <ThemedText style={styles.logoText}>ThankMyTeacher</ThemedText>
+              </Pressable>
 
-            {/* Desktop Navigation Items */}
-            <View style={styles.desktopNavItems}>
-              {navItems.map((item) => (
-                <Pressable
-                  key={item.route}
-                  onPress={() => router.push(item.route)}
-                  style={[
-                    styles.desktopNavItem,
-                    isActive(item.route) && styles.desktopNavItemActive
-                  ]}
-                >
-                  <Ionicons 
-                    name={`${item.icon}-outline` as any} 
-                    size={20} 
+              {/* Desktop Navigation Items */}
+              <View style={styles.desktopNavItems}>
+                {navItems.map((item) => (
+                  <Pressable
+                    key={item.route}
+                    onPress={() => router.push(item.route)}
+                    style={[
+                      styles.desktopNavItem,
+                      isActive(item.route) && styles.desktopNavItemActive
+                    ]}
+                  >
+                    <Ionicons 
+                      name={`${item.icon}-outline` as any} 
+                      size={20} 
                     color={isActive(item.route) ? AppColors.error : AppColors.primary} 
-                  />
-                  <ThemedText 
-                    style={[
-                      styles.desktopNavItemText,
-                      isActive(item.route) && styles.desktopNavItemTextActive
-                    ]}
-                  >
-                    {item.label}
-                  </ThemedText>
-                </Pressable>
-              ))}
-              
-              {/* Login/Profile Button */}
-              {user ? (
-                <View style={{ flexDirection: 'row', gap: 8 }}>
-                  <Pressable
-                    onPress={() => router.push('/dashboard')}
-                    style={[
-                      styles.desktopNavItem,
-                      pathname === '/dashboard' && styles.desktopNavItemActive
-                    ]}
-                  >
-                    <Ionicons 
-                      name="analytics" 
-                      size={20} 
+                    />
+                    <ThemedText 
+                      style={[
+                        styles.desktopNavItemText,
+                        isActive(item.route) && styles.desktopNavItemTextActive
+                      ]}
+                    >
+                      {item.label}
+                    </ThemedText>
+                  </Pressable>
+                ))}
+                
+                {/* Login/Profile Button */}
+                {user ? (
+                  <View style={{ flexDirection: 'row', gap: 8 }}>
+                    <Pressable
+                      onPress={() => router.push('/dashboard')}
+                      style={[
+                        styles.desktopNavItem,
+                        pathname === '/dashboard' && styles.desktopNavItemActive
+                      ]}
+                    >
+                      <Ionicons 
+                        name="analytics" 
+                        size={20} 
                       color={pathname === '/dashboard' ? AppColors.error : AppColors.primary} 
-                    />
-                    <ThemedText 
+                      />
+                      <ThemedText 
+                        style={[
+                          styles.desktopNavItemText,
+                          pathname === '/dashboard' && styles.desktopNavItemTextActive
+                        ]}
+                      >
+                        Dashboard
+                      </ThemedText>
+                    </Pressable>
+                    
+                    <Pressable
+                      onPress={() => router.push('/profile')}
                       style={[
-                        styles.desktopNavItemText,
-                        pathname === '/dashboard' && styles.desktopNavItemTextActive
+                        styles.desktopNavItem,
+                        pathname === '/profile' && styles.desktopNavItemActive
                       ]}
                     >
-                      Dashboard
-                    </ThemedText>
-                  </Pressable>
-                  
+                      <Ionicons 
+                        name="person-circle" 
+                        size={20} 
+                      color={pathname === '/profile' ? AppColors.error : AppColors.primary} 
+                      />
+                      <ThemedText 
+                        style={[
+                          styles.desktopNavItemText,
+                          pathname === '/profile' && styles.desktopNavItemTextActive
+                        ]}
+                      >
+                        Profile
+                      </ThemedText>
+                    </Pressable>
+                  </View>
+                ) : (
                   <Pressable
-                    onPress={() => router.push('/profile')}
+                    onPress={() => router.push('/auth')}
                     style={[
                       styles.desktopNavItem,
-                      pathname === '/profile' && styles.desktopNavItemActive
+                      pathname === '/auth' && styles.desktopNavItemActive
                     ]}
                   >
                     <Ionicons 
-                      name="person-circle" 
+                      name="person-outline" 
                       size={20} 
-                      color={pathname === '/profile' ? AppColors.error : AppColors.primary} 
+                    color={pathname === '/auth' ? AppColors.error : AppColors.primary} 
                     />
                     <ThemedText 
                       style={[
                         styles.desktopNavItemText,
-                        pathname === '/profile' && styles.desktopNavItemTextActive
+                        pathname === '/auth' && styles.desktopNavItemTextActive
                       ]}
                     >
-                      Profile
+                      Login
                     </ThemedText>
                   </Pressable>
-                </View>
-              ) : (
-                <Pressable
-                  onPress={() => router.push('/auth')}
-                  style={[
-                    styles.desktopNavItem,
-                    pathname === '/auth' && styles.desktopNavItemActive
-                  ]}
-                >
-                  <Ionicons 
-                    name="person-outline" 
-                    size={20} 
-                    color={pathname === '/auth' ? AppColors.error : AppColors.primary} 
-                  />
-                  <ThemedText 
-                    style={[
-                      styles.desktopNavItemText,
-                      pathname === '/auth' && styles.desktopNavItemTextActive
-                    ]}
-                  >
-                    Login
-                  </ThemedText>
-                </Pressable>
-              )}
+                )}
+              </View>
             </View>
-          </View>
         </View>
       )}
 

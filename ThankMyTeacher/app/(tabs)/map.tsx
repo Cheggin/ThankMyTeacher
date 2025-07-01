@@ -171,12 +171,12 @@ export default function MapScreen() {
   }
 
   return (
-    <ScrollView
+      <ScrollView
       style={styles.scrollContainer}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
       <View style={styles.maxWidthContainer}>
         <View style={styles.contentContainer}>
           <Animated.View
@@ -191,11 +191,11 @@ export default function MapScreen() {
             }}
           >
             <ThemedText type="title" style={styles.sectionTitleLarge}>
-              Thank You Map
-            </ThemedText>
+            Thank You Map
+          </ThemedText>
             <ThemedText style={styles.sectionSubtitle}>
-              See where appreciation messages have been sent around the world
-            </ThemedText>
+            See where appreciation messages have been sent around the world
+          </ThemedText>
           </Animated.View>
         </View>
 
@@ -224,7 +224,7 @@ export default function MapScreen() {
           />
         </Animated.View>
 
-                {schoolData.length > 0 && (
+        {schoolData.length > 0 && (
           <Animated.View 
             style={[
               styles.card, 
@@ -243,8 +243,8 @@ export default function MapScreen() {
             ]}
           >
               <ThemedText type="subtitle" style={styles.sectionTitleLarge}>
-                Map Statistics
-              </ThemedText>
+              Map Statistics
+            </ThemedText>
               <View style={[styles.row, styles.spaceBetween, { marginTop: 16 }]}>
                 <View style={[styles.centerContent, { flex: 1 }]}>
                   <ThemedText style={[styles.sectionTitleLarge, { color: '#FF6B6B' }, styles.marginBottom4]}>
@@ -253,14 +253,14 @@ export default function MapScreen() {
                   <ThemedText style={[styles.cardSubtitle, { textAlign: 'center' }]}>
                     Schools
                   </ThemedText>
-                </View>
+              </View>
                 <View style={[styles.centerContent, { flex: 1 }]}>
                   <ThemedText style={[styles.sectionTitleLarge, { color: '#FF6B6B' }, styles.marginBottom4]}>
                     {displayTotalCount}
                   </ThemedText>
                   <ThemedText style={[styles.cardSubtitle, { textAlign: 'center' }]}>
                     Total Thank Yous
-                  </ThemedText>
+                </ThemedText>
                 </View>
               </View>
             </Animated.View>
@@ -296,6 +296,6 @@ export default function MapScreen() {
           </ThemedText>
         </Animated.View>
       </View>
-    </ScrollView>
+      </ScrollView>
   );
 } 

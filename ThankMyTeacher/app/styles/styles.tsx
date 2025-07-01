@@ -775,7 +775,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: 1,
     backgroundColor: AppColors.divider,
-    marginVertical: 40,
+    marginVertical: 16,
   },
   footer: {
     width: '100%',
