@@ -1,15 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, ActivityIndicator, RefreshControl, ScrollView } from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import ThankYouMap from '@/components/ThankYouMap';
+import React, { useEffect, useState, useRef } from 'react';
+import { View, ActivityIndicator, RefreshControl, ScrollView, Pressable, Animated } from 'react-native';
+import { ThemedText } from '../../components/ThemedText';
+import { ThemedView } from '../../components/ThemedView';
+import ThankYouMap from '../../components/ThankYouMap';
 import { fetchThankYouMapData, SchoolMapData } from '../../services/thankYouMapService';
-import { styles as externalStyles } from '../styles/styles';
+import { styles } from '../styles/styles';
+import { AppColors } from '../../constants/Colors';
 
 export default function MapScreen() {
   const [schoolData, setSchoolData] = useState<SchoolMapData[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [hovered, setHovered] = useState<string | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [displayStatsCount, setDisplayStatsCount] = useState(0);
+  const [displayTotalCount, setDisplayTotalCount] = useState(0);
+
+  // Animation values for staggered loading
+  const titleAnim = useRef(new Animated.Value(0)).current;
+  const mapAnim = useRef(new Animated.Value(0)).current;
+  const statsAnim = useRef(new Animated.Value(0)).current;
+  const statsCountAnim = useRef(new Animated.Value(0)).current;
+  const totalCountAnim = useRef(new Animated.Value(0)).current;
+  const mapCardScaleAnim = useRef(new Animated.Value(1)).current;
+  const statsCardScaleAnim = useRef(new Animated.Value(1)).current;
 
   const loadMapData = async () => {
     setLoading(true);
@@ -20,11 +34,97 @@ export default function MapScreen() {
       console.error('Error loading map data:', error);
     } finally {
       setLoading(false);
+      // Start animations after data loads
+      setTimeout(() => {
+        setIsLoaded(true);
+        animateSections();
+      }, 200);
+    }
+  };
+
+  const animateSections = () => {
+    // Reset animation values
+    titleAnim.setValue(0);
+    mapAnim.setValue(0);
+    statsAnim.setValue(0);
+    statsCountAnim.setValue(0);
+    totalCountAnim.setValue(0);
+
+    // Staggered section animations
+    Animated.stagger(200, [
+      Animated.timing(titleAnim, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+      Animated.timing(mapAnim, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+      Animated.timing(statsAnim, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+    ]).start();
+
+    // Animate stats counts
+    if (schoolData.length > 0) {
+      Animated.parallel([
+        Animated.timing(statsCountAnim, {
+          toValue: schoolData.length,
+          duration: 1500,
+          useNativeDriver: false,
+        }),
+        Animated.timing(totalCountAnim, {
+          toValue: schoolData.reduce((total, school) => total + school.thankYouCount, 0),
+          duration: 1500,
+          useNativeDriver: false,
+        }),
+      ]).start();
     }
   };
 
   useEffect(() => {
     loadMapData();
+  }, []);
+
+  // Animate stats when data changes
+  useEffect(() => {
+    if (schoolData.length > 0 && isLoaded) {
+      Animated.parallel([
+        Animated.timing(statsCountAnim, {
+          toValue: schoolData.length,
+          duration: 1500,
+          useNativeDriver: false,
+        }),
+        Animated.timing(totalCountAnim, {
+          toValue: schoolData.reduce((total, school) => total + school.thankYouCount, 0),
+          duration: 1500,
+          useNativeDriver: false,
+        }),
+      ]).start(({ finished }) => {
+        if (finished) {
+          setDisplayStatsCount(schoolData.length);
+          setDisplayTotalCount(schoolData.reduce((total, school) => total + school.thankYouCount, 0));
+        }
+      });
+    }
+  }, [schoolData, isLoaded]);
+
+  // Update display counts during animation
+  useEffect(() => {
+    const statsListener = statsCountAnim.addListener(({ value }) => {
+      setDisplayStatsCount(Math.round(value));
+    });
+    const totalListener = totalCountAnim.addListener(({ value }) => {
+      setDisplayTotalCount(Math.round(value));
+    });
+    return () => {
+      statsCountAnim.removeListener(statsListener);
+      totalCountAnim.removeListener(totalListener);
+    };
   }, []);
 
   const onRefresh = async () => {
@@ -38,141 +138,164 @@ export default function MapScreen() {
     console.log('School pressed:', school);
   };
 
+  const handleCardHover = (cardId: string, isHovering: boolean) => {
+    setHovered(isHovering ? cardId : null);
+    
+    // Enhanced hover animation for specific card
+    let targetAnim: Animated.Value;
+    switch (cardId) {
+      case 'map':
+        targetAnim = mapCardScaleAnim;
+        break;
+      case 'stats':
+        targetAnim = statsCardScaleAnim;
+        break;
+      default:
+        return;
+    }
+    
+    Animated.timing(targetAnim, {
+      toValue: isHovering ? 1.02 : 1,
+      duration: 150,
+      useNativeDriver: true,
+    }).start();
+  };
+
   if (loading) {
     return (
-      <ThemedView style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#FF6B6B" />
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={AppColors.primary} />
         <ThemedText style={styles.loadingText}>Loading thank you map...</ThemedText>
-      </ThemedView>
+      </View>
     );
   }
 
   return (
-    <ThemedView style={styles.container}>
-      <ScrollView
-        style={styles.scrollView}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
-        <ThemedView style={styles.header}>
-          <ThemedText type="title" style={styles.title}>
-            Thank You Map
-          </ThemedText>
-          <ThemedText style={styles.subtitle}>
-            See where appreciation messages have been sent around the world
-          </ThemedText>
-        </ThemedView>
+    <ScrollView
+      style={styles.scrollContainer}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
+      <View style={styles.maxWidthContainer}>
+        <View style={styles.contentContainer}>
+          <Animated.View
+            style={{
+              opacity: titleAnim,
+              transform: [
+                { translateY: titleAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [30, 0],
+                })},
+              ],
+            }}
+          >
+            <ThemedText type="title" style={styles.sectionTitleLarge}>
+              Thank You Map
+            </ThemedText>
+            <ThemedText style={styles.sectionSubtitle}>
+              See where appreciation messages have been sent around the world
+            </ThemedText>
+          </Animated.View>
+        </View>
 
-        <View style={styles.mapContainer}>
+        <Animated.View 
+          style={[
+            styles.card, 
+            { 
+              height: 400, 
+              marginBottom: 20, 
+              overflow: 'hidden',
+            },
+            {
+              opacity: mapAnim,
+              transform: [
+                { translateY: mapAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [30, 0],
+                })},
+              ],
+            }
+          ]}
+        >
           <ThankYouMap 
             schoolData={schoolData} 
             onSchoolPress={handleSchoolPress}
           />
-        </View>
+        </Animated.View>
 
-        {schoolData.length > 0 && (
-          <ThemedView style={styles.statsContainer}>
-            <ThemedText type="subtitle" style={styles.statsTitle}>
-              Map Statistics
-            </ThemedText>
-            <View style={styles.statsRow}>
-              <View style={styles.statItem}>
-                <ThemedText style={styles.statNumber}>{schoolData.length}</ThemedText>
-                <ThemedText style={styles.statLabel}>Schools</ThemedText>
+                {schoolData.length > 0 && (
+          <Animated.View 
+            style={[
+              styles.card, 
+              { 
+                marginBottom: 20,
+              },
+              {
+                opacity: statsAnim,
+                transform: [
+                  { translateY: statsAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [30, 0],
+                  })},
+                ],
+              }
+            ]}
+          >
+              <ThemedText type="subtitle" style={styles.sectionTitleLarge}>
+                Map Statistics
+              </ThemedText>
+              <View style={[styles.row, styles.spaceBetween, { marginTop: 16 }]}>
+                <View style={[styles.centerContent, { flex: 1 }]}>
+                  <ThemedText style={[styles.sectionTitleLarge, { color: '#FF6B6B' }, styles.marginBottom4]}>
+                    {displayStatsCount}
+                  </ThemedText>
+                  <ThemedText style={[styles.cardSubtitle, { textAlign: 'center' }]}>
+                    Schools
+                  </ThemedText>
+                </View>
+                <View style={[styles.centerContent, { flex: 1 }]}>
+                  <ThemedText style={[styles.sectionTitleLarge, { color: '#FF6B6B' }, styles.marginBottom4]}>
+                    {displayTotalCount}
+                  </ThemedText>
+                  <ThemedText style={[styles.cardSubtitle, { textAlign: 'center' }]}>
+                    Total Thank Yous
+                  </ThemedText>
+                </View>
               </View>
-              <View style={styles.statItem}>
-                <ThemedText style={styles.statNumber}>
-                  {schoolData.reduce((total, school) => total + school.thankYouCount, 0)}
-                </ThemedText>
-                <ThemedText style={styles.statLabel}>Total Thank Yous</ThemedText>
-              </View>
-            </View>
-          </ThemedView>
+            </Animated.View>
         )}
-      </ScrollView>
-    </ThemedView>
+        
+        {/* Animated Divider */}
+        <Animated.View 
+          style={[
+            styles.divider, 
+            { 
+              opacity: statsAnim,
+              transform: [{ scaleX: statsAnim }],
+            }
+          ]} 
+        />
+        
+        {/* Animated Footer */}
+        <Animated.View 
+          style={[
+            styles.footer, 
+            { 
+              opacity: statsAnim,
+              transform: [{ translateY: statsAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: [20, 0],
+              })}],
+            }
+          ]}
+        >
+          <ThemedText style={{ color: AppColors.textSecondary, fontSize: 16 }}>
+            © {new Date().getFullYear()} Reagan Hsu &nbsp;
+            <ThemedText style={{ color: '#FF6B6B' }}>♥</ThemedText>
+          </ThemedText>
+        </Animated.View>
+      </View>
+    </ScrollView>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFF5F5',
-  },
-  scrollView: {
-    flex: 1,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FFF5F5',
-  },
-  loadingText: {
-    marginTop: 10,
-    color: '#636E72',
-    fontSize: 16,
-  },
-  header: {
-    padding: 20,
-    paddingTop: 40,
-  },
-  title: {
-    fontSize: 28,
-    marginBottom: 8,
-    color: '#2D3436',
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#636E72',
-    lineHeight: 22,
-  },
-  mapContainer: {
-    height: 400,
-    marginHorizontal: 20,
-    marginBottom: 20,
-    borderRadius: 12,
-    overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  statsContainer: {
-    marginHorizontal: 20,
-    marginBottom: 20,
-    padding: 20,
-    backgroundColor: 'white',
-    borderRadius: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  statsTitle: {
-    fontSize: 18,
-    marginBottom: 16,
-    color: '#2D3436',
-  },
-  statsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  statItem: {
-    alignItems: 'center',
-  },
-  statNumber: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#FF6B6B',
-    marginBottom: 4,
-  },
-  statLabel: {
-    fontSize: 14,
-    color: '#636E72',
-    textAlign: 'center',
-  },
-}); 
+} 

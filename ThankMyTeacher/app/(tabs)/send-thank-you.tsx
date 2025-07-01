@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { ScrollView, TextInput, Pressable, KeyboardAvoidingView, Platform, StyleSheet, View, Alert } from 'react-native';
+import { ScrollView, TextInput, Pressable, KeyboardAvoidingView, Platform, StyleSheet, View, Alert, Animated } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -7,6 +7,7 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { styles as externalStyles } from '../styles/styles';
+import { AppColors } from '../../constants/Colors';
 import { searchSchools, School } from '../../assets/schoolDataService';
 import { supabase } from '../../assets/supabase';
 import { useAuth } from '../../contexts/AuthContext';
@@ -35,6 +36,79 @@ export default function TabTwoScreen() {
 
   // State for sending
   const [isSending, setIsSending] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Animation values for staggered loading
+  const headerAnim = useRef(new Animated.Value(0)).current;
+  const titleAnim = useRef(new Animated.Value(0)).current;
+  const schoolSearchAnim = useRef(new Animated.Value(0)).current;
+  const teacherNameAnim = useRef(new Animated.Value(0)).current;
+  const teacherEmailAnim = useRef(new Animated.Value(0)).current;
+  const messageAnim = useRef(new Animated.Value(0)).current;
+  const senderNameAnim = useRef(new Animated.Value(0)).current;
+  const animationPreviewAnim = useRef(new Animated.Value(0)).current;
+  const sendButtonAnim = useRef(new Animated.Value(0)).current;
+  const buttonScaleAnim = useRef(new Animated.Value(1)).current;
+
+  // Start animations when component mounts
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoaded(true);
+      animateSections();
+    }, 300);
+  }, []);
+
+  const animateSections = () => {
+    // Staggered section animations
+    Animated.stagger(150, [
+      Animated.timing(headerAnim, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+      Animated.timing(titleAnim, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+      Animated.timing(schoolSearchAnim, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+      Animated.timing(teacherNameAnim, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+      Animated.timing(teacherEmailAnim, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+      Animated.timing(messageAnim, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+      Animated.timing(senderNameAnim, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+      Animated.timing(animationPreviewAnim, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+      Animated.timing(sendButtonAnim, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
 
   // Debounce the search to avoid excessive calls
   useEffect(() => {
@@ -133,6 +207,20 @@ export default function TabTwoScreen() {
       Alert.alert('Missing Information', 'Please fill in all required fields.');
       return;
     }
+
+    // Button press animation
+    Animated.sequence([
+      Animated.timing(buttonScaleAnim, {
+        toValue: 0.95,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(buttonScaleAnim, {
+        toValue: 1,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+    ]).start();
 
     setIsSending(true);
 
@@ -238,6 +326,17 @@ export default function TabTwoScreen() {
     }
   };
 
+  const handleButtonHover = (isHovering: boolean) => {
+    setHovered(isHovering);
+    
+    // Enhanced hover animation
+    Animated.timing(buttonScaleAnim, {
+      toValue: isHovering ? 1.02 : 1,
+      duration: 150,
+      useNativeDriver: true,
+    }).start();
+  };
+
   // Combining original styles with fixes
   const styles = StyleSheet.create({
     ...externalStyles,
@@ -255,26 +354,26 @@ export default function TabTwoScreen() {
     highlightedSuggestionItem: {
       padding: 16,
       borderBottomWidth: 1,
-      borderBottomColor: '#F0F0F0',
-      backgroundColor: '#F8F9FA',
+      borderBottomColor: AppColors.borderLight,
+      backgroundColor: AppColors.cardHover,
       borderLeftWidth: 3,
-      borderLeftColor: '#FF6B6B',
+      borderLeftColor: AppColors.error,
       height: 70, // Fixed height
     },
     suggestionItem: {
       padding: 16,
       borderBottomWidth: 1,
-      borderBottomColor: '#F0F0F0',
-      backgroundColor: '#FFFFFF',
+      borderBottomColor: AppColors.borderLight,
+      backgroundColor: AppColors.background,
       height: 70, // Fixed height
     },
     highlightedSuggestionText: {
-      color: '#000000',
+      color: AppColors.textPrimary,
       fontSize: 16,
       fontWeight: '600',
     },
     highlightedSuggestionAddress: {
-      color: '#666666',
+      color: AppColors.textSecondary,
       fontSize: 12,
       marginTop: 2,
       fontWeight: '500',
@@ -283,204 +382,382 @@ export default function TabTwoScreen() {
 
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#FF6B6B', dark: '#C92A2A' }}
+      headerBackgroundColor={{ light: AppColors.background, dark: AppColors.background }}
       headerImage={
-        <LinearGradient
-          colors={['#FF6B6B', '#4ECDC4']}
-          style={styles.exploreHeaderGradient}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
+        <Animated.View 
+          style={[
+            externalStyles.headerGradient, 
+            { backgroundColor: AppColors.background },
+            {
+              opacity: headerAnim,
+              transform: [
+                { translateY: headerAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [30, 0],
+                })},
+              ],
+            }
+          ]}
         >
-          <Ionicons name="mail" size={100} color="white" style={styles.exploreHeaderIcon} />
-        </LinearGradient>
-      }>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.exploreKeyboardView}
-      >
-        <ThemedView style={styles.exploreTitleContainer}>
-          <ThemedText type="title">Thank a Teacher</ThemedText>
-          <ThemedText style={styles.exploreSubtitle}>
-            Express your gratitude to a teacher who made a difference
-          </ThemedText>
-        </ThemedView>
-
-        <ThemedView style={styles.exploreFormContainer}>
-          {/* School Search */}
-          <ThemedView style={[styles.exploreInputGroup, styles.searchGroupElevated]}>
-            <ThemedText type="subtitle" style={styles.exploreInputLabel}>
-              Find Your School
-            </ThemedText>
-            <ThemedView style={styles.exploreSearchWrapper}>
-              <ThemedView style={styles.exploreSearchContainer}>
-                <TextInput
-                  ref={searchInputRef}
-                  style={styles.exploreTextInput}
-                  placeholder="Search for your school..."
-                  placeholderTextColor="#999"
-                  value={schoolSearch}
-                  onChangeText={(text) => {
-                    setSchoolSearch(text);
-                    if(text === '') setSelectedSchool(null);
-                    setShowSchoolSuggestions(true);
-                  }}
-                  onFocus={() => setShowSchoolSuggestions(true)}
-                  onBlur={() => {
-                    setTimeout(() => setShowSchoolSuggestions(false), 200);
-                  }}
-                  onKeyPress={handleKeyPress}
-                />
-                <Ionicons name="search" size={20} color="#999" style={styles.exploreSearchIcon} />
-              </ThemedView>
-
-              {showSchoolSuggestions && foundSchools.length > 0 && (
-                <ScrollView
-                  ref={scrollViewRef}
-                  style={[styles.exploreSuggestionsContainer, styles.suggestionsOverlay]}
-                  keyboardShouldPersistTaps="handled"
-                  nestedScrollEnabled={true}
-                  showsVerticalScrollIndicator={true}
-                >
-                  {foundSchools.map((school, index) => (
-                    <View
-                      key={school.id}
-                      ref={(ref) => {
-                        itemRefs.current[index] = ref;
-                      }}
-                    >
-                      <Pressable
-                        style={index === highlightedIndex ? styles.highlightedSuggestionItem : styles.suggestionItem}
-                        onPress={() => handleSchoolSelect(school)}
-                        onHoverIn={() => {
-                          if (!isNavigatingWithKeyboard) {
-                            setHighlightedIndex(index);
-                          }
-                        }}
-                        onHoverOut={() => {
-                          if (!isNavigatingWithKeyboard) {
-                            setHighlightedIndex(-1);
-                          }
-                        }}
-                      >
-                        <ThemedText 
-                          style={index === highlightedIndex ? styles.highlightedSuggestionText : styles.exploreSuggestionText}
-                        >
-                          {school.name}
-                        </ThemedText>
-                        <ThemedText 
-                          style={index === highlightedIndex ? styles.highlightedSuggestionAddress : styles.exploreSuggestionAddress}
-                        >
-                          {school.location}
-                        </ThemedText>
-                      </Pressable>
-                    </View>
-                  ))}
-                </ScrollView>
-              )}
-            </ThemedView>
-          </ThemedView>
-
-          {/* Teacher Name */}
-          <ThemedView style={styles.exploreInputGroup}>
-            <ThemedText type="subtitle" style={styles.exploreInputLabel}>
-              Teacher's Name
-            </ThemedText>
-            <TextInput
-              style={styles.exploreTextInput}
-              placeholder="Enter teacher's full name"
-              placeholderTextColor="#999"
-              value={teacherName}
-              onChangeText={setTeacherName}
-            />
-          </ThemedView>
-
-          {/* Teacher Email */}
-          <ThemedView style={styles.exploreInputGroup}>
-            <ThemedText type="subtitle" style={styles.exploreInputLabel}>
-              Teacher's Email
-            </ThemedText>
-            <TextInput
-              style={styles.exploreTextInput}
-              placeholder="teacher@school.edu"
-              placeholderTextColor="#999"
-              value={teacherEmail}
-              onChangeText={setTeacherEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-          </ThemedView>
-
-          {/* Message */}
-          <ThemedView style={styles.exploreInputGroup}>
-            <ThemedText type="subtitle" style={styles.exploreInputLabel}>
-              Your Message
-            </ThemedText>
-            <TextInput
-              style={[styles.exploreTextInput, styles.exploreMessageInput]}
-              placeholder="Write your message here!"
-              placeholderTextColor="#999"
-              value={message}
-              onChangeText={setMessage}
-              multiline
-              numberOfLines={6}
-              textAlignVertical="top"
-            />
-            <ThemedText style={styles.exploreCharCount}>
-              {message.length} / 500 characters
-            </ThemedText>
-          </ThemedView>
-
-          {/* Your Name (Optional) */}
-          <ThemedView style={styles.exploreInputGroup}>
-            <ThemedText type="subtitle" style={styles.exploreInputLabel}>
-              Your Name (Optional)
-            </ThemedText>
-            <TextInput
-              style={styles.exploreTextInput}
-              placeholder="Add your name if you'd like"
-              placeholderTextColor="#999"
-              value={senderName}
-              onChangeText={setSenderName}
-            />
-          </ThemedView>
-
-          {/* Animation Preview */}
-          <ThemedView style={styles.exploreAnimationSection}>
-            <ThemedText type="subtitle" style={styles.exploreInputLabel}>
-              Add Animation (Coming Soon!)
-            </ThemedText>
-            <ThemedView style={styles.exploreAnimationPreview}>
-              <Ionicons name="sparkles" size={32} color="#4ECDC4" />
-              <ThemedText style={styles.exploreAnimationText}>
-                Soon you'll be able to add beautiful animations to make your thank you message extra special!
-              </ThemedText>
-            </ThemedView>
-          </ThemedView>
-
-          {/* Send Button */}
-          <Pressable
-            style={styles.exploreSendButton}
-            onPress={handleSendThankYou}
-            disabled={!selectedSchool || !teacherName || !teacherEmail || !message || isSending}
-          >
-            <LinearGradient
-              colors={['#FF6B6B', '#FF8E53']}
-              style={styles.exploreSendGradient}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
+          <ThemedView style={externalStyles.headerContent}>
+            <Animated.View 
+              style={[
+                externalStyles.headerIconGroup,
+                {
+                  transform: [{ scale: headerAnim }],
+                }
+              ]}
             >
-              <ThemedText style={styles.exploreSendText}>
-                {isSending ? 'Sending...' : 'Send Thank You'}
-              </ThemedText>
-              <Ionicons 
-                name={isSending ? "hourglass" : "send"} 
-                size={20} 
-                color="white" 
-              />
-            </LinearGradient>
-          </Pressable>
+              <Ionicons name="heart" size={80} color="#FF6B6B" style={externalStyles.headerIconMain} />
+            </Animated.View>
+            <Animated.Text 
+              style={[
+                externalStyles.headerTitle,
+                {
+                  opacity: headerAnim,
+                  transform: [
+                    { translateY: headerAnim.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [20, 0],
+                    })},
+                  ],
+                }
+              ]}
+            >
+              Send a Thank You
+            </Animated.Text>
+          </ThemedView>
+        </Animated.View>
+      }
+    >
+      <View style={externalStyles.maxWidthContainer}>
+        <ThemedView style={[externalStyles.heroSection, { backgroundColor: AppColors.backgroundLight }]}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={externalStyles.exploreKeyboardView}
+          >
+            <Animated.View 
+              style={[
+                externalStyles.exploreTitleContainer,
+                {
+                  opacity: titleAnim,
+                  transform: [
+                    { translateY: titleAnim.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [30, 0],
+                    })},
+                  ],
+                }
+              ]}
+            >
+            </Animated.View>
+
+            <ThemedView style={externalStyles.exploreFormContainer}>
+              {/* School Search */}
+              <Animated.View 
+                style={[
+                  externalStyles.exploreInputGroup, 
+                  externalStyles.searchGroupElevated,
+                  {
+                    opacity: schoolSearchAnim,
+                    transform: [
+                      { translateY: schoolSearchAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [30, 0],
+                      })},
+                    ],
+                  }
+                ]}
+              >
+                <ThemedText type="subtitle" style={externalStyles.exploreInputLabel}>
+                  Find Your School
+                </ThemedText>
+                <ThemedView style={externalStyles.exploreSearchWrapper}>
+                  <ThemedView style={externalStyles.exploreSearchContainer}>
+                    <TextInput
+                      ref={searchInputRef}
+                      style={externalStyles.exploreTextInput}
+                      placeholder="Search for your school..."
+                      placeholderTextColor="#999"
+                      value={schoolSearch}
+                      onChangeText={(text) => {
+                        setSchoolSearch(text);
+                        if(text === '') setSelectedSchool(null);
+                        setShowSchoolSuggestions(true);
+                      }}
+                      onFocus={() => setShowSchoolSuggestions(true)}
+                      onBlur={() => {
+                        setTimeout(() => setShowSchoolSuggestions(false), 200);
+                      }}
+                      onKeyPress={handleKeyPress}
+                    />
+                    <Ionicons name="search" size={20} color="#999" style={externalStyles.exploreSearchIcon} />
+                  </ThemedView>
+
+                  {showSchoolSuggestions && foundSchools.length > 0 && (
+                    <ScrollView
+                      ref={scrollViewRef}
+                      style={[externalStyles.exploreSuggestionsContainer, externalStyles.suggestionsOverlay]}
+                      keyboardShouldPersistTaps="handled"
+                      nestedScrollEnabled={true}
+                      showsVerticalScrollIndicator={true}
+                    >
+                      {foundSchools.map((school, index) => (
+                        <View
+                          key={school.id}
+                          ref={(ref) => {
+                            itemRefs.current[index] = ref;
+                          }}
+                        >
+                          <Pressable
+                            style={index === highlightedIndex ? externalStyles.highlightedSuggestionItem : externalStyles.suggestionItem}
+                            onPress={() => handleSchoolSelect(school)}
+                            onHoverIn={() => {
+                              if (!isNavigatingWithKeyboard) {
+                                setHighlightedIndex(index);
+                              }
+                            }}
+                            onHoverOut={() => {
+                              if (!isNavigatingWithKeyboard) {
+                                setHighlightedIndex(-1);
+                              }
+                            }}
+                          >
+                            <ThemedText 
+                              style={index === highlightedIndex ? externalStyles.highlightedSuggestionText : externalStyles.exploreSuggestionText}
+                            >
+                              {school.name}
+                            </ThemedText>
+                            <ThemedText 
+                              style={index === highlightedIndex ? externalStyles.highlightedSuggestionAddress : externalStyles.exploreSuggestionAddress}
+                            >
+                              {school.location}
+                            </ThemedText>
+                          </Pressable>
+                        </View>
+                      ))}
+                    </ScrollView>
+                  )}
+                </ThemedView>
+              </Animated.View>
+
+              {/* Teacher Name */}
+              <Animated.View 
+                style={[
+                  externalStyles.exploreInputGroup,
+                  {
+                    opacity: teacherNameAnim,
+                    transform: [
+                      { translateY: teacherNameAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [30, 0],
+                      })},
+                    ],
+                  }
+                ]}
+              >
+                <ThemedText type="subtitle" style={externalStyles.exploreInputLabel}>
+                  Teacher's Name
+                </ThemedText>
+                <TextInput
+                  style={externalStyles.exploreTextInput}
+                  placeholder="Enter teacher's full name"
+                  placeholderTextColor="#999"
+                  value={teacherName}
+                  onChangeText={setTeacherName}
+                />
+              </Animated.View>
+
+              {/* Teacher Email */}
+              <Animated.View 
+                style={[
+                  externalStyles.exploreInputGroup,
+                  {
+                    opacity: teacherEmailAnim,
+                    transform: [
+                      { translateY: teacherEmailAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [30, 0],
+                      })},
+                    ],
+                  }
+                ]}
+              >
+                <ThemedText type="subtitle" style={externalStyles.exploreInputLabel}>
+                  Teacher's Email
+                </ThemedText>
+                <TextInput
+                  style={externalStyles.exploreTextInput}
+                  placeholder="teacher@school.edu"
+                  placeholderTextColor="#999"
+                  value={teacherEmail}
+                  onChangeText={setTeacherEmail}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                />
+              </Animated.View>
+
+              {/* Message */}
+              <Animated.View 
+                style={[
+                  externalStyles.exploreInputGroup,
+                  {
+                    opacity: messageAnim,
+                    transform: [
+                      { translateY: messageAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [30, 0],
+                      })},
+                    ],
+                  }
+                ]}
+              >
+                <ThemedText type="subtitle" style={externalStyles.exploreInputLabel}>
+                  Your Message
+                </ThemedText>
+                <TextInput
+                  style={[externalStyles.exploreTextInput, externalStyles.exploreMessageInput]}
+                  placeholder="Write your message here!"
+                  placeholderTextColor="#999"
+                  value={message}
+                  onChangeText={setMessage}
+                  multiline
+                  numberOfLines={6}
+                  textAlignVertical="top"
+                />
+                <ThemedText style={externalStyles.exploreCharCount}>
+                  {message.length} / 500 characters
+                </ThemedText>
+              </Animated.View>
+
+              {/* Your Name (Optional) */}
+              <Animated.View 
+                style={[
+                  externalStyles.exploreInputGroup,
+                  {
+                    opacity: senderNameAnim,
+                    transform: [
+                      { translateY: senderNameAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [30, 0],
+                      })},
+                    ],
+                  }
+                ]}
+              >
+                <ThemedText type="subtitle" style={externalStyles.exploreInputLabel}>
+                  Your Name (Optional)
+                </ThemedText>
+                <TextInput
+                  style={externalStyles.exploreTextInput}
+                  placeholder="Add your name if you'd like"
+                  placeholderTextColor="#999"
+                  value={senderName}
+                  onChangeText={setSenderName}
+                />
+              </Animated.View>
+
+              {/* Animation Preview */}
+              <Animated.View 
+                style={[
+                  externalStyles.exploreAnimationSection,
+                  {
+                    opacity: animationPreviewAnim,
+                    transform: [
+                      { translateY: animationPreviewAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [30, 0],
+                      })},
+                    ],
+                  }
+                ]}
+              >
+                <ThemedText type="subtitle" style={externalStyles.exploreInputLabel}>
+                  Add Animation (Coming Soon!)
+                </ThemedText>
+                <ThemedView style={externalStyles.exploreAnimationPreview}>
+                  <Ionicons name="sparkles" size={32} color="#4ECDC4" />
+                  <ThemedText style={externalStyles.exploreAnimationText}>
+                    Soon you'll be able to add beautiful animations to make your thank you message extra special!
+                  </ThemedText>
+                </ThemedView>
+              </Animated.View>
+
+              {/* Send Button */}
+              <Animated.View 
+                style={[
+                  {
+                    opacity: sendButtonAnim,
+                    transform: [
+                      { translateY: sendButtonAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [30, 0],
+                      })},
+                      { scale: buttonScaleAnim },
+                    ],
+                  }
+                ]}
+              >
+                <Pressable
+                  style={[
+                    externalStyles.exploreSendButton,
+                    hovered && externalStyles.buttonHover,
+                    {
+                      shadowOpacity: hovered ? 0.3 : 0.1,
+                      shadowRadius: hovered ? 8 : 4,
+                    }
+                  ]}
+                  onPress={handleSendThankYou}
+                  onHoverIn={() => handleButtonHover(true)}
+                  onHoverOut={() => handleButtonHover(false)}
+                  disabled={!selectedSchool || !teacherName || !teacherEmail || !message || isSending}
+                >
+                  <View style={externalStyles.exploreSendGradient}>
+                    <ThemedText style={externalStyles.exploreSendText}>
+                      {isSending ? 'Sending...' : 'Send Thank You'}
+                    </ThemedText>
+                    <Ionicons 
+                      name={isSending ? "hourglass" : "send"} 
+                      size={20} 
+                      color="white" 
+                    />
+                  </View>
+                </Pressable>
+              </Animated.View>
+            </ThemedView>
+          </KeyboardAvoidingView>
         </ThemedView>
-      </KeyboardAvoidingView>
+        
+        {/* Animated Divider */}
+        <Animated.View 
+          style={[
+            externalStyles.divider, 
+            { 
+              opacity: sendButtonAnim,
+              transform: [{ scaleX: sendButtonAnim }],
+            }
+          ]} 
+        />
+        
+        {/* Animated Footer */}
+        <Animated.View 
+          style={[
+            externalStyles.footer, 
+            { 
+              opacity: sendButtonAnim,
+              transform: [{ translateY: sendButtonAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: [20, 0],
+              })}],
+            }
+          ]}
+        >
+          <ThemedText style={{ color: AppColors.textSecondary, fontSize: 16 }}>
+            © {new Date().getFullYear()} Reagan Hsu &nbsp;
+            <Ionicons name="heart" size={16} color="#FF6B6B" />
+          </ThemedText>
+        </Animated.View>
+      </View>
     </ParallaxScrollView>
   );
 }

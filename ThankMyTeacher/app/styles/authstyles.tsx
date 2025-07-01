@@ -1,8 +1,9 @@
 import { StyleSheet, Platform } from 'react-native';
+import { AppColors } from '../../constants/Colors';
 
 export const styles = StyleSheet.create({
   errorMessage: {
-    color: '#D8000C', 
+    color: AppColors.error, 
     textAlign: 'center',
     marginBottom: 15,
     fontSize: 14,
@@ -14,18 +15,21 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     minHeight: '100%',
+    backgroundColor: AppColors.background,
   },
   formContainer: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: AppColors.card,
     borderRadius: 20,
     padding: 30,
     width: '90%',
     maxWidth: 400,
-    shadowColor: '#000',
+    shadowColor: AppColors.shadow,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.3,
     shadowRadius: 10,
     elevation: 5,
+    borderWidth: 1,
+    borderColor: AppColors.border,
   },
   header: {
     alignItems: 'center',
@@ -34,14 +38,14 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: '600',
-    color: '#2D3436',
+    color: AppColors.textPrimary,
     marginTop: 16,
     marginBottom: 8,
     fontFamily: 'Inter',
   },
   subtitle: {
     fontSize: 14,
-    color: '#636E72',
+    color: AppColors.textSecondary,
     textAlign: 'center',
     fontFamily: 'Inter',
   },
@@ -54,18 +58,18 @@ export const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#2D3436',
+    color: AppColors.textPrimary,
     marginBottom: 8,
     fontFamily: 'Inter',
   },
   input: {
     borderWidth: 1,
-    borderColor: '#E0E0E0',
+    borderColor: AppColors.border,
     borderRadius: 12,
     padding: 14,
     fontSize: 16,
-    backgroundColor: '#F8F8F8',
-    color: '#000000',
+    backgroundColor: AppColors.background,
+    color: AppColors.textPrimary,
     fontFamily: 'Inter',
   },
   passwordContainer: {
@@ -89,7 +93,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   submitText: {
-    color: 'white',
+    color: AppColors.textLight,
     fontSize: 16,
     fontWeight: '600',
     fontFamily: 'Inter',
@@ -103,12 +107,12 @@ export const styles = StyleSheet.create({
   },
   toggleText: {
     fontSize: 14,
-    color: '#636E72',
+    color: AppColors.textSecondary,
     fontFamily: 'Inter',
   },
   toggleLink: {
     fontSize: 14,
-    color: '#FF6B6B',
+    color: AppColors.primary,
     fontWeight: '600',
     fontFamily: 'Inter',
   },
@@ -120,12 +124,12 @@ export const styles = StyleSheet.create({
   dividerLine: {
     flex: 1,
     height: 1,
-    backgroundColor: '#E0E0E0',
+    backgroundColor: AppColors.divider,
   },
   dividerText: {
     marginHorizontal: 16,
     fontSize: 12,
-    color: '#636E72',
+    color: AppColors.textSecondary,
     fontFamily: 'Inter',
   },
   socialButton: {
@@ -135,13 +139,13 @@ export const styles = StyleSheet.create({
     gap: 12,
     padding: 14,
     borderWidth: 1,
-    borderColor: '#E0E0E0',
+    borderColor: AppColors.border,
     borderRadius: 12,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: AppColors.background,
   },
   socialButtonText: {
     fontSize: 16,
-    color: '#2D3436',
+    color: AppColors.textPrimary,
     fontWeight: '500',
     fontFamily: 'Inter',
   },
@@ -154,7 +158,7 @@ export const styles = StyleSheet.create({
   },
   backText: {
     fontSize: 14,
-    color: '#636E72',
+    color: AppColors.textSecondary,
     fontFamily: 'Inter',
   },
 });

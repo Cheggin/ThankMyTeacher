@@ -8,6 +8,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { AuthProvider } from '../contexts/AuthContext';
+import { AppColors } from '../constants/Colors';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -23,7 +24,11 @@ export default function RootLayout() {
   return (
     <AuthProvider>
       <ThemeProvider value={colorScheme === 'light' ? DarkTheme : DefaultTheme}>
-        <Stack>
+        <Stack
+          screenOptions={{
+            contentStyle: { backgroundColor: AppColors.background },
+          }}
+        >
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="auth" options={{ headerShown: false }} />
           <Stack.Screen name="send-thank-you" options={{ headerShown: false }} />

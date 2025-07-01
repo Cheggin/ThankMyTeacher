@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { View, ScrollView, Pressable, Linking, Platform } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { View, ScrollView, Pressable, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import Animated, { 
+  useSharedValue, 
+  useAnimatedStyle, 
+  withTiming, 
+  withSpring,
+  withSequence,
+  withDelay,
+  interpolate,
+  runOnJS
+} from 'react-native-reanimated';
+import { ThemedText } from '../../components/ThemedText';
+import { ThemedView } from '../../components/ThemedView';
 import { useAuth } from '../../contexts/AuthContext';
-import { fetchUserData, UserData } from '../../services/userDataService';
+import { fetchUserData } from '../../services/userDataService';
 import { styles } from '../styles/styles';
+import { AppColors } from '../../constants/Colors';
 
 // Web-compatible alert function
 const showAlert = (title: string, message: string) => {
@@ -23,37 +33,70 @@ const showAlert = (title: string, message: string) => {
 export default function ProfileScreen() {
   const router = useRouter();
   const { user, signOut } = useAuth();
-  const [userData, setUserData] = useState<UserData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState<any>(null);
+  const [hovered, setHovered] = useState<string | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Animation values
+  const headerOpacity = useSharedValue(0);
+  const headerTranslateY = useSharedValue(30);
+  const profileCardOpacity = useSharedValue(0);
+  const profileCardScale = useSharedValue(0.9);
+  const settingsCardOpacity = useSharedValue(0);
+  const settingsCardTranslateX = useSharedValue(-20);
+  const signOutCardOpacity = useSharedValue(0);
+  const signOutCardScale = useSharedValue(0.95);
+  
+  // Button hover animations
+  const accountButtonScale = useSharedValue(1);
+  const signOutButtonScale = useSharedValue(1);
+  const profileCardHoverScale = useSharedValue(1);
 
   useEffect(() => {
-    if (user?.id) {
+    if (user) {
       loadUserData();
     }
-  }, [user?.id]);
+  }, [user]);
+
+  useEffect(() => {
+    if (userData) {
+      // Start entrance animations
+      headerOpacity.value = withTiming(1, { duration: 800 });
+      headerTranslateY.value = withSpring(0, { damping: 15, stiffness: 100 });
+      
+      // Staggered content loading
+      profileCardOpacity.value = withDelay(200, withTiming(1, { duration: 600 }));
+      profileCardScale.value = withDelay(200, withSpring(1, { damping: 15, stiffness: 100 }));
+      
+      settingsCardOpacity.value = withDelay(400, withTiming(1, { duration: 600 }));
+      settingsCardTranslateX.value = withDelay(400, withSpring(0, { damping: 15, stiffness: 100 }));
+      
+      signOutCardOpacity.value = withDelay(600, withTiming(1, { duration: 600 }));
+      signOutCardScale.value = withDelay(600, withSpring(1, { damping: 15, stiffness: 100 }));
+      
+      setIsLoaded(true);
+    }
+  }, [userData]);
 
   const loadUserData = async () => {
-    if (!user?.id) return;
-    
-    setLoading(true);
     try {
-      const data = await fetchUserData(user.id);
-      setUserData(data);
+      if (user?.id) {
+        const data = await fetchUserData(user.id);
+        setUserData(data);
+      }
     } catch (error) {
       console.error('Error loading user data:', error);
-    } finally {
-      setLoading(false);
     }
   };
 
   const formatDate = (dateString: string | null) => {
-    if (!dateString) return 'Unknown';
+    if (!dateString) return 'N/A';
     return new Date(dateString).toLocaleDateString();
   };
 
   const handleSignOut = async () => {
-    console.log('handleSignOut called');
     try {
+      console.log('handleSignOut called');
       if (Platform.OS === 'web') {
         const confirmed = window.confirm('Are you sure you want to sign out?');
         if (confirmed) {
@@ -130,132 +173,188 @@ export default function ProfileScreen() {
     }
   };
 
+  // Animated styles
+  const headerAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: headerOpacity.value,
+    transform: [{ translateY: headerTranslateY.value }],
+  }));
+
+  const profileCardAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: profileCardOpacity.value,
+    transform: [
+      { scale: profileCardScale.value * profileCardHoverScale.value }
+    ],
+  }));
+
+  const settingsCardAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: settingsCardOpacity.value,
+    transform: [
+      { translateX: settingsCardTranslateX.value },
+      { scale: accountButtonScale.value }
+    ],
+  }));
+
+  const signOutCardAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: signOutCardOpacity.value,
+    transform: [
+      { scale: signOutCardScale.value * signOutButtonScale.value }
+    ],
+  }));
+
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: '#FFF5F5' }}>
-      {/* Profile Content */}
-      <ThemedView style={{ padding: 20, paddingTop: 40 }}>
+    <ScrollView style={styles.scrollContainer}>
+      <View style={styles.maxWidthContainer}>
+        {/* Profile Content */}
+        <View style={styles.contentContainer}>
+          {/* Header */}
+          <Animated.View style={[styles.section, headerAnimatedStyle]}>
+            <ThemedText type="title" style={[styles.sectionTitleLarge, { marginBottom: 8 }]}>
+              Profile
+            </ThemedText>
+            <ThemedText style={[styles.cardSubtitle, { color: AppColors.textSecondary }]}>
+              Manage your account and preferences
+            </ThemedText>
+          </Animated.View>
 
+          {/* Detailed Profile Data */}
+          {userData && (
+            <Animated.View style={[styles.section, profileCardAnimatedStyle]}>
+              <ThemedText type="title" style={styles.sectionTitleLarge}>
+                My Profile Data
+              </ThemedText>
+              
+              <Pressable 
+                style={[
+                  styles.card,
+                  hovered === 'profile' && styles.cardHover,
+                ]}
+                onHoverIn={() => {
+                  setHovered('profile');
+                  profileCardHoverScale.value = withSpring(1.02, { damping: 15, stiffness: 300 });
+                }}
+                onHoverOut={() => {
+                  setHovered(null);
+                  profileCardHoverScale.value = withSpring(1, { damping: 15, stiffness: 300 });
+                }}
+              >
+                <View style={styles.marginBottom16}>
+                  <ThemedText style={[styles.cardSubtitle, styles.marginBottom4]}>
+                    User ID
+                  </ThemedText>
+                  <ThemedText style={[styles.cardSubtitle, { fontFamily: 'SpaceMono' }]}>
+                    {userData.id}
+                  </ThemedText>
+                </View>
+                
+                <View style={styles.marginBottom16}>
+                  <ThemedText style={[styles.cardSubtitle, styles.marginBottom4]}>
+                    Email
+                  </ThemedText>
+                  <ThemedText style={[styles.cardTitle, { fontSize: 16 }]}>
+                    {userData.email}
+                  </ThemedText>
+                </View>
+                
+                {userData.full_name && (
+                  <View style={styles.marginBottom16}>
+                    <ThemedText style={[styles.cardSubtitle, styles.marginBottom4]}>
+                      Name
+                    </ThemedText>
+                    <ThemedText style={[styles.cardTitle, { fontSize: 16 }]}>
+                      {userData.full_name}
+                    </ThemedText>
+                  </View>
+                )}
+                
+                {userData.created_at && (
+                  <View style={styles.marginBottom16}>
+                    <ThemedText style={[styles.cardSubtitle, styles.marginBottom4]}>
+                      Created On
+                    </ThemedText>
+                    <ThemedText style={[styles.cardTitle, { fontSize: 16 }]}>
+                      {formatDate(userData.created_at)}
+                    </ThemedText>
+                  </View>
+                )}
+              </Pressable>
+            </Animated.View>
+          )}
 
-        {/* Detailed Profile Data */}
-        {userData && (
-          <View style={{ marginBottom: 30 }}>
-            <ThemedText type="title" style={{ fontSize: 24, marginBottom: 16 }}>
-              My Profile Data
+          {/* Settings */}
+          <Animated.View style={[styles.section, settingsCardAnimatedStyle]}>
+            <ThemedText type="title" style={styles.sectionTitleLarge}>
+              Settings
             </ThemedText>
             
-            <View style={{
-              backgroundColor: 'white',
-              borderRadius: 12,
-              padding: 20,
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.1,
-              shadowRadius: 4,
-              elevation: 3,
-            }}>
-              <View style={{ marginBottom: 16 }}>
-                <ThemedText style={{ fontSize: 14, color: '#636E72', marginBottom: 4 }}>
-                  User ID
+            <Pressable 
+              style={[
+                styles.card,
+                hovered === 'account' && styles.cardHover,
+              ]}
+              onPress={() => {
+                console.log('Account Settings pressed');
+                router.push('/(tabs)/account-settings');
+              }}
+              onHoverIn={() => {
+                setHovered('account');
+                accountButtonScale.value = withSpring(1.02, { damping: 15, stiffness: 300 });
+              }}
+              onHoverOut={() => {
+                setHovered(null);
+                accountButtonScale.value = withSpring(1, { damping: 15, stiffness: 300 });
+              }}
+            >
+              <View style={styles.cardRow}>
+                <Ionicons name="settings-outline" size={24} color={AppColors.textSecondary} />
+                <ThemedText style={styles.cardTitle}>
+                  Account Settings
                 </ThemedText>
-                <ThemedText style={{ fontSize: 12, color: '#636E72', fontFamily: 'SpaceMono' }}>
-                  {userData.id}
-                </ThemedText>
+                <Ionicons name="chevron-forward" size={20} color={AppColors.textSecondary} />
               </View>
-              
-              <View style={{ marginBottom: 16 }}>
-                <ThemedText style={{ fontSize: 14, color: '#636E72', marginBottom: 4 }}>
-                  Email
-                </ThemedText>
-                <ThemedText style={{ fontSize: 16, fontWeight: '500' }}>
-                  {userData.email}
-                </ThemedText>
-              </View>
-              
-              {userData.full_name && (
-                <View style={{ marginBottom: 16 }}>
-                  <ThemedText style={{ fontSize: 14, color: '#636E72', marginBottom: 4 }}>
-                    Name
-                  </ThemedText>
-                  <ThemedText style={{ fontSize: 16, fontWeight: '500' }}>
-                    {userData.full_name}
-                  </ThemedText>
-                </View>
-              )}
-              
-              {userData.created_at && (
-                <View style={{ marginBottom: 16 }}>
-                  <ThemedText style={{ fontSize: 14, color: '#636E72', marginBottom: 4 }}>
-                    Created On
-                  </ThemedText>
-                  <ThemedText style={{ fontSize: 16, fontWeight: '500' }}>
-                    {formatDate(userData.created_at)}
-                  </ThemedText>
-                </View>
-              )}
-            </View>
-          </View>
-        )}
+            </Pressable>
+          </Animated.View>
 
-        {/* Settings */}
-        <View style={{ marginBottom: 30 }}>
-          <ThemedText type="title" style={{ fontSize: 24, marginBottom: 16 }}>
-            Settings
+          {/* Sign Out */}
+          <Animated.View style={[styles.section, signOutCardAnimatedStyle]}>
+            <Pressable 
+              style={[
+                styles.card, 
+                { backgroundColor: '#FF6B6B' },
+                hovered === 'signout' && styles.buttonHover,
+              ]}
+              onPress={() => {
+                console.log('Sign Out pressed');
+                handleSignOut();
+              }}
+              onHoverIn={() => {
+                setHovered('signout');
+                signOutButtonScale.value = withSpring(1.02, { damping: 15, stiffness: 300 });
+              }}
+              onHoverOut={() => {
+                setHovered(null);
+                signOutButtonScale.value = withSpring(1, { damping: 15, stiffness: 300 });
+              }}
+            >
+              <View style={styles.cardRow}>
+                <Ionicons name="log-out-outline" size={24} color={AppColors.textPrimary} />
+                <ThemedText style={[styles.cardTitle, { color: AppColors.textPrimary }]}>
+                  Sign Out
+                </ThemedText>
+              </View>
+            </Pressable>
+          </Animated.View>
+        </View>
+        
+        {/* Divider for visual separation */}
+        <View style={styles.divider} />
+        {/* Footer */}
+        <View style={styles.footer}>
+          <ThemedText style={{ color: AppColors.textSecondary, fontSize: 16 }}>
+            © {new Date().getFullYear()} Reagan Hsu &nbsp;
+            <ThemedText style={{ color: '#FF6B6B' }}>♥</ThemedText>
           </ThemedText>
-          
-          <Pressable 
-            style={{
-              backgroundColor: 'white',
-              padding: 16,
-              borderRadius: 12,
-              flexDirection: 'row',
-              alignItems: 'center',
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.1,
-              shadowRadius: 4,
-              elevation: 3,
-            }}
-            onPress={() => {
-              console.log('Account Settings pressed');
-              router.push('/(tabs)/account-settings');
-            }}
-          >
-            <Ionicons name="settings-outline" size={24} color="#636E72" />
-            <ThemedText style={{ marginLeft: 12, fontSize: 16, flex: 1 }}>
-              Account Settings
-            </ThemedText>
-            <Ionicons name="chevron-forward" size={20} color="#636E72" />
-          </Pressable>
         </View>
-
-        {/* Sign Out */}
-        <View style={{ marginBottom: 30 }}>
-          <Pressable 
-            style={{
-              backgroundColor: '#FF6B6B',
-              padding: 16,
-              borderRadius: 12,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.1,
-              shadowRadius: 4,
-              elevation: 3,
-            }}
-            onPress={() => {
-              console.log('Sign Out pressed');
-              handleSignOut();
-            }}
-          >
-            <Ionicons name="log-out-outline" size={24} color="white" />
-            <ThemedText style={{ marginLeft: 12, fontSize: 16, color: 'white', fontWeight: '600' }}>
-              Sign Out
-            </ThemedText>
-          </Pressable>
-        </View>
-      </ThemedView>
+      </View>
     </ScrollView>
   );
 } 

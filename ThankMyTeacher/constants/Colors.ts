@@ -25,6 +25,64 @@ export const Colors = {
   },
 };
 
+// App-wide color palette
+export const AppColors = {
+  // Awwwards-inspired palette
+  primary: '#181818', // Main text (almost black)
+  secondary: '#222222', // Slightly lighter for headings if needed
+  accent: '#FFFFFF', // White for cards, nav, buttons
+
+  // Backgrounds
+  background: '#F5F6F8', // Main site background
+  backgroundLight: '#FFFFFF', // For cards/sections
+  backgroundWarm: '#FFFFFF',
+  backgroundMint: '#FFFFFF',
+  backgroundOrange: '#FFFFFF',
+
+  // Card Colors
+  card: '#FFFFFF',
+  cardHover: '#F0F1F3', // Slightly off-white for hover
+
+  // Text Colors
+  textPrimary: '#181818', // Main text
+  textSecondary: '#444444', // Secondary text
+  textMuted: '#888888', // Muted text
+  textLight: '#FFFFFF', // For text on black buttons (rare)
+
+  // Status Colors
+  success: '#00D4AA',
+  error: '#FF6B6B',
+  warning: '#FFB800',
+  info: '#3B82F6',
+
+  // Border Colors
+  border: '#E5E6EB', // Subtle border
+  borderLight: '#F0F1F3', // Even lighter border
+
+  // Overlay Colors
+  overlay: 'rgba(24,24,24,0.05)', // Very subtle dark overlay
+  overlayLight: 'rgba(255,255,255,0.7)',
+
+  // Shadow Colors
+  shadow: 'rgba(24,24,24,0.06)', // Very subtle shadow
+
+  // Divider Colors
+  divider: '#E5E6EB',
+
+  // Interactive Colors
+  interactive: '#181818', // Black for links/buttons
+  interactiveHover: '#222222',
+
+  // Gradient Colors (rarely used)
+  gradientStart: '#FFFFFF',
+  gradientEnd: '#F5F6F8',
+
+  // Special Purpose
+  highlight: '#FFFFFF',
+  subtle: '#F0F1F3',
+  muted: '#888888',
+};
+
 // Warm, homey color palette
 export const WarmColors = {
   // Primary colors (muted and warm)

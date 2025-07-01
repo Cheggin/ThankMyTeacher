@@ -1,4 +1,5 @@
 import { StyleSheet, Platform } from 'react-native';
+import { AppColors } from '../../constants/Colors';
 
 export const navStyles = StyleSheet.create({
   // Desktop Navigation Styles
@@ -8,11 +9,12 @@ export const navStyles = StyleSheet.create({
     left: 0,
     right: 0,
     zIndex: 1000,
+    backgroundColor: AppColors.background,
     ...Platform.select({
       ios: {
-        shadowColor: '#000',
+        shadowColor: AppColors.shadow,
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
+        shadowOpacity: 0.3,
         shadowRadius: 3,
       },
       android: {
@@ -38,7 +40,7 @@ export const navStyles = StyleSheet.create({
   logoText: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#2D3436',
+    color: AppColors.textPrimary,
     fontFamily: 'Inter',
   },
   desktopNavItems: {
@@ -55,16 +57,16 @@ export const navStyles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   desktopNavItemActive: {
-    backgroundColor: 'rgba(255, 107, 107, 0.1)',
+    backgroundColor: AppColors.overlayLight,
   },
   desktopNavItemText: {
     fontSize: 14,
-    color: '#636E72',
+    color: AppColors.textPrimary,
     fontWeight: '500',
     fontFamily: 'Inter',
   },
   desktopNavItemTextActive: {
-    color: '#FF6B6B',
+    color: AppColors.primary,
   },
 
   // Mobile Navigation Styles
@@ -73,12 +75,14 @@ export const navStyles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: AppColors.background,
+    borderTopWidth: 1,
+    borderTopColor: AppColors.border,
     ...Platform.select({
       ios: {
-        shadowColor: '#000',
+        shadowColor: AppColors.shadow,
         shadowOffset: { width: 0, height: -2 },
-        shadowOpacity: 0.1,
+        shadowOpacity: 0.3,
         shadowRadius: 3,
       },
       android: {
@@ -101,27 +105,29 @@ export const navStyles = StyleSheet.create({
   mobileTabLabel: {
     fontSize: 11,
     marginTop: 4,
-    color: '#636E72',
+    color: AppColors.textPrimary,
     fontFamily: 'Inter',
   },
   mobileTabLabelActive: {
-    color: '#FF6B6B',
+    color: AppColors.primary,
     fontWeight: '600',
   },
 
   // Mobile Menu Modal Styles
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: AppColors.overlay,
     justifyContent: 'flex-end',
   },
   menuContainer: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: AppColors.background,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingTop: 20,
     paddingHorizontal: 20,
     minHeight: 300,
+    borderTopWidth: 1,
+    borderTopColor: AppColors.border,
   },
   menuHeader: {
     flexDirection: 'row',
@@ -130,12 +136,12 @@ export const navStyles = StyleSheet.create({
     marginBottom: 20,
     paddingBottom: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
+    borderBottomColor: AppColors.divider,
   },
   menuTitle: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#2D3436',
+    color: AppColors.textPrimary,
     fontFamily: 'Inter',
   },
   menuItems: {
@@ -151,7 +157,7 @@ export const navStyles = StyleSheet.create({
   },
   menuItemText: {
     fontSize: 16,
-    color: '#2D3436',
+    color: AppColors.textPrimary,
     fontFamily: 'Inter',
   },
 });

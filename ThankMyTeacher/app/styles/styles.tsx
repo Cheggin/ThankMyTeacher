@@ -1,4 +1,5 @@
 import { Platform, StyleSheet } from 'react-native';
+import { AppColors } from '../../constants/Colors';
 
 export const styles = StyleSheet.create({
   // Header Styles
@@ -40,7 +41,7 @@ export const styles = StyleSheet.create({
     left: -25,
   },
   headerTitle: {
-    color: '#2D3436',
+    color: AppColors.textPrimary,
     fontSize: 60,
     fontWeight: '700',
     marginBottom: 8,
@@ -48,7 +49,7 @@ export const styles = StyleSheet.create({
     padding: 12,
   },
   headerSubtitle: {
-    color: '#636E72',
+    color: AppColors.textSecondary,
     fontSize: 16,
     textAlign: 'center',
     paddingHorizontal: 20,
@@ -58,29 +59,29 @@ export const styles = StyleSheet.create({
 
   // Hero Section
   heroSection: {
-    paddingVertical: 40,
+    paddingVertical: 64,
     paddingHorizontal: 24,
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-    maxWidth: 800,
+    backgroundColor: AppColors.backgroundLight,
+    maxWidth: 900,
     width: '100%',
     alignSelf: 'center',
   },
   heroTitle: {
-    fontSize: 26,
-    fontWeight: '600',
+    fontSize: 36,
+    fontWeight: '700',
     textAlign: 'center',
-    marginBottom: 16,
-    color: '#2D3436',
-    lineHeight: 36,
+    marginBottom: 24,
+    color: AppColors.textPrimary,
+    lineHeight: 44,
     fontFamily: 'Inter',
   },
   heroDescription: {
-    fontSize: 16,
+    fontSize: 18,
     textAlign: 'center',
-    marginBottom: 32,
-    lineHeight: 24,
-    color: '#636E72',
+    marginBottom: 40,
+    lineHeight: 28,
+    color: AppColors.textSecondary,
     paddingHorizontal: 10,
     fontFamily: 'Inter',
   },
@@ -88,9 +89,9 @@ export const styles = StyleSheet.create({
     borderRadius: 25,
     overflow: 'hidden',
     elevation: 2,
-    shadowColor: '#FF6B6B',
+    shadowColor: AppColors.shadow,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.3,
     shadowRadius: 8,
   },
   ctaGradient: {
@@ -101,7 +102,7 @@ export const styles = StyleSheet.create({
     gap: 10,
   },
   ctaText: {
-    color: 'white',
+    color: AppColors.primary,
     fontSize: 17,
     fontWeight: '600',
     fontFamily: 'Inter',
@@ -112,21 +113,21 @@ export const styles = StyleSheet.create({
     paddingVertical: 40,
     paddingHorizontal: 30,
     alignItems: 'center',
-    backgroundColor: '#FFEBEB',
+    backgroundColor: AppColors.backgroundWarm,
     width: '100%',
   },
   quoteText: {
     fontSize: 20,
     fontStyle: 'italic',
     textAlign: 'center',
-    color: '#2D3436',
+    color: AppColors.textPrimary,
     marginBottom: 12,
     lineHeight: 28,
     fontFamily: 'Inter',
   },
   quoteAuthor: {
     fontSize: 14,
-    color: '#636E72',
+    color: AppColors.textSecondary,
     fontFamily: 'Inter',
   },
 
@@ -134,46 +135,47 @@ export const styles = StyleSheet.create({
   storiesSection: {
     paddingTop: 40,
     paddingBottom: 20,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: AppColors.background,
     width: '100%',
   },
   sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    marginBottom: 24,
+    fontSize: 32,
+    fontWeight: '700',
+    marginBottom: 32,
     textAlign: 'center',
-    color: '#2D3436',
+    color: AppColors.textPrimary,
     paddingHorizontal: 20,
     fontFamily: 'Inter',
+    lineHeight: 40,
   },
   storiesScroll: {
     paddingLeft: 20,
   },
   storyCard: {
-    backgroundColor: '#FFF',
+    backgroundColor: AppColors.card,
     padding: 24,
     borderRadius: 20,
     marginRight: 16,
     width: 280,
-    shadowColor: '#000',
+    shadowColor: AppColors.shadow,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
+    shadowOpacity: 0.2,
     shadowRadius: 10,
     elevation: 3,
     borderWidth: 1,
-    borderColor: 'rgba(255, 107, 107, 0.1)',
+    borderColor: AppColors.border,
   },
   storyQuote: {
     fontSize: 15,
     lineHeight: 22,
-    color: '#2D3436',
+    color: AppColors.textPrimary,
     marginBottom: 12,
     fontStyle: 'italic',
     fontFamily: 'Inter',
   },
   storyAuthor: {
     fontSize: 13,
-    color: '#FF6B6B',
+    color: AppColors.primary,
     fontWeight: '500',
     fontFamily: 'Inter',
   },
@@ -182,7 +184,7 @@ export const styles = StyleSheet.create({
   whySection: {
     paddingVertical: 40,
     paddingHorizontal: 20,
-    backgroundColor: '#E6F9F5',
+    backgroundColor: AppColors.backgroundMint,
     maxWidth: 800,
     width: '100%',
     alignSelf: 'center',
@@ -196,13 +198,13 @@ export const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 35,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    backgroundColor: AppColors.overlayLight,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 20,
-    shadowColor: '#000',
+    shadowColor: AppColors.shadow,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
+    shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 2,
   },
@@ -212,14 +214,14 @@ export const styles = StyleSheet.create({
   reasonTitle: {
     fontSize: 18,
     marginBottom: 6,
-    color: '#2D3436',
+    color: AppColors.textPrimary,
     fontWeight: '500',
     fontFamily: 'Inter',
   },
   reasonDescription: {
     fontSize: 14,
     lineHeight: 20,
-    color: '#636E72',
+    color: AppColors.textSecondary,
     fontFamily: 'Inter',
   },
 
@@ -227,7 +229,7 @@ export const styles = StyleSheet.create({
   simpleStepsSection: {
     paddingVertical: 40,
     paddingHorizontal: 20,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: AppColors.background,
     maxWidth: 800,
     width: '100%',
     alignSelf: 'center',
@@ -242,20 +244,20 @@ export const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#FFE5E5',
+    backgroundColor: AppColors.subtle,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 20,
   },
   stepNumber: {
-    color: '#FF6B6B',
+    color: AppColors.primary,
     fontSize: 18,
     fontWeight: '600',
     fontFamily: 'Inter',
   },
   stepText: {
     fontSize: 16,
-    color: '#2D3436',
+    color: AppColors.textPrimary,
     flex: 1,
     fontFamily: 'Inter',
   },
@@ -265,7 +267,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 60,
     paddingHorizontal: 30,
     alignItems: 'center',
-    backgroundColor: '#FFF0E6',
+    backgroundColor: AppColors.backgroundOrange,
     width: '100%',
     alignSelf: 'center',
   },
@@ -278,27 +280,27 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
     marginBottom: 12,
-    color: '#2D3436',
+    color: AppColors.textPrimary,
   },
   finalCtaDescription: {
     fontSize: 16,
     textAlign: 'center',
     marginBottom: 28,
-    color: '#636E72',
+    color: AppColors.textSecondary,
   },
   finalCtaButton: {
-    backgroundColor: '#4ECDC4',
+    backgroundColor: AppColors.primary,
     paddingVertical: 16,
     paddingHorizontal: 40,
     borderRadius: 25,
-    shadowColor: '#4ECDC4',
+    shadowColor: AppColors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 3,
   },
   finalCtaButtonText: {
-    color: 'white',
+    color: AppColors.textLight,
     fontSize: 17,
     fontWeight: '600',
   },
@@ -342,12 +344,12 @@ export const styles = StyleSheet.create({
   },
   exploreTextInput: {
     borderWidth: 1,
-    borderColor: '#E0E0E0',
+    borderColor: AppColors.border,
     borderRadius: 12,
     padding: 16,
     fontSize: 16,
-    backgroundColor: '#FFFFFF',
-    color: '#000000',
+    backgroundColor: AppColors.background,
+    color: AppColors.textPrimary,
   },
   exploreSearchWrapper: {
     position: 'relative',
@@ -366,36 +368,36 @@ export const styles = StyleSheet.create({
     top: 60,
     left: 0,
     right: 0,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: AppColors.background,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#E0E0E0',
+    borderColor: AppColors.border,
     maxHeight: 200,
     elevation: 10,
-    shadowColor: '#000',
+    shadowColor: AppColors.shadow,
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.5,
     shadowRadius: 5,
     zIndex: 1001,
   },
   exploreSuggestionItem: {
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#F0F0F0',
-    backgroundColor: '#FFFFFF',
+    borderBottomColor: AppColors.borderLight,
+    backgroundColor: AppColors.background,
   },
   exploreSuggestionText: {
-    color: '#000000',
+    color: AppColors.textPrimary,
     fontSize: 16,
     fontWeight: '500',
   },
   exploreSuggestionAddress: {
-    color: '#666666',
+    color: AppColors.textSecondary,
     fontSize: 12,
     marginTop: 2,
   },
   exploreSuggestionType: {
-    color: '#4ECDC4',
+    color: AppColors.primary,
     fontSize: 11,
     marginTop: 2,
     fontStyle: 'italic',
@@ -408,7 +410,7 @@ export const styles = StyleSheet.create({
     gap: 10,
   },
   exploreLoadingText: {
-    color: '#666666',
+    color: AppColors.textSecondary,
     fontSize: 14,
   },
   exploreNoResultsContainer: {
@@ -416,7 +418,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   exploreNoResultsText: {
-    color: '#666666',
+    color: AppColors.textSecondary,
     fontSize: 14,
   },
   exploreMessageInput: {
@@ -435,12 +437,12 @@ export const styles = StyleSheet.create({
   },
   exploreAnimationPreview: {
     borderWidth: 2,
-    borderColor: '#4ECDC4',
+    borderColor: AppColors.primary,
     borderStyle: 'dashed',
     borderRadius: 12,
     padding: 24,
     alignItems: 'center',
-    backgroundColor: 'rgba(78, 205, 196, 0.05)',
+    backgroundColor: AppColors.overlayLight,
   },
   exploreAnimationText: {
     fontSize: 14,
@@ -452,9 +454,9 @@ export const styles = StyleSheet.create({
     borderRadius: 30,
     overflow: 'hidden',
     elevation: 3,
-    shadowColor: '#000',
+    shadowColor: AppColors.shadow,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.3,
     shadowRadius: 4,
   },
   exploreSendGradient: {
@@ -464,10 +466,329 @@ export const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 32,
     gap: 8,
+    backgroundColor: AppColors.primary,
   },
   exploreSendText: {
-    color: 'white',
+    color: AppColors.textLight,
     fontSize: 18,
     fontWeight: '600',
+  },
+
+  // Common Layout Styles
+  container: {
+    flex: 1,
+    backgroundColor: AppColors.backgroundLight,
+  },
+  scrollContainer: {
+    flex: 1,
+    backgroundColor: AppColors.backgroundLight,
+  },
+  contentContainer: {
+    padding: 32,
+    paddingTop: 56,
+  },
+  section: {
+    marginBottom: 56,
+  },
+  sectionHeader: {
+    marginBottom: 16,
+  },
+  sectionTitleLarge: {
+    fontSize: 28,
+    fontWeight: '700',
+    color: AppColors.textPrimary,
+    marginBottom: 16,
+    fontFamily: 'Inter',
+    lineHeight: 36,
+  },
+  sectionSubtitle: {
+    fontSize: 16,
+    color: AppColors.textSecondary,
+    fontFamily: 'Inter',
+  },
+
+  // Card Styles
+  card: {
+    backgroundColor: AppColors.card,
+    padding: 24,
+    borderRadius: 16,
+    marginBottom: 16,
+    shadowColor: AppColors.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 3,
+    borderWidth: 1,
+    borderColor: AppColors.border,
+    transitionProperty: 'box-shadow, transform',
+    transitionDuration: '0.2s',
+  },
+  cardRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  cardContent: {
+    flex: 1,
+  },
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: AppColors.textPrimary,
+    fontFamily: 'Inter',
+  },
+  cardSubtitle: {
+    fontSize: 14,
+    color: AppColors.textSecondary,
+    fontFamily: 'Inter',
+  },
+  cardHover: {
+    shadowOpacity: 0.16,
+    shadowRadius: 16,
+    transform: [{ scale: 1.02 }],
+  },
+
+  // Button Styles
+  button: {
+    borderRadius: 25,
+    overflow: 'hidden',
+    elevation: 2,
+    shadowColor: AppColors.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  buttonGradient: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 16,
+    paddingHorizontal: 28,
+    gap: 8,
+  },
+  buttonText: {
+    color: AppColors.textLight,
+    fontSize: 16,
+    fontWeight: '600',
+    fontFamily: 'Inter',
+  },
+  buttonSecondary: {
+    backgroundColor: AppColors.primary,
+    paddingVertical: 16,
+    paddingHorizontal: 28,
+    borderRadius: 25,
+    shadowColor: AppColors.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  buttonBlackBorder: {
+    borderWidth: 1.5,
+    borderColor: AppColors.primary,
+    backgroundColor: AppColors.accent,
+    borderRadius: 12,
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 8,
+    transitionProperty: 'box-shadow, transform, background',
+    transitionDuration: '0.2s',
+  },
+  buttonHover: {
+    boxShadow: '0 4px 16px rgba(24,24,24,0.10)',
+    transform: [{ scale: 1.03 }],
+    backgroundColor: AppColors.cardHover,
+  },
+
+  // Text Styles
+  textPrimary: {
+    color: AppColors.textPrimary,
+    fontFamily: 'Inter',
+  },
+  textSecondary: {
+    color: AppColors.textSecondary,
+    fontFamily: 'Inter',
+  },
+  textMuted: {
+    color: AppColors.textMuted,
+    fontFamily: 'Inter',
+  },
+  textLight: {
+    color: AppColors.textLight,
+    fontFamily: 'Inter',
+  },
+  textError: {
+    color: AppColors.primary,
+    fontFamily: 'Inter',
+  },
+  textSuccess: {
+    color: AppColors.success,
+    fontFamily: 'Inter',
+  },
+
+  // Navigation Styles
+  backButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  backButtonText: {
+    marginLeft: 8,
+    fontSize: 18,
+    fontWeight: '600',
+    color: AppColors.textPrimary,
+    fontFamily: 'Inter',
+  },
+
+  // Loading and Empty States
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: AppColors.backgroundLight,
+  },
+  loadingText: {
+    color: AppColors.textSecondary,
+    fontSize: 14,
+    fontFamily: 'Inter',
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: AppColors.backgroundLight,
+  },
+  emptyTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: AppColors.textPrimary,
+    marginBottom: 8,
+    fontFamily: 'Inter',
+  },
+  emptySubtitle: {
+    fontSize: 14,
+    color: AppColors.textSecondary,
+    textAlign: 'center',
+    fontFamily: 'Inter',
+  },
+
+  // Utility Styles
+  flex1: {
+    flex: 1,
+  },
+  centerContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  spaceBetween: {
+    justifyContent: 'space-between',
+  },
+  gap8: {
+    gap: 8,
+  },
+  gap12: {
+    gap: 12,
+  },
+  gap16: {
+    gap: 16,
+  },
+  marginBottom4: {
+    marginBottom: 4,
+  },
+  marginBottom8: {
+    marginBottom: 8,
+  },
+  marginBottom12: {
+    marginBottom: 12,
+  },
+  marginBottom16: {
+    marginBottom: 16,
+  },
+  marginBottom20: {
+    marginBottom: 20,
+  },
+  marginBottom24: {
+    marginBottom: 24,
+  },
+  marginBottom30: {
+    marginBottom: 30,
+  },
+  padding16: {
+    padding: 16,
+  },
+  padding20: {
+    padding: 20,
+  },
+  padding24: {
+    padding: 24,
+  },
+  maxWidthContainer: {
+    maxWidth: 900,
+    width: '100%',
+    marginHorizontal: 'auto',
+    paddingHorizontal: 20,
+    alignSelf: 'center',
+  },
+  divider: {
+    width: '100%',
+    height: 1,
+    backgroundColor: AppColors.divider,
+    marginVertical: 40,
+  },
+  footer: {
+    width: '100%',
+    borderTopWidth: 1,
+    borderTopColor: AppColors.divider,
+    paddingVertical: 32,
+    alignItems: 'center',
+    backgroundColor: AppColors.background,
+    marginTop: 64,
+  },
+
+  // --- Send Thank You Page Dropdown Styles ---
+  searchGroupElevated: {
+    zIndex: 10,
+  },
+  suggestionsOverlay: {
+    position: 'absolute',
+    top: '100%',
+    width: '100%',
+    maxHeight: 210, // Exactly 3 items (70px each)
+    zIndex: 20,
+    marginTop: 4, // Small even margin instead of padding
+  },
+  highlightedSuggestionItem: {
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: AppColors.borderLight,
+    backgroundColor: AppColors.cardHover,
+    borderLeftWidth: 3,
+    borderLeftColor: AppColors.error,
+    height: 70, // Fixed height
+  },
+  suggestionItem: {
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: AppColors.borderLight,
+    backgroundColor: AppColors.background,
+    height: 70, // Fixed height
+  },
+  highlightedSuggestionText: {
+    color: AppColors.textPrimary,
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  highlightedSuggestionAddress: {
+    color: AppColors.textSecondary,
+    fontSize: 12,
+    marginTop: 2,
+    fontWeight: '500',
   },
 });
