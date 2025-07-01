@@ -424,7 +424,7 @@ export default function TabTwoScreen() {
                 }
               ]}
             >
-              Send a Thank You
+              Send a Thank You Note
             </Animated.Text>
           </ThemedView>
         </Animated.View>

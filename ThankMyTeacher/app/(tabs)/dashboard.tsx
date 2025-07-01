@@ -294,7 +294,7 @@ export default function DashboardScreen() {
                 android_ripple={{ color: AppColors.cardHover }}
               >
                 <Ionicons name="heart-outline" size={20} color={AppColors.primary} />
-                <ThemedText style={styles.ctaText}>Send a Thank You</ThemedText>
+                <ThemedText style={styles.ctaText}>Send a Thank You Note</ThemedText>
               </Pressable>
             </Animated.View>
             <Animated.View style={{ transform: [{ scale: historyCardAnim }], marginTop: 20 }}>

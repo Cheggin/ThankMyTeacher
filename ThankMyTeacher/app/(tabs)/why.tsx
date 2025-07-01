@@ -4,7 +4,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState, useEffect, useRef } from 'react';
 
-import ParallaxScrollView from '../../components/ParallaxScrollView';
 import { ThemedText } from '../../components/ThemedText';
 import { ThemedView } from '../../components/ThemedView';
 import { styles } from '../styles/styles';
@@ -126,64 +125,66 @@ export default function WhyIMadeIt() {
   });
 
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: AppColors.background, dark: AppColors.background }}
-      headerImage={
+    <ScrollView style={{ flex: 1, backgroundColor: AppColors.background }}>
+      <View style={{ width: '100%' }}>
+        {/* Top Block Section - Why I Made This */}
         <Animated.View 
           style={[
-            styles.headerGradient, 
-            { backgroundColor: AppColors.background },
+            styles.card,
             {
               opacity: headerAnim,
               transform: [
                 { translateY: headerAnim.interpolate({
                   inputRange: [0, 1],
-                  outputRange: [30, 0],
+                  outputRange: [20, 0],
                 })},
               ],
+              marginHorizontal: 20,
+              marginBottom: 20,
             }
           ]}
         >
-          <ThemedView style={styles.headerContent}>
+          <View style={localStyles.contentWrapper}>
             <Animated.Text 
               style={[
                 styles.headerTitle,
                 {
                   opacity: headerAnim,
-                  transform: [
-                    { translateY: headerAnim.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [20, 0],
-                    })},
-                  ],
+                  fontFamily: 'OpenSans',
+                  fontWeight: '600',
+                  letterSpacing: 0.5,
+                  fontSize: 48,
+                  marginBottom: 8,
+                  textAlign: 'center',
                 }
               ]}
             >
               Why I Made This
             </Animated.Text>
             <Animated.View 
-              style={[
-                localStyles.headerSubtitleWrapper,
-                {
-                  opacity: headerAnim,
-                  transform: [
-                    { translateY: headerAnim.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [20, 0],
-                    })},
-                  ],
-                }
-              ]}
+              style={{
+                opacity: headerAnim,
+                maxWidth: 700,
+                alignSelf: 'center',
+                paddingHorizontal: 20,
+              }}
             >
-              <ThemedText style={styles.headerSubtitle}>
+              <ThemedText style={{
+                color: AppColors.textSecondary,
+                fontSize: 18,
+                textAlign: 'center',
+                fontFamily: 'Inter',
+                fontWeight: '400',
+                lineHeight: 28,
+                marginBottom: 0,
+                fontStyle: 'normal',
+              }}>
                   Everyone I know recalls their favorite teachers. But no matter how grateful all of us are for them, many of us don't have a great way to give thanks. I thought that a website that (1) aimed to streamline the process, (2) allowed people to do this in a fun way, and (3) allowed people to do this anonymously, would be something that my computer science expertise would be great for. 
               </ThemedText>
             </Animated.View>
-          </ThemedView>
+          </View>
         </Animated.View>
-      }>
-      
-      <View style={{ width: '100%' }}>
+
         {/* Top Row - Meet the Creator and My Story side by side */}
         <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 20, marginHorizontal: 20, marginBottom: 20 }}>
           {/* Meet the Creator Section (Large) */}
@@ -395,6 +396,6 @@ export default function WhyIMadeIt() {
           </ThemedText>
         </Animated.View>
       </View>
-    </ParallaxScrollView>
+    </ScrollView>
   );
 }
