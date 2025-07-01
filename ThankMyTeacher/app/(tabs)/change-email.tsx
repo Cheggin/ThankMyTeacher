@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Pressable, Alert } from 'react-native';
+import { View, TextInput, Pressable, Alert, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { styles } from '../styles/styles';
 import { AppColors } from '../../constants/Colors';
@@ -34,51 +34,59 @@ export default function ChangeEmailScreen() {
   };
 
   return (
-    <ThemedView style={[styles.maxWidthContainer, { alignItems: 'center', justifyContent: 'center', flex: 1 }]}>  
-      <ThemedText type="title" style={{ marginBottom: 32 }}>Change Email</ThemedText>
-      
-      <View style={styles.exploreInputGroup}>
-        <ThemedText type="subtitle" style={styles.exploreInputLabel}>
-          New Email
-        </ThemedText>
-        <TextInput
-          style={styles.exploreTextInput}
-          autoCapitalize="none"
-          keyboardType="email-address"
-          value={newEmail}
-          onChangeText={setNewEmail}
-          editable={!loading}
-        />
+    <ScrollView style={styles.scrollContainer}>
+      <View style={styles.maxWidthContainer}>
+        <View style={styles.contentContainer}>
+          <ThemedText type="title" style={styles.sectionTitleLarge}>
+            Change Email
+          </ThemedText>
+          
+          <ThemedView style={styles.heroSection}>
+            <View style={styles.exploreInputGroup}>
+              <ThemedText type="subtitle" style={styles.exploreInputLabel}>
+                New Email
+              </ThemedText>
+              <TextInput
+                style={styles.exploreTextInput}
+                autoCapitalize="none"
+                keyboardType="email-address"
+                value={newEmail}
+                onChangeText={setNewEmail}
+                editable={!loading}
+              />
+            </View>
+            
+            <View style={styles.exploreInputGroup}>
+              <ThemedText type="subtitle" style={styles.exploreInputLabel}>
+                Confirm New Email
+              </ThemedText>
+              <TextInput
+                style={styles.exploreTextInput}
+                autoCapitalize="none"
+                keyboardType="email-address"
+                value={confirmEmail}
+                onChangeText={setConfirmEmail}
+                editable={!loading}
+              />
+            </View>
+            
+            <Pressable
+              style={styles.buttonBlackBorder}
+              onPress={handleChangeEmail}
+              disabled={loading}
+            >
+              <ThemedText style={styles.ctaText}>{loading ? 'Changing...' : 'Change Email'}</ThemedText>
+            </Pressable>
+            
+            <Pressable
+              style={[styles.buttonBlackBorder, { marginTop: 16 }]}
+              onPress={() => router.replace('/(tabs)/account-settings')}
+            >
+              <ThemedText style={styles.ctaText}>Back to Account Settings</ThemedText>
+            </Pressable>
+          </ThemedView>
+        </View>
       </View>
-      
-      <View style={styles.exploreInputGroup}>
-        <ThemedText type="subtitle" style={styles.exploreInputLabel}>
-          Confirm New Email
-        </ThemedText>
-        <TextInput
-          style={styles.exploreTextInput}
-          autoCapitalize="none"
-          keyboardType="email-address"
-          value={confirmEmail}
-          onChangeText={setConfirmEmail}
-          editable={!loading}
-        />
-      </View>
-      
-      <Pressable
-        style={styles.buttonBlackBorder}
-        onPress={handleChangeEmail}
-        disabled={loading}
-      >
-        <ThemedText style={styles.ctaText}>{loading ? 'Changing...' : 'Change Email'}</ThemedText>
-      </Pressable>
-      
-      <Pressable
-        style={[styles.buttonBlackBorder, { marginTop: 16 }]}
-        onPress={() => router.replace('/(tabs)/account-settings')}
-      >
-        <ThemedText style={styles.ctaText}>Back to Account Settings</ThemedText>
-      </Pressable>
-    </ThemedView>
+    </ScrollView>
   );
 } 
