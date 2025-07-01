@@ -16,6 +16,7 @@ import { ThemedText } from '../../components/ThemedText';
 import { styles } from '../styles/styles';
 import { AppColors } from '../../constants/Colors';
 import { useAuth } from '../../contexts/AuthContext';
+import { supabase } from '../../assets/supabase';
 
 const showAlert = (title: string, message: string) => {
   Alert.alert(title, message, [
@@ -85,29 +86,7 @@ export default function AccountSettingsScreen() {
   const handleChangeEmail = async () => {
     try {
       console.log('handleChangeEmail called');
-      if (Platform.OS === 'web') {
-        const confirmed = window.confirm('Are you sure you want to change your email? You will need to verify your new email address.');
-        if (confirmed) {
-          console.log('Change email confirmed');
-          showAlert('Email Change', 'Email change request submitted. Please check your new email for verification instructions.');
-        }
-      } else {
-        Alert.alert(
-          'Change Email',
-          'Are you sure you want to change your email? You will need to verify your new email address.',
-          [
-            { text: 'Cancel', style: 'cancel' },
-            {
-              text: 'Change Email',
-              style: 'default',
-              onPress: () => {
-                console.log('Change email confirmed');
-                showAlert('Email Change', 'Email change request submitted. Please check your new email for verification instructions.');
-              },
-            },
-          ]
-        );
-      }
+      router.push('/(tabs)/change-email');
     } catch (error) {
       console.error('Error in handleChangeEmail:', error);
     }
@@ -116,29 +95,7 @@ export default function AccountSettingsScreen() {
   const handleChangePassword = async () => {
     try {
       console.log('handleChangePassword called');
-      if (Platform.OS === 'web') {
-        const confirmed = window.confirm('Are you sure you want to change your password? You will be signed out and need to sign in with your new password.');
-        if (confirmed) {
-          console.log('Change password confirmed');
-          showAlert('Password Change', 'Password change request submitted. Please check your email for reset instructions.');
-        }
-      } else {
-        Alert.alert(
-          'Change Password',
-          'Are you sure you want to change your password? You will be signed out and need to sign in with your new password.',
-          [
-            { text: 'Cancel', style: 'cancel' },
-            {
-              text: 'Change Password',
-              style: 'default',
-              onPress: () => {
-                console.log('Change password confirmed');
-                showAlert('Password Change', 'Password change request submitted. Please check your email for reset instructions.');
-              },
-            },
-          ]
-        );
-      }
+      router.push('/(tabs)/change-password');
     } catch (error) {
       console.error('Error in handleChangePassword:', error);
     }
@@ -153,9 +110,15 @@ export default function AccountSettingsScreen() {
           const finalConfirm = window.confirm('This is your final warning. Deleting your account will permanently remove all your thank you messages and account data. This action cannot be undone. Are you absolutely sure?');
           if (finalConfirm) {
             console.log('Delete account confirmed');
+            // Delete user data from database first
+            if (user?.id) {
+              await supabase.from('profiles').delete().eq('id', user.id);
+              await supabase.from('thank_yous').delete().eq('user_id', user.id);
+            }
+            // Delete the user account
+            await supabase.auth.admin.deleteUser(user?.id || '');
             await signOut();
-            router.replace('/(tabs)');
-            showAlert('Account Deleted', 'Your account has been permanently deleted. Thank you for using ThankMyTeacher.');
+            router.replace('/(tabs)/goodbye');
           }
         }
       } else {
@@ -178,9 +141,15 @@ export default function AccountSettingsScreen() {
                       style: 'destructive',
                       onPress: async () => {
                         console.log('Delete account confirmed');
+                        // Delete user data from database first
+                        if (user?.id) {
+                          await supabase.from('profiles').delete().eq('id', user.id);
+                          await supabase.from('thank_yous').delete().eq('user_id', user.id);
+                        }
+                        // Delete the user account
+                        await supabase.auth.admin.deleteUser(user?.id || '');
                         await signOut();
-                        router.replace('/(tabs)');
-                        showAlert('Account Deleted', 'Your account has been permanently deleted. Thank you for using ThankMyTeacher.');
+                        router.replace('/(tabs)/goodbye');
                       },
                     },
                   ]
@@ -192,6 +161,7 @@ export default function AccountSettingsScreen() {
       }
     } catch (error) {
       console.error('Error in handleDeleteAccount:', error);
+      Alert.alert('Error', 'Failed to delete account. Please try again later.');
     }
   };
 
