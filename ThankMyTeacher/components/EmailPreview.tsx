@@ -25,7 +25,7 @@ export function EmailPreview({ teacherName, message, senderName, schoolName }: E
         </ThemedView>
         <ThemedView style={styles.emptyPreview}>
           <ThemedText style={styles.emptyText}>
-            Your thank you message will appear here
+            Your message will appear here
           </ThemedText>
         </ThemedView>
       </ThemedView>

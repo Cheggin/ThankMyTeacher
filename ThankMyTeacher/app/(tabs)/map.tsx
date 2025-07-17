@@ -259,7 +259,7 @@ export default function MapScreen() {
                     {displayTotalCount}
                   </ThemedText>
                   <ThemedText style={[styles.cardSubtitle, { textAlign: 'center' }]}>
-                    Total Thank Yous
+                    Total Messages Sent
                 </ThemedText>
                 </View>
               </View>

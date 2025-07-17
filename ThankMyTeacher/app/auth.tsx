@@ -134,10 +134,7 @@ const AuthScreen: React.FC = () => {
       behavior={isMobile ? 'padding' : 'height'}
     >
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <LinearGradient
-          colors={['#FFE5E5', '#FFF0E6', '#E6F4F1']}
-          style={styles.container}
-        >
+        <View style={[styles.container, { backgroundColor: '#FFFFFF' }]}>
           <ThemedView style={styles.formContainer}>
             <View style={styles.header}>
               <Ionicons name="heart" size={60} color="#FF6B6B" />
@@ -260,7 +257,7 @@ const AuthScreen: React.FC = () => {
               <ThemedText style={styles.backText}>Back</ThemedText>
             </Pressable>
           </ThemedView>
-        </LinearGradient>
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
