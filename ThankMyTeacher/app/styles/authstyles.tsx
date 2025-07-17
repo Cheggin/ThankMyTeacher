@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     minHeight: '100%',
-    backgroundColor: AppColors.background,
+    backgroundColor: AppColors.backgroundLight,
   },
   formContainer: {
     backgroundColor: AppColors.card,
@@ -70,7 +70,7 @@ export const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 14,
     fontSize: 16,
-    backgroundColor: AppColors.background,
+    backgroundColor: AppColors.backgroundLight,
     color: AppColors.textPrimary,
     fontFamily: Typography.fontFamily.primary,
     fontWeight: '400',
@@ -147,7 +147,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: AppColors.border,
     borderRadius: 12,
-    backgroundColor: AppColors.background,
+    backgroundColor: AppColors.backgroundLight,
   },
   socialButtonText: {
     fontSize: 16,

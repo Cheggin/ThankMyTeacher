@@ -50,10 +50,10 @@ export default function RootLayout() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: AppColors.background }}>
+    <View style={{ flex: 1, backgroundColor: AppColors.backgroundLight }}>
       {/* Desktop Navigation Bar - Only render when layout is ready and not mobile */}
       {isLayoutReady && !isMobile && (
-        <View style={[styles.desktopNav, { paddingTop: insets.top, backgroundColor: AppColors.accent }]}>
+        <View style={[styles.desktopNav, { paddingTop: insets.top, backgroundColor: AppColors.backgroundLight }]}>
             <View style={styles.desktopNavContent}>
               {/* Logo/Brand */}
               <Pressable onPress={() => router.push('/')} style={styles.logoContainer}>
@@ -168,7 +168,7 @@ export default function RootLayout() {
         screenOptions={{
           headerShown: false,
           contentStyle: {
-            paddingTop: isLayoutReady && !isMobile ? 80 : 0,
+            // Removed paddingTop: 80 since navbar is now relative
             paddingBottom: isLayoutReady && isMobile ? 80 : 0,
           },
         }}
@@ -185,7 +185,7 @@ export default function RootLayout() {
       {/* Mobile Bottom Navigation - Only render when layout is ready and mobile */}
       {isLayoutReady && isMobile && (
         <>
-          <View style={[styles.mobileBottomBar, { paddingBottom: insets.bottom, backgroundColor: AppColors.accent }]}>
+          <View style={[styles.mobileBottomBar, { paddingBottom: insets.bottom, backgroundColor: AppColors.backgroundLight }]}>
             <View style={styles.mobileBottomGradient}>
               {navItems.map((item) => (
                 <Pressable

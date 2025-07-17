@@ -72,6 +72,14 @@ export const styles = StyleSheet.create({
     width: '100%',
     alignSelf: 'center',
   },
+  // Special hero section for send-thank-you page (full width, no centering)
+  heroSectionFullWidth: {
+    paddingVertical: 64,
+    paddingHorizontal: 24,
+    backgroundColor: AppColors.backgroundLight,
+    width: '100%',
+    alignSelf: 'center',
+  },
   heroTitle: {
     fontSize: 36,
     fontWeight: '600',
@@ -146,7 +154,7 @@ export const styles = StyleSheet.create({
   storiesSection: {
     paddingTop: 40,
     paddingBottom: 20,
-    backgroundColor: AppColors.background,
+    backgroundColor: AppColors.backgroundLight,
     width: '100%',
   },
   sectionTitle: {
@@ -243,7 +251,7 @@ export const styles = StyleSheet.create({
   simpleStepsSection: {
     paddingVertical: 40,
     paddingHorizontal: 20,
-    backgroundColor: AppColors.background,
+    backgroundColor: AppColors.backgroundLight,
     maxWidth: 800,
     width: '100%',
     alignSelf: 'center',
@@ -349,6 +357,14 @@ export const styles = StyleSheet.create({
     width: '100%',
     alignSelf: 'center',
   },
+  exploreFormContainerTwoColumn: {
+    padding: 20,
+    width: '100%',
+    backgroundColor: AppColors.backgroundLight,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: AppColors.border,
+  },
   exploreInputGroup: {
     marginBottom: 24,
   },
@@ -382,7 +398,7 @@ export const styles = StyleSheet.create({
     top: 60,
     left: 0,
     right: 0,
-    backgroundColor: AppColors.background,
+    backgroundColor: AppColors.backgroundLight,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: AppColors.border,
@@ -398,7 +414,7 @@ export const styles = StyleSheet.create({
     padding: 16,
     borderBottomWidth: 1,
     borderBottomColor: AppColors.borderLight,
-    backgroundColor: AppColors.background,
+    backgroundColor: AppColors.backgroundLight,
   },
   exploreSuggestionText: {
     color: AppColors.textPrimary,
@@ -765,9 +781,15 @@ export const styles = StyleSheet.create({
     padding: 24,
   },
   maxWidthContainer: {
-    maxWidth: 900,
+    maxWidth: 1400,
     width: '100%',
     marginHorizontal: 'auto',
+    paddingHorizontal: 20,
+    alignSelf: 'center',
+  },
+  // Full width container for send-thank-you page
+  fullWidthContainer: {
+    width: '100%',
     paddingHorizontal: 20,
     alignSelf: 'center',
   },
@@ -783,7 +805,7 @@ export const styles = StyleSheet.create({
     borderTopColor: AppColors.divider,
     paddingVertical: 32,
     alignItems: 'center',
-    backgroundColor: AppColors.background,
+    backgroundColor: AppColors.backgroundLight,
     marginTop: 64,
   },
 
@@ -812,7 +834,7 @@ export const styles = StyleSheet.create({
     padding: 16,
     borderBottomWidth: 1,
     borderBottomColor: AppColors.borderLight,
-    backgroundColor: AppColors.background,
+    backgroundColor: AppColors.backgroundLight,
     height: 70, // Fixed height
   },
   highlightedSuggestionText: {
@@ -827,5 +849,53 @@ export const styles = StyleSheet.create({
     marginTop: 2,
     fontWeight: '500',
     fontFamily: Typography.fontFamily.primary,
+  },
+
+  // --- Two Column Layout Styles ---
+  twoColumnContainer: {
+    flexDirection: 'row',
+    gap: 32,
+    maxWidth: 1200,
+    width: '100%',
+    alignSelf: 'center',
+  },
+  formColumn: {
+    flex: 1,
+    width: '50%',
+    paddingRight: 16,
+  },
+  previewColumn: {
+    flex: 1,
+    width: '50%',
+    paddingLeft: 16,
+  },
+  responsiveContainer: {
+    flexDirection: 'row',
+    gap: 32,
+    width: '100%',
+    alignSelf: 'center',
+    alignItems: 'flex-start',
+    minHeight: 600,
+  },
+  mobileContainer: {
+    flexDirection: 'column',
+    gap: 24,
+    width: '100%',
+  },
+  // Responsive breakpoints for better layout handling
+  responsiveContainerMobile: {
+    flexDirection: 'column',
+    gap: 24,
+    width: '100%',
+    alignSelf: 'center',
+  },
+  formColumnMobile: {
+    width: '100%',
+    maxWidth: '100%',
+  },
+  previewColumnMobile: {
+    width: '100%',
+    maxWidth: '100%',
+    marginTop: 24,
   },
 });

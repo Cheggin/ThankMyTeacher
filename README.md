@@ -4,7 +4,7 @@ This website aims to allow students to thank their teachers for their hard work 
 
 ## 🌟 About
 
-ThankMyTeacher streamlines the process of sending thank you messages to educators. While many people remember their favorite teachers fondly, they often lack an easy way to express their gratitude, especially as they grow older and move away.
+ThankMyTeacher streamlines the process of sending thank you messages to educators, providing custom email templates, storage of past messages, and more. 
 
 ### Key Features
 

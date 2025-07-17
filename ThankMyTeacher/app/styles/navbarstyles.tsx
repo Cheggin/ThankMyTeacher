@@ -5,21 +5,21 @@ import { Typography } from '../../constants/Typography';
 export const navStyles = StyleSheet.create({
   // Desktop Navigation Styles
   desktopNav: {
-    position: 'absolute',
+    position: 'relative',
     top: 0,
     left: 0,
     right: 0,
     zIndex: 1000,
-    backgroundColor: AppColors.background,
+    backgroundColor: AppColors.backgroundLight,
     ...Platform.select({
       ios: {
         shadowColor: AppColors.shadow,
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 3,
+        shadowOpacity: 0, // Remove shadow
+        shadowRadius: 0,
       },
       android: {
-        elevation: 4,
+        elevation: 0, // Remove elevation
       },
     }),
   },
@@ -77,7 +77,7 @@ export const navStyles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: AppColors.background,
+    backgroundColor: AppColors.backgroundLight,
     borderTopWidth: 1,
     borderTopColor: AppColors.border,
     ...Platform.select({
@@ -123,7 +123,7 @@ export const navStyles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   menuContainer: {
-    backgroundColor: AppColors.background,
+    backgroundColor: AppColors.backgroundLight,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingTop: 20,
