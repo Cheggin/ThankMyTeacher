@@ -64,48 +64,54 @@ export default function HomeScreen() {
         }),
       ]).start();
 
-      // Start typewriter effect after title appears
-      setTimeout(() => {
-        // Start cursor blink animation immediately with smoother timing
-        const blinkAnimation = () => {
-          Animated.sequence([
-            Animated.timing(cursorOpacityAnim, {
-              toValue: 0,
-              duration: 400,
-              useNativeDriver: true,
-            }),
-            Animated.timing(cursorOpacityAnim, {
-              toValue: 1,
-              duration: 400,
-              useNativeDriver: true,
-            }),
-          ]).start(blinkAnimation);
-        };
-        blinkAnimation();
-        
-        const typewriterInterval = setInterval(() => {
-          setCurrentLetterIndex((prevIndex) => {
-            if (prevIndex < titleText.length) {
-              setDisplayedTitle(titleText.slice(0, prevIndex + 1));
-              return prevIndex + 1;
-            } else {
-              clearInterval(typewriterInterval);
-              // Start color animation after typewriter completes (no bounce)
-              Animated.timing(titleColorAnim, {
+      // Start typewriter effect after title appears (only on web)
+      if (Platform.OS === 'web') {
+        setTimeout(() => {
+          // Start cursor blink animation immediately with smoother timing
+          const blinkAnimation = () => {
+            Animated.sequence([
+              Animated.timing(cursorOpacityAnim, {
+                toValue: 0,
+                duration: 400,
+                useNativeDriver: true,
+              }),
+              Animated.timing(cursorOpacityAnim, {
                 toValue: 1,
-                duration: 1200,
-                useNativeDriver: false,
-              }).start(() => {
-                // Hide cursor after 3 seconds when animation completes
-                setTimeout(() => {
-                  setShowCursor(false);
-                }, 3000);
-              });
-              return prevIndex;
-            }
-          });
-        }, 100); // Faster, smoother typewriter effect
-      }, 800);
+                duration: 400,
+                useNativeDriver: true,
+              }),
+            ]).start(blinkAnimation);
+          };
+          blinkAnimation();
+          
+          const typewriterInterval = setInterval(() => {
+            setCurrentLetterIndex((prevIndex) => {
+              if (prevIndex < titleText.length) {
+                setDisplayedTitle(titleText.slice(0, prevIndex + 1));
+                return prevIndex + 1;
+              } else {
+                clearInterval(typewriterInterval);
+                // Start color animation after typewriter completes (no bounce)
+                Animated.timing(titleColorAnim, {
+                  toValue: 1,
+                  duration: 1200,
+                  useNativeDriver: false,
+                }).start(() => {
+                  // Hide cursor after 3 seconds when animation completes
+                  setTimeout(() => {
+                    setShowCursor(false);
+                  }, 3000);
+                });
+                return prevIndex;
+              }
+            });
+          }, 100); // Faster, smoother typewriter effect
+        }, 800);
+      } else {
+        // On mobile, just show the full title immediately
+        setDisplayedTitle(titleText);
+        setShowCursor(false);
+      }
 
       // Staggered entrance animations for other elements
       Animated.parallel([
