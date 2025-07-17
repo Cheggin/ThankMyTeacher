@@ -14,14 +14,15 @@ import { searchSchools, School } from '../../assets/schoolDataService';
 import { supabase } from '../../assets/supabase';
 import { useAuth } from '../../contexts/AuthContext';
 import { upsertUserData } from '../../services/userDataService';
+import { useDeviceType } from '../../hooks/useDeviceType';
 
 export default function TabTwoScreen() {
   const { user } = useAuth();
   const router = useRouter();
+  const { isMobile } = useDeviceType();
   
   // Responsive layout logic
   const [windowWidth, setWindowWidth] = useState(Dimensions.get('window').width);
-  const isMobile = windowWidth < 768;
 
   // Handle window resize
   useEffect(() => {
@@ -453,7 +454,7 @@ export default function TabTwoScreen() {
       <View style={externalStyles.fullWidthContainer}>
         <ThemedView style={externalStyles.heroSectionFullWidth}>
           <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            behavior={isMobile ? 'padding' : 'height'}
             style={externalStyles.exploreKeyboardView}
           >
             <Animated.View 

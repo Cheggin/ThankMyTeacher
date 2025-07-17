@@ -11,10 +11,12 @@ import { ThemedView } from '@/components/ThemedView';
 import { useAuth } from '../../contexts/AuthContext';
 import { styles } from '../styles/styles';
 import { AppColors } from '../../constants/Colors';
+import { useDeviceType } from '../../hooks/useDeviceType';
 
 export default function HomeScreen() {
   const router = useRouter();
   const { user } = useAuth();
+  const { isMobile } = useDeviceType();
 
   // Animation values
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -212,57 +214,66 @@ export default function HomeScreen() {
     <ParallaxScrollView
       headerBackgroundColor={{ light: AppColors.background, dark: AppColors.background }}
       headerImage={
-        <Animated.View 
-          style={[
-            styles.headerGradient, 
-            { 
-              backgroundColor: AppColors.background,
-              transform: [{ scale: headerScaleAnim }],
-            }
-          ]}
-        >
-          <ThemedView style={styles.headerContent}>
-            <Animated.View 
-              style={[
-                styles.headerIconGroup,
-                {
-                  transform: [{ scale: headerScaleAnim }],
-                }
-              ]}
-            >
-              <Ionicons name="heart" size={80} color="#FF6B6B" style={styles.headerIconMain} />
-            </Animated.View>
-            <Animated.View 
-              style={[
-                {
-                  opacity: titleOpacityAnim,
-                  transform: [{ scale: titleScaleAnim }],
-                }
-              ]}
-            >
-              <Animated.Text 
+        isMobile ? (
+          <View style={[styles.headerGradient, { backgroundColor: AppColors.background }] }>
+            <ThemedView style={styles.headerContent}>
+              <Ionicons name="heart" size={48} color="#FF6B6B" style={styles.headerIconMain} />
+              <ThemedText style={styles.headerTitle}>ThankMyTeacher</ThemedText>
+            </ThemedView>
+          </View>
+        ) : (
+          <Animated.View 
+            style={[
+              styles.headerGradient, 
+              { 
+                backgroundColor: AppColors.background,
+                transform: [{ scale: headerScaleAnim }],
+              }
+            ]}
+          >
+            <ThemedView style={styles.headerContent}>
+              <Animated.View 
                 style={[
-                  styles.headerTitle,
-                  { color: titleColor }
+                  styles.headerIconGroup,
+                  {
+                    transform: [{ scale: headerScaleAnim }],
+                  }
                 ]}
               >
-                {displayedTitle}
-                {showCursor && (
-                  <Animated.Text 
-                    style={[
-                      { 
-                        color: titleColor,
-                        opacity: cursorOpacityAnim,
-                      }
-                    ]}
-                  >
-                    |
-                  </Animated.Text>
-                )}
-              </Animated.Text>
-            </Animated.View>
-          </ThemedView>
-        </Animated.View>
+                <Ionicons name="heart" size={80} color="#FF6B6B" style={styles.headerIconMain} />
+              </Animated.View>
+              <Animated.View 
+                style={[
+                  {
+                    opacity: titleOpacityAnim,
+                    transform: [{ scale: titleScaleAnim }],
+                  }
+                ]}
+              >
+                <Animated.Text 
+                  style={[
+                    styles.headerTitle,
+                    { color: titleColor }
+                  ]}
+                >
+                  {displayedTitle}
+                  {showCursor && (
+                    <Animated.Text 
+                      style={[
+                        { 
+                          color: titleColor,
+                          opacity: cursorOpacityAnim,
+                        }
+                      ]}
+                    >
+                      |
+                    </Animated.Text>
+                  )}
+                </Animated.Text>
+              </Animated.View>
+            </ThemedView>
+          </Animated.View>
+        )
       }>
       <View style={styles.maxWidthContainer}>
         {/* Hero Section with animations */}
@@ -281,7 +292,7 @@ export default function HomeScreen() {
         >
           <Animated.View style={{ opacity: fadeAnim }}>
             <ThemedText style={styles.heroDescription}>
-              Everyone remembers the teachers who changed their life. But as we grow up and move away, it gets harder to show our gratitude. This website makes it easy to send your appreciation to them, no matter how far away you are. 
+              Everyone remembers the teachers who changed their life. But as we grow up and move away, it gets harder to show our gratitude. This website encourages you to send appreciation to their teachers, no matter how far away you are. 
             </ThemedText>
           </Animated.View>
           

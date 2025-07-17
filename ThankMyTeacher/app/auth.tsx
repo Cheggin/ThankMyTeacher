@@ -17,10 +17,12 @@ import { ThemedView } from '@/components/ThemedView';
 import { styles } from './styles/authstyles';
 import { supabase } from '../assets/supabase';
 import { upsertUserData } from '../services/userDataService';
+import { useDeviceType } from '../hooks/useDeviceType';
 
 // Define the component with React's Functional Component type
 const AuthScreen: React.FC = () => {
   const router = useRouter();
+  const { isMobile } = useDeviceType();
   
   // Add explicit types for all state variables
   const [isLogin, setIsLogin] = useState<boolean>(true);
@@ -129,7 +131,7 @@ const AuthScreen: React.FC = () => {
   return (
     <KeyboardAvoidingView 
       style={{ flex: 1 }} 
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={isMobile ? 'padding' : 'height'}
     >
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <LinearGradient

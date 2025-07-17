@@ -8,6 +8,7 @@ import { ThemedText } from '../../components/ThemedText';
 import { ThemedView } from '../../components/ThemedView';
 import { styles } from '../styles/styles';
 import { AppColors } from '../../constants/Colors';
+import { useDeviceType } from '../../hooks/useDeviceType';
 
 // Web-compatible alert function
 const showAlert = (title: string, message: string) => {
@@ -21,6 +22,7 @@ const showAlert = (title: string, message: string) => {
 
 export default function WhyIMadeIt() {
   const router = useRouter();
+  const { isMobile } = useDeviceType();
   const [hovered, setHovered] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -107,9 +109,9 @@ export default function WhyIMadeIt() {
       marginBottom: 20,
     },
     profileImage: {
-      width: Platform.OS === 'web' ? 400 : 180,
-      height: Platform.OS === 'web' ? 400 : 180,
-      borderRadius: Platform.OS === 'web' ? 400 : 90,
+      width: isMobile ? 300 : 400,
+      height: isMobile ? 300 : 400,
+      borderRadius: isMobile ? 2000 : 200,
       borderWidth: 3,
       borderColor: '#00D4AA',
     },
@@ -186,13 +188,15 @@ export default function WhyIMadeIt() {
         </Animated.View>
 
         {/* Top Row - Meet the Creator and My Story side by side */}
-        <View style={{ 
-          flexDirection: Platform.OS === 'web' ? 'row' : 'column', 
-          justifyContent: 'center', 
-          gap: 20, 
-          marginHorizontal: 20, 
-          marginBottom: 20 
-        }}>
+        <View style={[
+          {
+            flexDirection: isMobile ? 'column' : 'row', 
+            justifyContent: 'center', 
+            gap: 20, 
+            marginHorizontal: 20, 
+            marginBottom: 20 
+          }
+        ]}>
           {/* Meet the Creator Section (Large) */}
           <Animated.View 
             style={[
@@ -205,8 +209,8 @@ export default function WhyIMadeIt() {
                     outputRange: [30, 0],
                   })},
                 ],
-                flex: 1,
-                minHeight: 400,
+                flex: isMobile ? undefined : 1,
+                minHeight: isMobile ? undefined : 400,
               }
             ]}
           >

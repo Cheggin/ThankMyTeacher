@@ -6,9 +6,10 @@ export const styles = StyleSheet.create({
   // Header Styles
   headerGradient: {
     width: '100%',
-    height: '100%',
+    height: Platform.OS === 'web' ? '100%' : 160,
     justifyContent: 'center',
     alignItems: 'center',
+    overflow: 'hidden',
   },
   headerContent: {
     alignItems: 'center',
@@ -44,13 +45,16 @@ export const styles = StyleSheet.create({
   },
   headerTitle: {
     color: AppColors.textPrimary,
-    fontSize: Platform.OS === 'web' ? 60 : 36,
+    fontSize: Platform.OS === 'web' ? 32 : 28,
     fontWeight: '600',
     marginBottom: 8,
     fontFamily: Typography.fontFamily.heading,
-    padding: Platform.OS === 'web' ? 12 : 6,
+    padding: Platform.OS === 'web' ? 12 : 2,
     letterSpacing: 0.5,
-    lineHeight: Platform.OS === 'web' ? Typography.lineHeight['6xl'] : Typography.lineHeight['3xl'],
+    lineHeight: Platform.OS === 'web' ? Typography.lineHeight['6xl'] : Typography.lineHeight['2xl'],
+    maxWidth: 300,
+    textAlign: 'center',
+    flexWrap: 'wrap',
   },
   headerSubtitle: {
     color: AppColors.textSecondary,
@@ -802,8 +806,6 @@ export const styles = StyleSheet.create({
   },
   footer: {
     width: '100%',
-    borderTopWidth: 1,
-    borderTopColor: AppColors.divider,
     paddingVertical: 32,
     alignItems: 'center',
     backgroundColor: AppColors.backgroundLight,
