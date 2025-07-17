@@ -20,6 +20,7 @@ export const styles = StyleSheet.create({
   },
   headerIconMain: {
     opacity: 0.9,
+    marginTop: Platform.OS === 'web' ? 0 : 20,
   },
   sparkleContainer: {
     position: 'absolute',
