@@ -11,6 +11,8 @@ export const navStyles = StyleSheet.create({
     right: 0,
     zIndex: 1000,
     backgroundColor: AppColors.backgroundLight,
+    borderBottomWidth: 2,
+    borderBottomColor: AppColors.border,
     ...Platform.select({
       ios: {
         shadowColor: AppColors.shadow,
