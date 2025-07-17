@@ -43,13 +43,13 @@ export const styles = StyleSheet.create({
   },
   headerTitle: {
     color: AppColors.textPrimary,
-    fontSize: 60,
+    fontSize: Platform.OS === 'web' ? 60 : 36,
     fontWeight: '600',
     marginBottom: 8,
     fontFamily: Typography.fontFamily.heading,
-    padding: 12,
+    padding: Platform.OS === 'web' ? 12 : 6,
     letterSpacing: 0.5,
-    lineHeight: Typography.lineHeight['6xl'],
+    lineHeight: Platform.OS === 'web' ? Typography.lineHeight['6xl'] : Typography.lineHeight['3xl'],
   },
   headerSubtitle: {
     color: AppColors.textSecondary,

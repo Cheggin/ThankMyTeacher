@@ -107,7 +107,7 @@ export const navStyles = StyleSheet.create({
     paddingVertical: 4,
   },
   mobileTabLabel: {
-    fontSize: 11,
+    fontSize: 10,
     marginTop: 4,
     color: AppColors.textPrimary,
     fontFamily: Typography.fontFamily.primary,

@@ -41,6 +41,19 @@ export default function RootLayout() {
     { label: 'Why I Made This', route: '/why' as const, icon: 'information-circle' },
   ];
 
+  // Mobile navigation items with shorter labels
+  const mobileNavItems = user ? [
+    { label: 'Home', route: '/' as const, icon: 'home' },
+    { label: 'Send', route: '/send-thank-you' as const, icon: 'heart' },
+    { label: 'Map', route: '/map' as const, icon: 'map' },
+    { label: 'Why', route: '/why' as const, icon: 'information-circle' },
+  ] : [
+    { label: 'Home', route: '/' as const, icon: 'home' },
+    { label: 'Send', route: '/send-thank-you' as const, icon: 'heart' },
+    { label: 'Map', route: '/map' as const, icon: 'map' },
+    { label: 'Why', route: '/why' as const, icon: 'information-circle' },
+  ];
+
   const isActive = (route: string) => {
     if (route === '/') return pathname === '/';
     if (route === '/send-thank-you') return pathname.includes('send-thank-you');
@@ -187,7 +200,7 @@ export default function RootLayout() {
         <>
           <View style={[styles.mobileBottomBar, { paddingBottom: insets.bottom, backgroundColor: AppColors.backgroundLight }]}>
             <View style={styles.mobileBottomGradient}>
-              {navItems.map((item) => (
+              {mobileNavItems.map((item) => (
                 <Pressable
                   key={item.route}
                   onPress={() => router.push(item.route)}

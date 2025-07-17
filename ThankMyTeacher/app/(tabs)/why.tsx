@@ -107,9 +107,9 @@ export default function WhyIMadeIt() {
       marginBottom: 20,
     },
     profileImage: {
-      width: 400,
-      height: 400,
-      borderRadius: 400,
+      width: Platform.OS === 'web' ? 400 : 180,
+      height: Platform.OS === 'web' ? 400 : 180,
+      borderRadius: Platform.OS === 'web' ? 400 : 90,
       borderWidth: 3,
       borderColor: '#00D4AA',
     },
@@ -186,7 +186,13 @@ export default function WhyIMadeIt() {
         </Animated.View>
 
         {/* Top Row - Meet the Creator and My Story side by side */}
-        <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 20, marginHorizontal: 20, marginBottom: 20 }}>
+        <View style={{ 
+          flexDirection: Platform.OS === 'web' ? 'row' : 'column', 
+          justifyContent: 'center', 
+          gap: 20, 
+          marginHorizontal: 20, 
+          marginBottom: 20 
+        }}>
           {/* Meet the Creator Section (Large) */}
           <Animated.View 
             style={[
